@@ -1,0 +1,19 @@
+# Reference clones (separate repos, read-only)
+refs/
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.hypothesis/
+
+# OS / build
+.DS_Store
+node_modules/
+.vercel/

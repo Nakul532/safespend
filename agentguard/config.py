@@ -1,0 +1,37 @@
+"""Versioned policy configuration. Every decision records version and hash."""
+from __future__ import annotations
+
+from dataclasses import asdict, dataclass, field
+from typing import Mapping
+
+from .models import sha256_hex
+
+
+@dataclass(frozen=True)
+class PolicyConfig:
+    version: str = "policy-2026.11.10-1"
+    # Owner-level (team) aggregation across all agents with the same owner.
+    owner_daily_budgets: Mapping[str, int] = field(default_factory=dict)  # owner_id -> micro-dollars
+    owner_max_payments_per_window: int | None = 50
+    velocity_window_seconds: int = 60
+    # Duplicate heuristics (backup to idempotency keys).
+    duplicate_window_seconds: int = 5  # same agent+merchant+amount, no invoice ref
+    invoice_duplicate_window_hours: int = 24  # same agent+merchant+amount+invoice ref
+    # Approvals.
+    approval_ttl_seconds: int = 900
+    # Look-alike merchants.
+    lookalike_max_distance: int = 2
+
+    @property
+    def config_hash(self) -> str:
+        data = asdict(self)
+        data["owner_daily_budgets"] = dict(self.owner_daily_budgets)
+        return sha256_hex(data)
+
+
+@dataclass(frozen=True)
+class BreakerConfig:
+    spend_window_seconds: int = 600
+    spend_limit: int = 200_000_000  # $200 SIMULATED across all agents in the window
+    alert_window_seconds: int = 3600
+    alert_limit: int = 10  # AML alerts in the window

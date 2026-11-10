@@ -1,0 +1,14 @@
+[project]
+name = "agentguard"
+version = "0.1.0"
+description = "Payment firewall and AML monitoring for AI agents (mock money only)."
+requires-python = ">=3.11"
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "hypothesis>=6"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = [".", "tests"]
+addopts = "-q"

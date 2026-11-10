@@ -1,0 +1,42 @@
+# AgentGuard
+
+A payment firewall and anti-money-laundering monitor for AI agents. All money is simulated (mock only).
+
+Status: **Stage 1, the core engine.** There is no UI and no live LLM calls yet.
+
+## How a payment flows
+
+1. An agent sends a `PaymentRequest` with an idempotency key.
+2. `PolicyEngine.validate_payment()` runs every check in a fixed order (`policy.CHECK_ORDER`). The first failing check decides the outcome, and the audit record lists every check that failed.
+3. Only an `APPROVED` decision carries a signed `SettlementPermit`. The double-entry `Ledger` settles nothing without one, and each permit works once.
+4. Payments at or above an agent's approval threshold wait for a human. The approver can't be the agent's owner. Each approval is signed and bound to the exact payment, and it expires after a set time.
+5. `AmlMonitor` scans settled payments for 10 patterns, including team-level structuring across agents with the same owner.
+6. A circuit breaker pauses all spending when spend or alert volume spikes. Resuming needs an approver who doesn't own any agent involved.
+7. Every decision, approval, settlement, alert and breaker event is written to a hash-chained audit log, along with the policy version and policy hash.
+
+## Layout
+
+| Path | What it is |
+|---|---|
+| `agentguard/policy.py` | Policy engine and `validate_payment()` |
+| `agentguard/ledger.py` | Double-entry mock ledger |
+| `agentguard/approvals.py` | Maker-checker approvals |
+| `agentguard/idempotency.py` | Idempotency-key store |
+| `agentguard/circuit_breaker.py` | Spend and alert circuit breaker |
+| `agentguard/audit.py` | Hash-chained audit log, with verify and export |
+| `agentguard/aml/` | AML rules and monitor |
+| `agentguard/lookalike.py` | Homoglyph and edit-distance merchant matching |
+| `agentguard/sanctions.py` | Sanctions-screening interface (real OFAC list comes later) |
+| `agentguard/llm/` | `LlmClient`: Groq, OpenRouter (pinned to Groq, no fallbacks), Mock |
+| `agentguard/clock.py` | Injectable UTC clock |
+| `agentguard/fixtures.py` | Demo agents and merchants from AgentPay |
+| `refs/` | Read-only clones of ComplianceGuard and AgentPay (git-ignored) |
+
+## Run the tests
+
+```bash
+python3.11 -m venv .venv && .venv/bin/pip install -r requirements-dev.txt
+.venv/bin/python -m pytest
+```
+
+Keys (`GROQ_API_KEY`, `OPENROUTER_API_KEY`) are read only from environment variables. The tests never call a real LLM.
