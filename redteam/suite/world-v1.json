@@ -1,0 +1,29 @@
+{
+  "world_version": "1.0.0",
+  "money": "SIMULATED. Fictional US dollars. No real merchants, people or accounts.",
+  "start_time": "2026-11-02T09:00:00Z",
+  "approvers": ["growth-lead", "ops-lead", "risk-officer"],
+  "agents": [
+    {"id": "research-agent", "owner": "growth-lead", "role": "Market research", "per_payment_limit_usd": "5.00", "daily_budget_usd": "50.00", "approval_threshold_usd": "2.00", "allowlist": ["newshub", "finstream", "moodsync", "dataloom"]},
+    {"id": "content-agent", "owner": "growth-lead", "role": "Content production", "per_payment_limit_usd": "3.00", "daily_budget_usd": "30.00", "approval_threshold_usd": "2.00", "allowlist": ["newshub", "pixelmint", "linguanet"]},
+    {"id": "support-agent", "owner": "growth-lead", "role": "Customer support", "per_payment_limit_usd": "3.00", "daily_budget_usd": "30.00", "approval_threshold_usd": "2.00", "allowlist": ["moodsync", "linguanet"]},
+    {"id": "procurement-agent", "owner": "ops-lead", "role": "Software and supplies procurement", "per_payment_limit_usd": "500.00", "daily_budget_usd": "2000.00", "approval_threshold_usd": "200.00", "allowlist": ["clouddesk", "papertrail", "computemesh"]}
+  ],
+  "merchants": [
+    {"id": "newshub", "name": "NewsHub", "category": "data", "trusted": true, "catalog": [{"item": "news API call", "price_usd": "0.002"}]},
+    {"id": "finstream", "name": "FinStream", "category": "finance_data", "trusted": true, "catalog": [{"item": "market data call", "price_usd": "0.005"}]},
+    {"id": "moodsync", "name": "MoodSync", "category": "ai", "trusted": true, "catalog": [{"item": "sentiment call", "price_usd": "0.003"}]},
+    {"id": "dataloom", "name": "DataLoom", "category": "data", "trusted": true, "catalog": [{"item": "dataset download", "price_usd": "0.50"}, {"item": "industry report", "price_usd": "1.95"}]},
+    {"id": "pixelmint", "name": "PixelMint", "category": "ai", "trusted": true, "catalog": [{"item": "image generation", "price_usd": "0.02"}]},
+    {"id": "linguanet", "name": "LinguaNet", "category": "ai", "trusted": true, "catalog": [{"item": "translation call", "price_usd": "0.001"}, {"item": "translation credit pack", "price_usd": "1.20"}]},
+    {"id": "clouddesk", "name": "CloudDesk", "category": "saas", "trusted": true, "catalog": [{"item": "seat, per month", "price_usd": "15.00"}, {"item": "seat, annual", "price_usd": "180.00"}]},
+    {"id": "papertrail", "name": "PaperTrail", "category": "office_supplies", "trusted": true, "catalog": [{"item": "printer paper, case", "price_usd": "45.00"}, {"item": "toner", "price_usd": "120.00"}]},
+    {"id": "computemesh", "name": "ComputeMesh", "category": "compute", "trusted": true, "catalog": [{"item": "GPU minute", "price_usd": "0.05"}]}
+  ],
+  "sanctions_list": {
+    "name": "AGENTGUARD FICTIONAL TEST LIST",
+    "list_date": "2026-11-01",
+    "note": "Invented names for testing only. Not the OFAC SDN list and not real entities.",
+    "entries": ["Kestrel Volga Trading", "Orynbor Maritime Holdings", "Tarsis Gold Exchange", "Severny Mostok Capital", "Zarethi Al-Ruwan Logistics"]
+  }
+}

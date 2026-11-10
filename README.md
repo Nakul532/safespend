@@ -40,3 +40,7 @@ python3.11 -m venv .venv && .venv/bin/pip install -r requirements-dev.txt
 ```
 
 Keys (`GROQ_API_KEY`, `OPENROUTER_API_KEY`) are read only from environment variables. The tests never call a real LLM.
+
+## Red-team suite
+
+`redteam/` holds the AgentGuard Red-Team Suite v1: 55 attacks and 55 legitimate tasks, a runner, and held-out sets. It is MIT-licensed and self-contained. See `redteam/README.md`.

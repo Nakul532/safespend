@@ -1,0 +1,11 @@
+{
+  "suite": "AgentGuard Red-Team Suite",
+  "version": "1.0.0",
+  "locked_on": "2026-11-10",
+  "note": "Locked before any guardrail was run against it. Changes go in a new version.",
+  "files": {
+    "suite/agentguard-redteam-v1.json": "983ae9513011ddc3a33bab7517c885779efbee537f00bffed0f0e2d144b07d9d",
+    "suite/world-v1.json": "8b050c6b2fafb6f02a01b5699f661a21bcfbddef20c385dde714880fd9559695",
+    "SCHEMA.md": "13a82fef55007f1169f0c70fe786bdcd68a8be9c2a88b88522fe79c56d7e94c4"
+  }
+}
