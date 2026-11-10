@@ -1,0 +1,10 @@
+{
+  "set": "AgentGuard Red-Team Held-out (model-written)",
+  "version": "1.0.0",
+  "locked_on": "2026-11-10",
+  "note": "Locked before any guardrail was run against it and before the AgentGuard developer read it.",
+  "files": {
+    "heldout-model-v1.json": "f7c69379dfa39fbae38a2d5b635dcac5d86fd6aaed6a31b2631fb09316ff903d",
+    "world-v1.json": "8b050c6b2fafb6f02a01b5699f661a21bcfbddef20c385dde714880fd9559695"
+  }
+}

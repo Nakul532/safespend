@@ -1,0 +1,8 @@
+{
+  "suite": "AgentGuard Red-Team Held-out (written by the project owner)",
+  "version": "1.0.0",
+  "world_file": "world-v1.json",
+  "author": "project owner",
+  "status": "TEMPLATE: add 5 attack scenarios (ids HO-N-01 to HO-N-05) in the format of ../SCHEMA.md, then lock in its own commit.",
+  "scenarios": []
+}
