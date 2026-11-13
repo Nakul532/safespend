@@ -1,0 +1,268 @@
+{
+  "source": "SEC company_tickers.json (public)",
+  "distinct_companies": 8002,
+  "test_a_vs_world_merchants": {
+    "checked": 8002,
+    "flagged": 1,
+    "pct": 0.012,
+    "examples": [
+      [
+        "DATA I/O CORP",
+        "DataLoom",
+        2
+      ]
+    ]
+  },
+  "test_b_vs_top_registrants": {
+    "trusted_list_size": 500,
+    "checked": 7502,
+    "flagged": 249,
+    "pct": 3.32,
+    "by_reason": {
+      "contains_trusted_name": 102,
+      "edit_distance_only": 147
+    },
+    "examples": [
+      [
+        "DTE ENERGY CO",
+        "Duke Energy CORP",
+        2,
+        false
+      ],
+      [
+        "Cheniere Energy Partners, L.P.",
+        "Cheniere Energy, Inc.",
+        10,
+        true
+      ],
+      [
+        "PPL Corp",
+        "PG&E Corp",
+        2,
+        false
+      ],
+      [
+        "GLOBAL PAYMENTS INC",
+        "S&P Global Inc.",
+        2,
+        false
+      ],
+      [
+        "ATI INC",
+        "AT&T INC.",
+        1,
+        false
+      ],
+      [
+        "INSMED Inc",
+        "RESMED INC",
+        2,
+        false
+      ],
+      [
+        "EQUIFAX INC",
+        "EQUINIX INC",
+        2,
+        false
+      ],
+      [
+        "CDW Corp",
+        "CSX CORP",
+        2,
+        false
+      ],
+      [
+        "KE Holdings Inc.",
+        "Nu Holdings Ltd.",
+        2,
+        false
+      ],
+      [
+        "Fortive Corp",
+        "Fortinet, Inc.",
+        2,
+        false
+      ],
+      [
+        "BCE INC",
+        "BOEING CO",
+        2,
+        false
+      ],
+      [
+        "ITT INC.",
+        "AT&T INC.",
+        1,
+        false
+      ],
+      [
+        "RB GLOBAL INC.",
+        "S&P Global Inc.",
+        2,
+        false
+      ],
+      [
+        "ICON PLC",
+        "ALCON INC",
+        1,
+        false
+      ],
+      [
+        "APA Corp",
+        "KLA CORP",
+        2,
+        false
+      ],
+      [
+        "MKS INC",
+        "MSCI Inc.",
+        2,
+        false
+      ],
+      [
+        "Coca-Cola Consolidated, Inc.",
+        "COCA COLA CO",
+        10,
+        true
+      ],
+      [
+        "Crane Co",
+        "CAMECO CORP",
+        2,
+        false
+      ],
+      [
+        "Evercore Inc.",
+        "Everpure, Inc.",
+        2,
+        false
+      ],
+      [
+        "Alcoa Corp",
+        "ALCON INC",
+        1,
+        false
+      ],
+      [
+        "INSULET CORP",
+        "INTUIT INC.",
+        2,
+        false
+      ],
+      [
+        "VIASAT INC",
+        "VISA INC.",
+        2,
+        false
+      ],
+      [
+        "LEVI STRAUSS & CO",
+        "Vistra Corp.",
+        5,
+        true
+      ],
+      [
+        "KT CORP",
+        "RTX Corp",
+        2,
+        false
+      ],
+      [
+        "IDACORP INC",
+        "KLA CORP",
+        2,
+        false
+      ],
+      [
+        "NIO Inc.",
+        "NIKE, Inc.",
+        2,
+        false
+      ],
+      [
+        "Compass, Inc.",
+        "COMCAST CORP",
+        2,
+        false
+      ],
+      [
+        "ETSY INC",
+        "EBAY INC",
+        2,
+        false
+      ],
+      [
+        "VICOR CORP",
+        "NUCOR CORP",
+        2,
+        false
+      ],
+      [
+        "ADT Inc.",
+        "AT&T INC.",
+        1,
+        false
+      ],
+      [
+        "TEREX CORP",
+        "FEDEX CORP",
+        2,
+        false
+      ],
+      [
+        "GATX CORP",
+        "RTX Corp",
+        2,
+        false
+      ],
+      [
+        "H&R BLOCK INC",
+        "Block, Inc.",
+        2,
+        true
+      ],
+      [
+        "RLI CORP",
+        "RTX Corp",
+        2,
+        false
+      ],
+      [
+        "BOX INC",
+        "BOEING CO",
+        2,
+        false
+      ],
+      [
+        "HERC HOLDINGS INC",
+        "HSBC HOLDINGS PLC",
+        2,
+        false
+      ],
+      [
+        "Blackstone Secured Lending Fund",
+        "Blackstone Inc.",
+        18,
+        true
+      ],
+      [
+        "NICE Ltd.",
+        "NIKE, Inc.",
+        1,
+        false
+      ],
+      [
+        "Amentum Holdings, Inc.",
+        "Lumentum Holdings Inc.",
+        2,
+        false
+      ],
+      [
+        "PORTLAND GENERAL ELECTRIC CO /OR/",
+        "GENERAL ELECTRIC CO",
+        10,
+        true
+      ]
+    ]
+  }
+}

@@ -1,0 +1,219 @@
+{
+  "benchmark": "IBM AML HI-Small (synthetic public benchmark, CDLA-Sharing-1.0)",
+  "subset": "first 7 days",
+  "transactions": 3731672,
+  "laundering": 3027,
+  "fx_note": "ASSUMPTION: fixed approximate 2022 FX rates to USD",
+  "settings_note": "Bank-scale rule settings fixed before reading labels; no tuning against labels",
+  "unbudgeted": {
+    "all_rules": {
+      "flagged": 724926,
+      "tp": 1110,
+      "precision": 0.0015,
+      "recall": 0.3667,
+      "fpr": 0.194123,
+      "alerts": 63814,
+      "alert_to_case": 0.006
+    },
+    "baseline_amount_>=_10000": {
+      "flagged": 738692,
+      "tp": 963,
+      "precision": 0.0013,
+      "recall": 0.3181,
+      "fpr": 0.197854
+    },
+    "per_rule": {
+      "structuring": {
+        "alerts": 3471,
+        "seconds": 5.9,
+        "flagged": 24347,
+        "tp": 19,
+        "precision": 0.0008,
+        "recall": 0.0063,
+        "fpr": 0.006525,
+        "alert_to_case": 0.0035
+      },
+      "velocity_spike": {
+        "alerts": 610,
+        "seconds": 1382.6,
+        "flagged": 6386,
+        "tp": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "fpr": 0.001713,
+        "alert_to_case": 0.0
+      },
+      "rapid_fire": {
+        "alerts": 53101,
+        "seconds": 4186.3,
+        "flagged": 626952,
+        "tp": 488,
+        "precision": 0.0008,
+        "recall": 0.1612,
+        "fpr": 0.168014,
+        "alert_to_case": 0.0008
+      },
+      "round_amounts": {
+        "alerts": 2,
+        "seconds": 2.5,
+        "flagged": 7,
+        "tp": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "fpr": 2e-06,
+        "alert_to_case": 0.0
+      },
+      "dormant_then_active": {
+        "alerts": 0,
+        "seconds": 2.8,
+        "flagged": 0,
+        "tp": 0,
+        "precision": null,
+        "recall": 0.0,
+        "fpr": 0.0,
+        "alert_to_case": null
+      },
+      "fan_in": {
+        "alerts": 6630,
+        "seconds": 4.1,
+        "flagged": 83223,
+        "tp": 620,
+        "precision": 0.0074,
+        "recall": 0.2048,
+        "fpr": 0.022154,
+        "alert_to_case": 0.0493
+      }
+    }
+  },
+  "recall_by_pattern": {
+    "unlabelled pattern": {
+      "laundering_txns": 1386,
+      "rules_recall": 0.5281,
+      "baseline_recall": 0.1255
+    },
+    "SCATTER-GATHER": {
+      "laundering_txns": 327,
+      "rules_recall": 0.3639,
+      "baseline_recall": 0.5229
+    },
+    "GATHER-SCATTER": {
+      "laundering_txns": 281,
+      "rules_recall": 0.4733,
+      "baseline_recall": 0.5125
+    },
+    "STACK": {
+      "laundering_txns": 272,
+      "rules_recall": 0.0221,
+      "baseline_recall": 0.4522
+    },
+    "FAN-OUT": {
+      "laundering_txns": 182,
+      "rules_recall": 0.0495,
+      "baseline_recall": 0.467
+    },
+    "BIPARTITE": {
+      "laundering_txns": 173,
+      "rules_recall": 0.0289,
+      "baseline_recall": 0.4451
+    },
+    "FAN-IN": {
+      "laundering_txns": 161,
+      "rules_recall": 0.6211,
+      "baseline_recall": 0.5093
+    },
+    "CYCLE": {
+      "laundering_txns": 151,
+      "rules_recall": 0.0132,
+      "baseline_recall": 0.4106
+    },
+    "RANDOM": {
+      "laundering_txns": 94,
+      "rules_recall": 0.0426,
+      "baseline_recall": 0.4787
+    }
+  },
+  "daily_alert_budgets": {
+    "K=10/day": {
+      "rules": {
+        "flagged": 3718,
+        "tp": 34,
+        "precision": 0.0091,
+        "recall": 0.0112,
+        "fpr": 0.000988,
+        "alerts_reviewed": 70,
+        "alert_precision": 0.2429
+      },
+      "baseline_top_amounts": {
+        "flagged": 70,
+        "tp": 3,
+        "precision": 0.0429,
+        "recall": 0.001,
+        "fpr": 1.8e-05,
+        "alerts_reviewed": 70,
+        "alert_precision": 0.0429
+      }
+    },
+    "K=50/day": {
+      "rules": {
+        "flagged": 10272,
+        "tp": 94,
+        "precision": 0.0092,
+        "recall": 0.0311,
+        "fpr": 0.00273,
+        "alerts_reviewed": 350,
+        "alert_precision": 0.1029
+      },
+      "baseline_top_amounts": {
+        "flagged": 350,
+        "tp": 9,
+        "precision": 0.0257,
+        "recall": 0.003,
+        "fpr": 9.1e-05,
+        "alerts_reviewed": 350,
+        "alert_precision": 0.0257
+      }
+    },
+    "K=100/day": {
+      "rules": {
+        "flagged": 16002,
+        "tp": 144,
+        "precision": 0.009,
+        "recall": 0.0476,
+        "fpr": 0.004253,
+        "alerts_reviewed": 700,
+        "alert_precision": 0.08
+      },
+      "baseline_top_amounts": {
+        "flagged": 700,
+        "tp": 13,
+        "precision": 0.0186,
+        "recall": 0.0043,
+        "fpr": 0.000184,
+        "alerts_reviewed": 700,
+        "alert_precision": 0.0186
+      }
+    },
+    "K=500/day": {
+      "rules": {
+        "flagged": 51508,
+        "tp": 390,
+        "precision": 0.0076,
+        "recall": 0.1288,
+        "fpr": 0.01371,
+        "alerts_reviewed": 3500,
+        "alert_precision": 0.052
+      },
+      "baseline_top_amounts": {
+        "flagged": 3500,
+        "tp": 26,
+        "precision": 0.0074,
+        "recall": 0.0086,
+        "fpr": 0.000932,
+        "alerts_reviewed": 3500,
+        "alert_precision": 0.0074
+      }
+    }
+  },
+  "days": 7,
+  "runtime_seconds": 5624
+}

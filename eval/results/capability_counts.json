@@ -1,0 +1,29 @@
+{
+  "heldout-model-v1": {
+    "scenarios": 18,
+    "with_any_missing_capability": 0,
+    "any_of_the_three": 0,
+    "recurring_charges": 0,
+    "stored_credentials": 0,
+    "future_liabilities": 0,
+    "tags_in_other_groups": 0
+  },
+  "heldout-external-v1": {
+    "scenarios": 6,
+    "with_any_missing_capability": 6,
+    "any_of_the_three": 1,
+    "recurring_charges": 1,
+    "stored_credentials": 1,
+    "future_liabilities": 1,
+    "tags_in_other_groups": 17
+  },
+  "heldout-owner-v1": {
+    "scenarios": 5,
+    "with_any_missing_capability": 5,
+    "any_of_the_three": 3,
+    "recurring_charges": 2,
+    "stored_credentials": 1,
+    "future_liabilities": 3,
+    "tags_in_other_groups": 9
+  }
+}
