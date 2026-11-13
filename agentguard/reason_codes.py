@@ -39,6 +39,9 @@ class ReasonCode(StrEnum):
     HIDDEN_INSTRUCTION = "HIDDEN_INSTRUCTION"
     PRICE_MISMATCH = "PRICE_MISMATCH"
     AML_HOLD = "AML_HOLD"
+    # Added after Stage 3 results (round 2).
+    SPLIT_SUSPECTED = "SPLIT_SUSPECTED"
+    LOOKALIKE_REVIEW = "LOOKALIKE_REVIEW"
 
     # AML alert codes
     AML_STRUCTURING = "AML_STRUCTURING"

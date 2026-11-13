@@ -92,20 +92,21 @@ def _group(txns: Iterable[LedgerTxn], key: Callable[[LedgerTxn], str | None]) ->
 
 
 def _episodes(txns: list[LedgerTxn], window: timedelta, hit: Callable[[list[LedgerTxn]], bool]) -> list[list[LedgerTxn]]:
-    """Slide a window ending at each payment; merge overlapping windows that hit into one episode."""
-    episodes: list[list[LedgerTxn]] = []
+    """Slide a window ending at each payment; merge overlapping windows that hit into one episode.
+
+    Windows are contiguous index ranges of the time-sorted list, so a merged episode is one too;
+    tracking index ranges gives the same episodes as merging by txn id, in linear time."""
+    ranges: list[list[int]] = []
     start = 0
     for end in range(len(txns)):
         while txns[end].timestamp - txns[start].timestamp > window:
             start += 1
-        win = txns[start:end + 1]
-        if hit(win):
-            if episodes and {t.txn_id for t in episodes[-1]} & {t.txn_id for t in win}:
-                merged = {t.txn_id: t for t in episodes[-1] + win}
-                episodes[-1] = sorted(merged.values(), key=lambda t: (t.timestamp, t.txn_id))
+        if hit(txns[start:end + 1]):
+            if ranges and ranges[-1][1] >= start:
+                ranges[-1][1] = end
             else:
-                episodes.append(list(win))
-    return episodes
+                ranges.append([start, end])
+    return [txns[s:e + 1] for s, e in ranges]
 
 
 # -- rules --------------------------------------------------------------------

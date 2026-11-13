@@ -24,6 +24,11 @@ class PolicyConfig:
     # Added after the red-team lock (Stage 3). Off by default = Stage 1 behaviour.
     price_check: bool = False  # block when the charged amount exceeds the quoted amount
     injection_near_limit: float = 0.8  # payments at >= this share of a limit count as borderline
+    # Added after Stage 3 results (round 2). Off by default = Stage 1 behaviour.
+    split_check: bool = False  # hold when same-merchant payments in the window add up to the approval threshold
+    split_window_hours: int = 24  # trailing window, so splits cannot hide across midnight
+    split_min_share: float = 0.1  # ignore payments under this share of the threshold (micropayments)
+    lookalike_hold_min_trusted: int | None = None  # with at least this many trusted merchants, look-alikes hold
 
     @property
     def config_hash(self) -> str:

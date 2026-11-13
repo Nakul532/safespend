@@ -37,7 +37,8 @@ from .signing import Signer
 
 # Approval failures that leave the payment waiting for a (new) human approval.
 _WAITS_FOR_APPROVAL = {ReasonCode.APPROVAL_REQUIRED, ReasonCode.APPROVAL_EXPIRED,
-                       ReasonCode.INJECTION_SUSPECTED, ReasonCode.AML_HOLD}
+                       ReasonCode.INJECTION_SUSPECTED, ReasonCode.AML_HOLD,
+                       ReasonCode.SPLIT_SUSPECTED, ReasonCode.LOOKALIKE_REVIEW}
 
 
 class _Ctx:
@@ -119,8 +120,18 @@ class PolicyEngine:
     def _lookalike(self, c: _Ctx) -> CheckResult | None:
         if c.merchant is None or (c.agent is not None and c.merchant.merchant_id in c.agent.allowed_merchants):
             return None
-        m = find_lookalike(c.merchant, self.registry.trusted_merchants(), self.config.lookalike_max_distance)
+        trusted = self.registry.trusted_merchants()
+        m = find_lookalike(c.merchant, trusted, self.config.lookalike_max_distance)
         if m is not None:
+            n = self.config.lookalike_hold_min_trusted  # added after Stage 3 results
+            if n is not None and len(trusted) >= n:
+                if self._approved_by_human(c):
+                    return None
+                return CheckResult(
+                    ReasonCode.LOOKALIKE_REVIEW,
+                    f"'{m.merchant_name}' resembles trusted merchant '{m.resembles_name}' (edit distance {m.distance}); "
+                    f"with {len(trusted)} trusted merchants this is held for a human",
+                )
             return CheckResult(
                 ReasonCode.LOOKALIKE_MERCHANT,
                 f"'{m.merchant_name}' resembles trusted merchant '{m.resembles_name}' (edit distance {m.distance})",
@@ -283,6 +294,31 @@ class PolicyEngine:
             return CheckResult(ReasonCode.AML_HOLD, f"agent {c.agent.agent_id} is held after an AML alert; a human must approve")
         return None
 
+    def _split(self, c: _Ctx) -> CheckResult | None:
+        """Added after Stage 3 results: catch a large payment split into smaller ones BEFORE the pieces settle.
+        Sums this payment with the same merchant's payments in a trailing window, for the agent and for every
+        agent with the same owner, and holds for a human once the total reaches the agent's approval threshold."""
+        a, cfg = c.agent, self.config
+        if not cfg.split_check or a is None or c.req.amount >= a.approval_threshold:
+            return None  # amounts at or over the threshold already need approval
+        floor = cfg.split_min_share * a.approval_threshold
+        if c.req.amount < floor:
+            return None
+        since = c.now - timedelta(hours=cfg.split_window_hours)
+        team = [t for t in self.ledger.payments(since=since)
+                if t.merchant_id == c.req.merchant_id and t.owner_id == a.owner_id and t.amount >= floor]
+        total = sum(t.amount for t in team) + c.req.amount
+        if not team or total < a.approval_threshold or self._approved_by_human(c):
+            return None
+        mine = [t for t in team if t.agent_id == a.agent_id]
+        who = (f"agent {a.agent_id}" if sum(t.amount for t in mine) + c.req.amount >= a.approval_threshold
+               else f"agents of owner {a.owner_id}")
+        return CheckResult(
+            ReasonCode.SPLIT_SUSPECTED,
+            f"{who} paid {c.req.merchant_id} {fmt_usd(total - c.req.amount)} in {len(team)} payment(s) in the last "
+            f"{cfg.split_window_hours}h; {fmt_usd(c.req.amount)} more reaches the {fmt_usd(a.approval_threshold)} approval threshold",
+        )
+
     CHECK_ORDER: tuple[tuple[str, Check], ...] = (
         ("circuit_breaker", _breaker),
         ("agent_known", _agent_known),
@@ -302,6 +338,7 @@ class PolicyEngine:
         ("owner_velocity", _owner_velocity),
         ("duplicate_heuristic", _duplicate),
         ("sufficient_funds", _funds),
+        ("split_check", _split),  # added after Stage 3 results
         ("aml_hold", _aml_hold),  # added after lock
         ("human_approval", _approval),
     )

@@ -27,6 +27,8 @@ class Config:
     aml_monitoring: bool = False  # Stage 1 monitor, run after every payment; flags only
     aml_hold_severity: int | None = None  # added after lock: alerts at/above this hold the agent
     run_tag: str = "run1"  # separates repeated LLM runs in the cache
+    split_check: bool = False  # added after Stage 3 results (round 2)
+    lookalike_hold_min_trusted: int | None = None  # added after Stage 3 results (round 2)
 
     @property
     def after_lock(self) -> list[str]:
@@ -39,6 +41,10 @@ class Config:
             out.append("injection check (heuristics + LLM)")
         if self.aml_hold_severity is not None:
             out.append(f"AML->hold at severity {self.aml_hold_severity}")
+        if self.split_check:
+            out.append("pre-payment split check")
+        if self.lookalike_hold_min_trusted is not None:
+            out.append(f"look-alike holds with >= {self.lookalike_hold_min_trusted} trusted merchants")
         return out
 
 
@@ -88,7 +94,9 @@ class AgentGuardAdapter:
         screener = (FuzzyScreener if self.config.fuzzy_sanctions else ExactListScreener)(
             sl["entries"], list_name=sl["name"], list_date=sl["list_date"])
         version = "policy-2026.11.10-1" + ("+after-lock:" + ",".join(self.config.after_lock) if self.config.after_lock else "")
-        self.guard = AgentGuard(reg, clock=self.clock, policy=PolicyConfig(version=version, price_check=self.config.price_check),
+        self.guard = AgentGuard(reg, clock=self.clock, policy=PolicyConfig(version=version, price_check=self.config.price_check,
+                                                                    split_check=self.config.split_check,
+                                                                    lookalike_hold_min_trusted=self.config.lookalike_hold_min_trusted),
                                 sanctions=screener, injection_checker=self.checker,
                                 aml_hold_severity=self.config.aml_hold_severity)
         for a in reg.agents.values():
