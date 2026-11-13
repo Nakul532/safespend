@@ -117,38 +117,30 @@ def prf(flagged: set, labels: dict, negatives: int):
             "recall": round(tp / pos, 4) if pos else None, "fpr": round((len(flagged) - tp) / negatives, 6)}
 
 
-def main() -> None:
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--days", type=int, default=None, help="limit to the first N days (default: all)")
-    ap.add_argument("--out", default=str(ROOT / "eval" / "results" / "e2_ibm.json"))
-    args = ap.parse_args()
-    t0 = time.time()
-    txns = load(args.days)
+def evaluate(txns, rules_cfg, cfg_by_rule=None, log=print):
+    """All metrics for one run. cfg_by_rule lets one rule use different settings (rapid-fire retune)."""
     labels = {t.txn_id: t.label for t in txns}
     by_id = {t.txn_id: t for t in txns}
     patterns = load_patterns()
     tpat = {t.txn_id: patterns.get(t.key) for t in txns if t.label}
     neg = sum(1 for t in txns if not t.label)
     pos = len(txns) - neg
-    print(f"loaded {len(txns):,} txns ({pos:,} laundering) in {time.time() - t0:.0f}s", flush=True)
-
     reg = BankRegistry()
     alerts = []
     per_rule = {}
     for rule in BANK_RULES:
         t1 = time.time()
-        a = rule(txns, reg, BANK_CFG)
+        a = rule(txns, reg, (cfg_by_rule or {}).get(rule.__name__, rules_cfg))
         alerts += a
         per_rule[rule.__name__] = {"alerts": len(a), "seconds": round(time.time() - t1, 1),
                                    **prf({x for al in a for x in al.txn_ids}, labels, neg),
                                    "alert_to_case": round(sum(1 for al in a if any(labels[x] for x in al.txn_ids)) / len(a), 4) if a else None}
-        print(f"  {rule.__name__}: {len(a):,} alerts in {time.time() - t1:.0f}s", flush=True)
+        log(f"  {rule.__name__}: {len(a):,} alerts in {time.time() - t1:.0f}s", flush=True)
 
     all_flag = {x for al in alerts for x in al.txn_ids}
     base_flag = {t.txn_id for t in txns if t.amount >= CTR_THRESHOLD}
     result = {
         "benchmark": "IBM AML HI-Small (synthetic public benchmark, CDLA-Sharing-1.0)",
-        "subset": "all days" if args.days is None else f"first {args.days} days",
         "transactions": len(txns), "laundering": pos,
         "fx_note": "ASSUMPTION: fixed approximate 2022 FX rates to USD",
         "settings_note": "Bank-scale rule settings fixed before reading labels; no tuning against labels",
@@ -195,6 +187,21 @@ def main() -> None:
         }
     result["daily_alert_budgets"] = budgets
     result["days"] = len(txn_by_day)
+    return result
+
+
+def main() -> None:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--days", type=int, default=None, help="limit to the first N days (default: all)")
+    ap.add_argument("--out", default=str(ROOT / "eval" / "results" / "e2_ibm.json"))
+    args = ap.parse_args()
+    t0 = time.time()
+    txns = load(args.days)
+    pos = sum(1 for t in txns if t.label)
+    print(f"loaded {len(txns):,} txns ({pos:,} laundering) in {time.time() - t0:.0f}s", flush=True)
+
+    result = evaluate(txns, BANK_CFG)
+    result["subset"] = "all days" if args.days is None else f"first {args.days} days"
     result["runtime_seconds"] = round(time.time() - t0)
     Path(args.out).parent.mkdir(parents=True, exist_ok=True)
     Path(args.out).write_text(json.dumps(result, indent=2))
