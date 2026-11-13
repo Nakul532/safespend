@@ -1,0 +1,10 @@
+{
+  "set": "AgentGuard Red-Team Held-out (external)",
+  "version": "1.0.0",
+  "locked_on": "2026-11-12",
+  "note": "Locked before any guardrail was run against it. The AgentGuard developer did not read it.",
+  "files": {
+    "heldout-external-v1.json": "6542ef93fb3a41540202d601d04ed8f9cb00862f8374c7a24002f476f845a11c",
+    "world-v1.json": "8b050c6b2fafb6f02a01b5699f661a21bcfbddef20c385dde714880fd9559695"
+  }
+}
