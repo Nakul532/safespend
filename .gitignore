@@ -20,3 +20,7 @@ node_modules/
 
 # Raw held-out source text (kept out of git)
 redteam/heldout/*-raw.txt
+
+# Datasets (licensed separately; never committed)
+data/
+eval/cache/

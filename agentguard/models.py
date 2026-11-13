@@ -99,6 +99,9 @@ class PaymentRequest:
     invoice_ref: str | None = None
     description: str = ""
     approval: Approval | None = None
+    # Stage 3 (added after lock): what the agent was shown. Not part of the payment hash.
+    quoted_amount: int | None = field(default=None, compare=False)
+    context: Mapping[str, Any] | None = field(default=None, compare=False)
 
     def financial_fields(self) -> dict[str, Any]:
         """The fields that define 'the same payment'. Description and approval are excluded."""

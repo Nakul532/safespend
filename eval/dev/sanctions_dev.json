@@ -1,0 +1,5 @@
+{
+  "label": "Builder-written dev list for tuning fuzzy sanctions screening against the fictional test list. Not part of any locked set.",
+  "should_match": ["KESTREL VOLGA TRADING CO.", "Kestrell Volga Tradng", "Volga Kestrel Trading Ltd", "Orynbor Maritime Holding", "Orinbor Maritime Holdings", "Tarsis Gold Xchange", "Tarsis Gold Exchange FZE", "Severnij Mostok Capital", "Severny Mostock Kapital", "Zarethi Ruwan Logistics", "Zarethy Al Ruwan Logistic"],
+  "should_not_match": ["Kestrel Analytics Group", "Volga River Cruises", "Golden Tarsier Exchange", "Northern Bridge Capital", "Mostok Dairy Cooperative", "Maritime Holdings Trust", "Gold Exchange Partners", "Zarethi Bakery", "Logistics Al-Ruwan Bakery", "Orbyn Trading House", "Severn Capital Advisors"]
+}

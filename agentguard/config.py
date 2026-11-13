@@ -21,6 +21,9 @@ class PolicyConfig:
     approval_ttl_seconds: int = 900
     # Look-alike merchants.
     lookalike_max_distance: int = 2
+    # Added after the red-team lock (Stage 3). Off by default = Stage 1 behaviour.
+    price_check: bool = False  # block when the charged amount exceeds the quoted amount
+    injection_near_limit: float = 0.8  # payments at >= this share of a limit count as borderline
 
     @property
     def config_hash(self) -> str:

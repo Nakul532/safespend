@@ -90,7 +90,9 @@ class _OpenAICompatibleClient:
         self.timeout = timeout
 
     def _headers(self) -> dict[str, str]:
-        return {"Authorization": f"Bearer {self._key}", "Content-Type": "application/json"}
+        # A generic client name: some API front ends reject Python's default user-agent.
+        return {"Authorization": f"Bearer {self._key}", "Content-Type": "application/json",
+                "User-Agent": "agentguard-eval/0.1"}
 
     def _body(self, messages: Sequence[Message], model: str, max_tokens: int, temperature: float, json_mode: bool) -> dict[str, Any]:
         body: dict[str, Any] = {
@@ -111,6 +113,8 @@ class _OpenAICompatibleClient:
         latency = (time.perf_counter() - start) * 1000
         if status == 429:
             raise LlmRateLimited(f"{self.provider} rate limit")
+        if status in (401, 403):
+            raise LlmConfigError(f"{self.provider} refused the request (HTTP {status}): check the key and access")
         if status != 200:
             msg = (data.get("error") or {}).get("message", "unknown error") if isinstance(data, dict) else "unknown error"
             raise LlmError(f"{self.provider} returned HTTP {status}: {msg}")
@@ -135,6 +139,12 @@ class GroqClient(_OpenAICompatibleClient):
     url = "https://api.groq.com/openai/v1/chat/completions"
     env_var = "GROQ_API_KEY"
 
+    def _body(self, *args: Any) -> dict[str, Any]:
+        body = super()._body(*args)
+        if "gpt-oss" in body["model"]:
+            body["reasoning_effort"] = "low"  # keep reasoning from using the whole output budget
+        return body
+
 
 class OpenRouterClient(_OpenAICompatibleClient):
     """OpenRouter, pinned to Groq as the only provider, with fallbacks off."""
@@ -146,6 +156,8 @@ class OpenRouterClient(_OpenAICompatibleClient):
     def _body(self, *args: Any) -> dict[str, Any]:
         body = super()._body(*args)
         body["provider"] = {"order": ["Groq"], "allow_fallbacks": False}
+        if "gpt-oss" in body["model"]:
+            body["reasoning"] = {"effort": "low"}
         return body
 
 

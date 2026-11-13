@@ -9,7 +9,7 @@ from __future__ import annotations
 import itertools
 from dataclasses import replace
 from datetime import timedelta
-from typing import Callable
+from typing import Any, Callable
 
 from .approvals import ApprovalService
 from .audit import AuditLog, EventType
@@ -36,7 +36,8 @@ from .sanctions import SanctionsScreener
 from .signing import Signer
 
 # Approval failures that leave the payment waiting for a (new) human approval.
-_WAITS_FOR_APPROVAL = {ReasonCode.APPROVAL_REQUIRED, ReasonCode.APPROVAL_EXPIRED}
+_WAITS_FOR_APPROVAL = {ReasonCode.APPROVAL_REQUIRED, ReasonCode.APPROVAL_EXPIRED,
+                       ReasonCode.INJECTION_SUSPECTED, ReasonCode.AML_HOLD}
 
 
 class _Ctx:
@@ -68,6 +69,8 @@ class PolicyEngine:
         breaker: CircuitBreaker,
         sanctions: SanctionsScreener,
         permit_signer: Signer,
+        injection_checker: Any = None,
+        aml_holds: set[str] | None = None,
     ) -> None:
         self.clock = clock
         self.config = config
@@ -78,6 +81,9 @@ class PolicyEngine:
         self.breaker = breaker
         self.sanctions = sanctions
         self._signer = permit_signer
+        self.injection_checker = injection_checker  # None = Stage 1 behaviour
+        self.aml_holds = aml_holds if aml_holds is not None else set()
+        self.last_injection = None  # result of the most recent injection check (for latency reporting)
         self.idempotency = IdempotencyStore()
         self._seq = itertools.count(1)
 
@@ -240,6 +246,43 @@ class PolicyEngine:
             return None
         return self.approvals.check(c.req)
 
+    # -- added after the red-team lock (Stage 3) --------------------------------
+
+    def _approved_by_human(self, c: _Ctx) -> bool:
+        return c.req.approval is not None and self.approvals.check(c.req) is None
+
+    def _price(self, c: _Ctx) -> CheckResult | None:
+        q = c.req.quoted_amount
+        if self.config.price_check and q is not None and c.req.amount > q:
+            return CheckResult(ReasonCode.PRICE_MISMATCH,
+                               f"charged {fmt_usd(c.req.amount)} is more than the quoted {fmt_usd(q)}")
+        return None
+
+    def _borderline(self, c: _Ctx) -> bool:
+        a, share = c.agent, self.config.injection_near_limit
+        if a is None:
+            return False
+        spent = sum(t.amount for t in c.today if t.agent_id == a.agent_id)
+        return (c.req.amount >= share * a.per_txn_limit or c.req.amount >= share * a.approval_threshold
+                or spent + c.req.amount >= share * a.daily_budget)
+
+    def _injection(self, c: _Ctx) -> CheckResult | None:
+        self.last_injection = None
+        if self.injection_checker is None:
+            return None
+        res = self.injection_checker.check(c.req.context or {}, borderline=self._borderline(c))
+        self.last_injection = res
+        if res.hidden_instruction:
+            return CheckResult(ReasonCode.HIDDEN_INSTRUCTION, "hidden instructions in the content the agent read: " + res.summary)
+        if res.flagged and not self._approved_by_human(c):
+            return CheckResult(ReasonCode.INJECTION_SUSPECTED, "possible prompt injection, held for a human: " + res.summary)
+        return None
+
+    def _aml_hold(self, c: _Ctx) -> CheckResult | None:
+        if c.agent is not None and c.agent.agent_id in self.aml_holds and not self._approved_by_human(c):
+            return CheckResult(ReasonCode.AML_HOLD, f"agent {c.agent.agent_id} is held after an AML alert; a human must approve")
+        return None
+
     CHECK_ORDER: tuple[tuple[str, Check], ...] = (
         ("circuit_breaker", _breaker),
         ("agent_known", _agent_known),
@@ -249,6 +292,8 @@ class PolicyEngine:
         ("lookalike_merchant", _lookalike),
         ("merchant_allowlist", _allowlist),
         ("sanctions", _sanctions),
+        ("price_matches_quote", _price),  # added after lock
+        ("injection_check", _injection),  # added after lock
         ("per_txn_limit", _per_txn),
         ("merchant_daily_limit", _merchant_limit),
         ("agent_daily_budget", _budget),
@@ -257,6 +302,7 @@ class PolicyEngine:
         ("owner_velocity", _owner_velocity),
         ("duplicate_heuristic", _duplicate),
         ("sufficient_funds", _funds),
+        ("aml_hold", _aml_hold),  # added after lock
         ("human_approval", _approval),
     )
 

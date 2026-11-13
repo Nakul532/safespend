@@ -31,6 +31,8 @@ class AgentGuard:
         breaker: BreakerConfig | None = None,
         aml: AmlConfig | None = None,
         sanctions: SanctionsScreener | None = None,
+        injection_checker=None,
+        aml_hold_severity: int | None = None,
     ) -> None:
         self.clock = clock or SystemClock()
         self.registry = registry
@@ -53,7 +55,10 @@ class AgentGuard:
             breaker=self.breaker,
             sanctions=sanctions or NullScreener(),
             permit_signer=permit_signer,
+            injection_checker=injection_checker,
         )
+        # Added after lock: AML alerts at or above this severity hold the agents involved.
+        self.aml_hold_severity = aml_hold_severity
         self.monitor = AmlMonitor(registry, aml)
         self._decision_txn: dict[str, str] = {}
 
@@ -69,8 +74,9 @@ class AgentGuard:
         if not decision.approved:
             return decision
         agent = self.registry.agents[request.agent_id]
+        approval_valid = request.approval is not None and self.approvals.check(request) is None
         txn = self.ledger.settle(decision.permit, request, agent)
-        if request.approval is not None and request.amount >= agent.approval_threshold:
+        if approval_valid:
             self.approvals.consume(request.approval.approval_id, txn.txn_id)
         self._decision_txn[decision.decision_id] = txn.txn_id
         self.audit.append(
@@ -105,6 +111,13 @@ class AgentGuard:
                 self.policy_config.version,
             )
         self.breaker.evaluate_alerts(self.monitor.alerts.values(), self.ledger)
+        if self.aml_hold_severity is not None:
+            for a in new:
+                if a.severity >= self.aml_hold_severity:
+                    for tid in a.txn_ids:
+                        t = self.ledger.get(tid)
+                        if t is not None:
+                            self.engine.aml_holds.add(t.agent_id)
         return new
 
     def verify_audit_log(self) -> VerifyResult:

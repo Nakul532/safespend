@@ -35,6 +35,10 @@ class ReasonCode(StrEnum):
 
     # Reserved for Stage 2 (LLM injection check)
     INJECTION_SUSPECTED = "INJECTION_SUSPECTED"
+    # Added after the red-team lock (Stage 3); each is behind a PolicyConfig switch.
+    HIDDEN_INSTRUCTION = "HIDDEN_INSTRUCTION"
+    PRICE_MISMATCH = "PRICE_MISMATCH"
+    AML_HOLD = "AML_HOLD"
 
     # AML alert codes
     AML_STRUCTURING = "AML_STRUCTURING"
