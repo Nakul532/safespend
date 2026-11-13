@@ -1,0 +1,10 @@
+{
+  "set": "AgentGuard Red-Team Held-out (owner-sourced incidents)",
+  "version": "1.0.0",
+  "locked_on": "2026-11-12",
+  "note": "Locked before any guardrail was run against it. The AgentGuard developer did not read it.",
+  "files": {
+    "heldout-owner-v1.json": "ca818d20b43bdf17e0ed8fd1a8a1fda3d5c4021c82ce1a1f24e8f989c2ff6dfd",
+    "world-v1.json": "8b050c6b2fafb6f02a01b5699f661a21bcfbddef20c385dde714880fd9559695"
+  }
+}
