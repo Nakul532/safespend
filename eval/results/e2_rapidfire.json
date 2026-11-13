@@ -1,0 +1,740 @@
+{
+  "protocol": "E2 round 2: retune the rapid-fire rule on IBM HI-Small days 1-3, test on days 4-7. ADDED AFTER STAGE 3 RESULTS.\n\nProtocol, fixed before running:\n- Tuning data: days 1-3 only. Day 4-7 labels are not touched until the setting is chosen.\n- Grid: window in {60 s, 5 min, 15 min, 1 h, 6 h} x minimum count in {5, 10, 20, 40, 80}.\n- Objective: transaction-level F1 of the rapid-fire rule alone on days 1-3; ties go to fewer alerts.\n- Test: all six rules on days 4-7, once with the Stage 3 rapid-fire setting and once with the tuned one,\n  next to the $10,000 baseline. Days 4-7 are run on their own (no warm-up from days 1-3).\nCaveat: the Stage 3 report already showed 7-day aggregates, which include days 4-7.",
+  "train": {
+    "days": "1-3",
+    "transactions": 2076752,
+    "laundering": 1121
+  },
+  "test": {
+    "days": "4-7",
+    "transactions": 1654920,
+    "laundering": 1906
+  },
+  "stage3_setting": {
+    "window_s": 3600,
+    "min_count": 5
+  },
+  "grid_on_train": [
+    {
+      "window_s": 60,
+      "min_count": 5,
+      "alerts": 3343,
+      "flagged": 118363,
+      "tp": 185,
+      "precision": 0.0016,
+      "recall": 0.165,
+      "fpr": 0.056936,
+      "f1": 0.0032
+    },
+    {
+      "window_s": 60,
+      "min_count": 10,
+      "alerts": 474,
+      "flagged": 90210,
+      "tp": 148,
+      "precision": 0.0016,
+      "recall": 0.132,
+      "fpr": 0.04339,
+      "f1": 0.0032
+    },
+    {
+      "window_s": 60,
+      "min_count": 20,
+      "alerts": 451,
+      "flagged": 73257,
+      "tp": 118,
+      "precision": 0.0016,
+      "recall": 0.1053,
+      "fpr": 0.035237,
+      "f1": 0.0032
+    },
+    {
+      "window_s": 60,
+      "min_count": 40,
+      "alerts": 252,
+      "flagged": 20435,
+      "tp": 29,
+      "precision": 0.0014,
+      "recall": 0.0259,
+      "fpr": 0.009831,
+      "f1": 0.0027
+    },
+    {
+      "window_s": 60,
+      "min_count": 80,
+      "alerts": 2,
+      "flagged": 3932,
+      "tp": 8,
+      "precision": 0.002,
+      "recall": 0.0071,
+      "fpr": 0.001891,
+      "f1": 0.0031
+    },
+    {
+      "window_s": 300,
+      "min_count": 5,
+      "alerts": 1871,
+      "flagged": 151688,
+      "tp": 231,
+      "precision": 0.0015,
+      "recall": 0.2061,
+      "fpr": 0.072969,
+      "f1": 0.003
+    },
+    {
+      "window_s": 300,
+      "min_count": 10,
+      "alerts": 1107,
+      "flagged": 129433,
+      "tp": 207,
+      "precision": 0.0016,
+      "recall": 0.1847,
+      "fpr": 0.062259,
+      "f1": 0.0032
+    },
+    {
+      "window_s": 300,
+      "min_count": 20,
+      "alerts": 165,
+      "flagged": 95517,
+      "tp": 161,
+      "precision": 0.0017,
+      "recall": 0.1436,
+      "fpr": 0.045941,
+      "f1": 0.0034
+    },
+    {
+      "window_s": 300,
+      "min_count": 40,
+      "alerts": 56,
+      "flagged": 83199,
+      "tp": 132,
+      "precision": 0.0016,
+      "recall": 0.1178,
+      "fpr": 0.04002,
+      "f1": 0.0032
+    },
+    {
+      "window_s": 300,
+      "min_count": 80,
+      "alerts": 67,
+      "flagged": 54363,
+      "tp": 83,
+      "precision": 0.0015,
+      "recall": 0.074,
+      "fpr": 0.026151,
+      "f1": 0.0029
+    },
+    {
+      "window_s": 900,
+      "min_count": 5,
+      "alerts": 7104,
+      "flagged": 191663,
+      "tp": 237,
+      "precision": 0.0012,
+      "recall": 0.2114,
+      "fpr": 0.092225,
+      "f1": 0.0024
+    },
+    {
+      "window_s": 900,
+      "min_count": 10,
+      "alerts": 348,
+      "flagged": 148828,
+      "tp": 233,
+      "precision": 0.0016,
+      "recall": 0.2079,
+      "fpr": 0.07159,
+      "f1": 0.0032
+    },
+    {
+      "window_s": 900,
+      "min_count": 20,
+      "alerts": 291,
+      "flagged": 136794,
+      "tp": 219,
+      "precision": 0.0016,
+      "recall": 0.1954,
+      "fpr": 0.065799,
+      "f1": 0.0032
+    },
+    {
+      "window_s": 900,
+      "min_count": 40,
+      "alerts": 110,
+      "flagged": 100742,
+      "tp": 168,
+      "precision": 0.0017,
+      "recall": 0.1499,
+      "fpr": 0.048455,
+      "f1": 0.0034
+    },
+    {
+      "window_s": 900,
+      "min_count": 80,
+      "alerts": 28,
+      "flagged": 88518,
+      "tp": 146,
+      "precision": 0.0016,
+      "recall": 0.1302,
+      "fpr": 0.042576,
+      "f1": 0.0032
+    },
+    {
+      "window_s": 3600,
+      "min_count": 5,
+      "alerts": 29231,
+      "flagged": 321298,
+      "tp": 244,
+      "precision": 0.0008,
+      "recall": 0.2177,
+      "fpr": 0.154678,
+      "f1": 0.0016
+    },
+    {
+      "window_s": 3600,
+      "min_count": 10,
+      "alerts": 561,
+      "flagged": 156883,
+      "tp": 238,
+      "precision": 0.0015,
+      "recall": 0.2123,
+      "fpr": 0.075469,
+      "f1": 0.003
+    },
+    {
+      "window_s": 3600,
+      "min_count": 20,
+      "alerts": 43,
+      "flagged": 150716,
+      "tp": 238,
+      "precision": 0.0016,
+      "recall": 0.2123,
+      "fpr": 0.072497,
+      "f1": 0.0032
+    },
+    {
+      "window_s": 3600,
+      "min_count": 40,
+      "alerts": 59,
+      "flagged": 145882,
+      "tp": 226,
+      "precision": 0.0015,
+      "recall": 0.2016,
+      "fpr": 0.070174,
+      "f1": 0.003
+    },
+    {
+      "window_s": 3600,
+      "min_count": 80,
+      "alerts": 68,
+      "flagged": 132829,
+      "tp": 213,
+      "precision": 0.0016,
+      "recall": 0.19,
+      "fpr": 0.063892,
+      "f1": 0.0032
+    },
+    {
+      "window_s": 21600,
+      "min_count": 5,
+      "alerts": 73171,
+      "flagged": 704679,
+      "tp": 340,
+      "precision": 0.0005,
+      "recall": 0.3033,
+      "fpr": 0.339337,
+      "f1": 0.001
+    },
+    {
+      "window_s": 21600,
+      "min_count": 10,
+      "alerts": 6944,
+      "flagged": 238747,
+      "tp": 255,
+      "precision": 0.0011,
+      "recall": 0.2275,
+      "fpr": 0.114901,
+      "f1": 0.0022
+    },
+    {
+      "window_s": 21600,
+      "min_count": 20,
+      "alerts": 53,
+      "flagged": 151946,
+      "tp": 238,
+      "precision": 0.0016,
+      "recall": 0.2123,
+      "fpr": 0.07309,
+      "f1": 0.0032
+    },
+    {
+      "window_s": 21600,
+      "min_count": 40,
+      "alerts": 15,
+      "flagged": 151119,
+      "tp": 238,
+      "precision": 0.0016,
+      "recall": 0.2123,
+      "fpr": 0.072692,
+      "f1": 0.0032
+    },
+    {
+      "window_s": 21600,
+      "min_count": 80,
+      "alerts": 16,
+      "flagged": 150966,
+      "tp": 238,
+      "precision": 0.0016,
+      "recall": 0.2123,
+      "fpr": 0.072618,
+      "f1": 0.0032
+    }
+  ],
+  "chosen": {
+    "window_s": 900,
+    "min_count": 40,
+    "alerts": 110,
+    "flagged": 100742,
+    "tp": 168,
+    "precision": 0.0017,
+    "recall": 0.1499,
+    "fpr": 0.048455,
+    "f1": 0.0034
+  },
+  "test_before": {
+    "benchmark": "IBM AML HI-Small (synthetic public benchmark, CDLA-Sharing-1.0)",
+    "transactions": 1654920,
+    "laundering": 1906,
+    "fx_note": "ASSUMPTION: fixed approximate 2022 FX rates to USD",
+    "settings_note": "Bank-scale rule settings fixed before reading labels; no tuning against labels",
+    "unbudgeted": {
+      "all_rules": {
+        "flagged": 350737,
+        "tp": 620,
+        "precision": 0.0018,
+        "recall": 0.3253,
+        "fpr": 0.211805,
+        "alerts": 30093,
+        "alert_to_case": 0.007
+      },
+      "baseline_amount_>=_10000": {
+        "flagged": 254322,
+        "tp": 660,
+        "precision": 0.0026,
+        "recall": 0.3463,
+        "fpr": 0.153454
+      },
+      "per_rule": {
+        "structuring": {
+          "alerts": 3450,
+          "seconds": 1.4,
+          "flagged": 13740,
+          "tp": 5,
+          "precision": 0.0004,
+          "recall": 0.0026,
+          "fpr": 0.008309,
+          "alert_to_case": 0.0012
+        },
+        "velocity_spike": {
+          "alerts": 247,
+          "seconds": 230.5,
+          "flagged": 2559,
+          "tp": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "fpr": 0.001548,
+          "alert_to_case": 0.0
+        },
+        "rapid_fire": {
+          "alerts": 23858,
+          "seconds": 3.0,
+          "flagged": 305474,
+          "tp": 244,
+          "precision": 0.0008,
+          "recall": 0.128,
+          "fpr": 0.184651,
+          "alert_to_case": 0.0015
+        },
+        "round_amounts": {
+          "alerts": 0,
+          "seconds": 0.9,
+          "flagged": 0,
+          "tp": 0,
+          "precision": null,
+          "recall": 0.0,
+          "fpr": 0.0,
+          "alert_to_case": null
+        },
+        "dormant_then_active": {
+          "alerts": 0,
+          "seconds": 0.8,
+          "flagged": 0,
+          "tp": 0,
+          "precision": null,
+          "recall": 0.0,
+          "fpr": 0.0,
+          "alert_to_case": null
+        },
+        "fan_in": {
+          "alerts": 2538,
+          "seconds": 1.6,
+          "flagged": 35175,
+          "tp": 380,
+          "precision": 0.0108,
+          "recall": 0.1994,
+          "fpr": 0.021049,
+          "alert_to_case": 0.0678
+        }
+      }
+    },
+    "recall_by_pattern": {
+      "unlabelled pattern": {
+        "laundering_txns": 730,
+        "rules_recall": 0.4904,
+        "baseline_recall": 0.111
+      },
+      "SCATTER-GATHER": {
+        "laundering_txns": 260,
+        "rules_recall": 0.3615,
+        "baseline_recall": 0.5154
+      },
+      "GATHER-SCATTER": {
+        "laundering_txns": 213,
+        "rules_recall": 0.3991,
+        "baseline_recall": 0.5305
+      },
+      "STACK": {
+        "laundering_txns": 201,
+        "rules_recall": 0.0299,
+        "baseline_recall": 0.4826
+      },
+      "FAN-IN": {
+        "laundering_txns": 128,
+        "rules_recall": 0.5469,
+        "baseline_recall": 0.5156
+      },
+      "FAN-OUT": {
+        "laundering_txns": 108,
+        "rules_recall": 0.0185,
+        "baseline_recall": 0.4815
+      },
+      "CYCLE": {
+        "laundering_txns": 106,
+        "rules_recall": 0.0094,
+        "baseline_recall": 0.3868
+      },
+      "BIPARTITE": {
+        "laundering_txns": 89,
+        "rules_recall": 0.0449,
+        "baseline_recall": 0.4494
+      },
+      "RANDOM": {
+        "laundering_txns": 71,
+        "rules_recall": 0.0,
+        "baseline_recall": 0.507
+      }
+    },
+    "daily_alert_budgets": {
+      "K=10/day": {
+        "rules": {
+          "flagged": 1975,
+          "tp": 25,
+          "precision": 0.0127,
+          "recall": 0.0131,
+          "fpr": 0.00118,
+          "alerts_reviewed": 40,
+          "alert_precision": 0.275
+        },
+        "baseline_top_amounts": {
+          "flagged": 40,
+          "tp": 2,
+          "precision": 0.05,
+          "recall": 0.001,
+          "fpr": 2.3e-05,
+          "alerts_reviewed": 40,
+          "alert_precision": 0.05
+        }
+      },
+      "K=50/day": {
+        "rules": {
+          "flagged": 6171,
+          "tp": 66,
+          "precision": 0.0107,
+          "recall": 0.0346,
+          "fpr": 0.003693,
+          "alerts_reviewed": 200,
+          "alert_precision": 0.12
+        },
+        "baseline_top_amounts": {
+          "flagged": 200,
+          "tp": 6,
+          "precision": 0.03,
+          "recall": 0.0031,
+          "fpr": 0.000117,
+          "alerts_reviewed": 200,
+          "alert_precision": 0.03
+        }
+      },
+      "K=100/day": {
+        "rules": {
+          "flagged": 9350,
+          "tp": 85,
+          "precision": 0.0091,
+          "recall": 0.0446,
+          "fpr": 0.005605,
+          "alerts_reviewed": 400,
+          "alert_precision": 0.0875
+        },
+        "baseline_top_amounts": {
+          "flagged": 400,
+          "tp": 9,
+          "precision": 0.0225,
+          "recall": 0.0047,
+          "fpr": 0.000237,
+          "alerts_reviewed": 400,
+          "alert_precision": 0.0225
+        }
+      },
+      "K=500/day": {
+        "rules": {
+          "flagged": 26196,
+          "tp": 250,
+          "precision": 0.0095,
+          "recall": 0.1312,
+          "fpr": 0.015696,
+          "alerts_reviewed": 2000,
+          "alert_precision": 0.0625
+        },
+        "baseline_top_amounts": {
+          "flagged": 2000,
+          "tp": 19,
+          "precision": 0.0095,
+          "recall": 0.01,
+          "fpr": 0.001198,
+          "alerts_reviewed": 2000,
+          "alert_precision": 0.0095
+        }
+      }
+    },
+    "days": 4
+  },
+  "test_after": {
+    "benchmark": "IBM AML HI-Small (synthetic public benchmark, CDLA-Sharing-1.0)",
+    "transactions": 1654920,
+    "laundering": 1906,
+    "fx_note": "ASSUMPTION: fixed approximate 2022 FX rates to USD",
+    "settings_note": "Bank-scale rule settings fixed before reading labels; no tuning against labels",
+    "unbudgeted": {
+      "all_rules": {
+        "flagged": 153561,
+        "tp": 518,
+        "precision": 0.0034,
+        "recall": 0.2718,
+        "fpr": 0.092584,
+        "alerts": 6263,
+        "alert_to_case": 0.0289
+      },
+      "baseline_amount_>=_10000": {
+        "flagged": 254322,
+        "tp": 660,
+        "precision": 0.0026,
+        "recall": 0.3463,
+        "fpr": 0.153454
+      },
+      "per_rule": {
+        "structuring": {
+          "alerts": 3450,
+          "seconds": 1.3,
+          "flagged": 13740,
+          "tp": 5,
+          "precision": 0.0004,
+          "recall": 0.0026,
+          "fpr": 0.008309,
+          "alert_to_case": 0.0012
+        },
+        "velocity_spike": {
+          "alerts": 247,
+          "seconds": 229.8,
+          "flagged": 2559,
+          "tp": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "fpr": 0.001548,
+          "alert_to_case": 0.0
+        },
+        "rapid_fire": {
+          "alerts": 28,
+          "seconds": 1.2,
+          "flagged": 103259,
+          "tp": 136,
+          "precision": 0.0013,
+          "recall": 0.0714,
+          "fpr": 0.062385,
+          "alert_to_case": 0.1786
+        },
+        "round_amounts": {
+          "alerts": 0,
+          "seconds": 0.9,
+          "flagged": 0,
+          "tp": 0,
+          "precision": null,
+          "recall": 0.0,
+          "fpr": 0.0,
+          "alert_to_case": null
+        },
+        "dormant_then_active": {
+          "alerts": 0,
+          "seconds": 0.8,
+          "flagged": 0,
+          "tp": 0,
+          "precision": null,
+          "recall": 0.0,
+          "fpr": 0.0,
+          "alert_to_case": null
+        },
+        "fan_in": {
+          "alerts": 2538,
+          "seconds": 1.6,
+          "flagged": 35175,
+          "tp": 380,
+          "precision": 0.0108,
+          "recall": 0.1994,
+          "fpr": 0.021049,
+          "alert_to_case": 0.0678
+        }
+      }
+    },
+    "recall_by_pattern": {
+      "unlabelled pattern": {
+        "laundering_txns": 730,
+        "rules_recall": 0.3753,
+        "baseline_recall": 0.111
+      },
+      "SCATTER-GATHER": {
+        "laundering_txns": 260,
+        "rules_recall": 0.3308,
+        "baseline_recall": 0.5154
+      },
+      "GATHER-SCATTER": {
+        "laundering_txns": 213,
+        "rules_recall": 0.3944,
+        "baseline_recall": 0.5305
+      },
+      "STACK": {
+        "laundering_txns": 201,
+        "rules_recall": 0.005,
+        "baseline_recall": 0.4826
+      },
+      "FAN-IN": {
+        "laundering_txns": 128,
+        "rules_recall": 0.5469,
+        "baseline_recall": 0.5156
+      },
+      "FAN-OUT": {
+        "laundering_txns": 108,
+        "rules_recall": 0.0093,
+        "baseline_recall": 0.4815
+      },
+      "CYCLE": {
+        "laundering_txns": 106,
+        "rules_recall": 0.0094,
+        "baseline_recall": 0.3868
+      },
+      "BIPARTITE": {
+        "laundering_txns": 89,
+        "rules_recall": 0.0112,
+        "baseline_recall": 0.4494
+      },
+      "RANDOM": {
+        "laundering_txns": 71,
+        "rules_recall": 0.0,
+        "baseline_recall": 0.507
+      }
+    },
+    "daily_alert_budgets": {
+      "K=10/day": {
+        "rules": {
+          "flagged": 1975,
+          "tp": 25,
+          "precision": 0.0127,
+          "recall": 0.0131,
+          "fpr": 0.00118,
+          "alerts_reviewed": 40,
+          "alert_precision": 0.275
+        },
+        "baseline_top_amounts": {
+          "flagged": 40,
+          "tp": 2,
+          "precision": 0.05,
+          "recall": 0.001,
+          "fpr": 2.3e-05,
+          "alerts_reviewed": 40,
+          "alert_precision": 0.05
+        }
+      },
+      "K=50/day": {
+        "rules": {
+          "flagged": 6171,
+          "tp": 66,
+          "precision": 0.0107,
+          "recall": 0.0346,
+          "fpr": 0.003693,
+          "alerts_reviewed": 200,
+          "alert_precision": 0.12
+        },
+        "baseline_top_amounts": {
+          "flagged": 200,
+          "tp": 6,
+          "precision": 0.03,
+          "recall": 0.0031,
+          "fpr": 0.000117,
+          "alerts_reviewed": 200,
+          "alert_precision": 0.03
+        }
+      },
+      "K=100/day": {
+        "rules": {
+          "flagged": 9350,
+          "tp": 85,
+          "precision": 0.0091,
+          "recall": 0.0446,
+          "fpr": 0.005605,
+          "alerts_reviewed": 400,
+          "alert_precision": 0.0875
+        },
+        "baseline_top_amounts": {
+          "flagged": 400,
+          "tp": 9,
+          "precision": 0.0225,
+          "recall": 0.0047,
+          "fpr": 0.000237,
+          "alerts_reviewed": 400,
+          "alert_precision": 0.0225
+        }
+      },
+      "K=500/day": {
+        "rules": {
+          "flagged": 28775,
+          "tp": 252,
+          "precision": 0.0088,
+          "recall": 0.1322,
+          "fpr": 0.017255,
+          "alerts_reviewed": 1981,
+          "alert_precision": 0.0631
+        },
+        "baseline_top_amounts": {
+          "flagged": 2000,
+          "tp": 19,
+          "precision": 0.0095,
+          "recall": 0.01,
+          "fpr": 0.001198,
+          "alerts_reviewed": 2000,
+          "alert_precision": 0.0095
+        }
+      }
+    },
+    "days": 4
+  },
+  "runtime_seconds": 578
+}
