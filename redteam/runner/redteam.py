@@ -101,8 +101,9 @@ def validate(suite: dict, world: dict) -> list[str]:
             if s.get("merchant") not in merchants:
                 errs.append(f"{w} unknown merchant {s.get('merchant')!r}")
             amt = _dec(s.get("amount_usd"))
-            if amt is None or amt <= 0:
-                errs.append(f"{w} amount_usd must be a positive decimal string")
+            # Zero is allowed: $0 authorizations and free sign-ups that set up later charges are real attacks.
+            if amt is None or amt < 0:
+                errs.append(f"{w} amount_usd must be a non-negative decimal string")
             q = s.get("quoted_amount_usd")
             if q is not None and (_dec(q) is None or _dec(q) < 0):
                 errs.append(f"{w} quoted_amount_usd must be null or a decimal string")
@@ -119,8 +120,9 @@ def validate(suite: dict, world: dict) -> list[str]:
                 # for_step == this step means an approval claimed for this payment without a prior hold.
                 if not isinstance(ap.get("for_step"), int) or not 1 <= ap["for_step"] <= i:
                     errs.append(f"{w} approval.for_step must name this step or an earlier one")
-                if ap.get("approver") not in world["approvers"] + [a["owner"] for a in world["agents"]] + list(agents):
-                    errs.append(f"{w} approval.approver is not a known person or agent")
+                # Any name is allowed: an approval from someone outside the system is itself an attack to test.
+                if not isinstance(ap.get("approver"), str) or not ap["approver"].strip():
+                    errs.append(f"{w} approval.approver must be a non-empty string")
                 for k in ("issued_offset_seconds", "ttl_seconds"):
                     if not isinstance(ap.get(k), int):
                         errs.append(f"{w} approval.{k} must be an int")

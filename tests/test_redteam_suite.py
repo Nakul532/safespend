@@ -116,3 +116,16 @@ def test_markdown_report_has_columns():
     md = rt.render_markdown({"none": rt.run_suite(rt.AllowAll(), suite, world),
                              "block": rt.run_suite(rt.BlockAll(), suite, world)})
     assert "| Metric | none | block |" in md and "SIMULATED" in md and "Adaptive attacks only" in md
+
+
+def test_validator_accepts_zero_amount_and_outside_approver_but_not_negative():
+    suite, world = rt.load(MINI)
+    ok = json.loads(json.dumps(suite))
+    step = ok["scenarios"][0]["steps"][1]
+    step["amount_usd"] = "0.00"  # e.g. a $0 authorization that sets up later charges
+    step["approval"] = {"approver": "someone-outside-the-system", "for_step": 2, "issued_offset_seconds": 0, "ttl_seconds": 900}
+    assert rt.validate(ok, world) == []
+    step["amount_usd"] = "-1.00"
+    step["approval"]["approver"] = " "
+    errs = rt.validate(ok, world)
+    assert any("non-negative" in e for e in errs) and any("approver must be" in e for e in errs)
