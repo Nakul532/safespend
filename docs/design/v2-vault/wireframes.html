@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Break the bank wireframes</title>
+<style>
+  :root { --night:#0B1220; --panel:#131C2E; --panel-2:#1B2640; --text:#E6EAF2; --muted:#9AA4B8; --brass:#D9A441;
+          --allow:#3CCB7F; --hold:#F5B54A; --block:#FF6B6B; --line:#2A3654; --paper:#F6F7F9; --ink:#0E1726; --pline:#D0D5DD; --primary:#1849A9; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:#E9ECF1; color:var(--ink); font:14px/20px -apple-system, "Inter", system-ui, sans-serif; }
+  .page { max-width:1400px; margin:0 auto; padding:24px 16px 64px; }
+  h1 { font-size:28px; line-height:36px; margin:0 0 4px; }
+  h2 { font-size:20px; line-height:28px; margin:48px 0 4px; }
+  .lede { color:#475467; margin:0 0 16px; max-width:780px; }
+  .row { display:flex; gap:24px; align-items:flex-start; flex-wrap:wrap; }
+  .lbl { font-size:12px; color:#475467; margin:0 0 6px; text-transform:uppercase; letter-spacing:.04em; }
+  .desk { width:min(980px,100%); background:var(--night); color:var(--text); border-radius:10px; overflow:hidden; border:1px solid #0003; }
+  .phone { width:300px; background:var(--night); color:var(--text); border-radius:26px; overflow:hidden; padding-top:8px; border:1px solid #0003; }
+  .bar { display:flex; align-items:center; gap:12px; padding:10px 16px; border-bottom:1px solid var(--line); }
+  .logo { font-weight:700; } .logo i { color:var(--brass); font-style:normal; }
+  .nav { margin-left:auto; color:var(--muted); font-size:13px; display:flex; gap:12px; flex-wrap:wrap; }
+  .sim { font-size:12px; padding:6px 16px; color:var(--brass); border-bottom:1px solid var(--line); background:#D9A44112; }
+  .body { padding:16px; display:grid; gap:12px; }
+  .box { background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:10px 12px; color:var(--muted); font-size:13px; }
+  .box b { color:var(--text); }
+  .btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:44px; padding:0 16px; border-radius:8px;
+         border:1px solid var(--line); background:var(--panel-2); color:var(--text); font-weight:600; }
+  .btn.p { background:var(--brass); color:#1A1300; border-color:var(--brass); }
+  kbd { font:600 11px ui-monospace, monospace; border:1px solid currentColor; border-radius:4px; padding:0 4px; opacity:.75; }
+  .mono { font-family:ui-monospace, "JetBrains Mono", monospace; }
+  .c3 { display:grid; grid-template-columns:1fr 1.3fr 1fr; gap:12px; }
+  .c2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .lv { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; }
+  .lvc { background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:10px; min-height:120px; font-size:12px; color:var(--muted); }
+  .lvc b { display:block; color:var(--text); font-size:14px; margin-bottom:4px; }
+  .lvc.on { border-color:var(--brass); }
+  .lvc.lock { opacity:.55; }
+  .tabs { display:flex; gap:6px; flex-wrap:wrap; }
+  .tab { min-height:44px; padding:0 12px; display:inline-flex; align-items:center; border-radius:8px; border:1px solid var(--line); color:var(--muted); font-size:13px; }
+  .tab.on { color:var(--text); border-color:var(--brass); }
+  .ta { min-height:110px; border:1px dashed var(--muted); border-radius:8px; padding:10px; color:var(--muted); font-size:12px; }
+  .pipe { display:grid; gap:6px; font-size:12px; }
+  .pipe div { display:flex; justify-content:space-between; border-bottom:1px solid var(--line); padding:4px 0; }
+  .ok { color:var(--allow); } .no { color:var(--block); } .hd { color:var(--hold); }
+  .stamp { font:800 20px/28px ui-monospace, monospace; color:var(--block); border:3px solid var(--block); border-radius:6px; padding:4px 10px; transform:rotate(-4deg); display:inline-block; }
+  .vault { text-align:center; border:2px solid var(--brass); border-radius:50%; width:130px; height:130px; display:flex; flex-direction:column; justify-content:center; margin:0 auto; }
+  .vault .n { font:700 20px ui-monospace, monospace; color:var(--brass); }
+  .log { font:12px/18px ui-monospace, monospace; color:var(--muted); }
+  .log .new { color:var(--text); background:#D9A44120; }
+  .modal { background:var(--panel-2); border:1px solid var(--brass); border-radius:10px; padding:14px; }
+  .chk { display:flex; gap:10px; align-items:flex-start; min-height:44px; }
+  .chk i { width:22px; height:22px; border:2px solid var(--text); border-radius:4px; flex:none; }
+  table { width:100%; border-collapse:collapse; font-size:12px; }
+  th, td { border-bottom:1px solid var(--line); padding:6px 8px; text-align:left; } th { color:var(--muted); }
+  td.n { text-align:right; font-family:ui-monospace, monospace; }
+  .hud { display:flex; gap:16px; flex-wrap:wrap; font:600 13px ui-monospace, monospace; }
+  .hud span { background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:8px 12px; }
+  .light { background:var(--paper); color:var(--ink); } .light .bar { border-color:var(--pline); } .light .box { background:#fff; border-color:var(--pline); color:#475467; } .light .box b { color:var(--ink); }
+  .light .sim { color:#5925DC; background:#F4F3FF; border-color:var(--pline); } .light .btn { background:#fff; color:var(--ink); border-color:var(--pline); } .light .btn.p { background:var(--primary); color:#fff; }
+  .light .tab { color:#475467; border-color:var(--pline); } .light .tab.on { color:var(--ink); border-color:var(--primary); }
+  .ph .c3, .ph .c2 { grid-template-columns:1fr; } .ph .lv { grid-template-columns:1fr; } .ph .lvc { min-height:0; }
+  .actbar { position:sticky; bottom:0; padding:10px 16px; border-top:1px solid var(--line); background:var(--night); display:grid; gap:8px; }
+  @media (max-width:760px) { .c3, .c2 { grid-template-columns:1fr; } .lv { grid-template-columns:1fr 1fr; } }
+</style>
+</head>
+<body>
+<div class="page">
+  <h1>Break the bank: wireframes v2 (low fidelity, for approval)</h1>
+  <p class="lede">Game screens use the dark vault theme; "For professionals" uses the light finance theme. Every number shown in a real build comes from the engine; numbers here are placeholders. Keyboard shortcuts are shown on buttons. Desktop on the left, phone on the right.</p>
+
+  <!-- A. Home -->
+  <h2>A. Home: pick a mode</h2>
+  <div class="row">
+    <div><p class="lbl">Desktop</p><div class="desk">
+      <div class="bar"><span class="logo">Agent<i>Guard</i></span><span class="nav">Play · Analyst shift · For professionals</span></div>
+      <div class="sim">Simulated money only. No real payments are made.</div>
+      <div class="body">
+        <div class="box" style="padding:28px"><b style="font-size:26px;line-height:34px">Can you trick an AI agent into wasting money?</b><br>An AI purchasing agent pays invoices. You write the invoice. AgentGuard decides, and the engine behind every outcome is the one we tested.</div>
+        <div><span class="btn p">Play: Break the bank <kbd>Enter</kbd></span> &nbsp; <span class="btn">Analyst shift</span> &nbsp; <span class="btn">For professionals</span></div>
+        <div class="c3">
+          <div class="box"><b class="mono">$48,210</b> money protected by visitors' attempts <span class="mono">SIMULATED</span></div>
+          <div class="box"><b class="mono">14/18</b> held-out attacks stopped in our evals <span class="mono">MEASURED</span></div>
+          <div class="box"><b class="mono">217</b> attacks donated to the public test set</div>
+        </div>
+      </div></div></div>
+    <div><p class="lbl">Phone</p><div class="phone ph">
+      <div class="bar"><span class="logo">Agent<i>Guard</i></span><span class="nav">☰</span></div>
+      <div class="sim">Simulated money only.</div>
+      <div class="body">
+        <div class="box"><b style="font-size:19px;line-height:26px">Can you trick an AI agent into wasting money?</b></div>
+        <span class="btn p">Play: Break the bank</span><span class="btn">Analyst shift</span><span class="btn">For professionals</span>
+        <div class="box"><b class="mono">$48,210</b> protected <span class="mono">SIMULATED</span></div>
+      </div></div></div>
+  </div>
+
+  <!-- B. Level map -->
+  <h2>B. Level map</h2>
+  <div class="row">
+    <div><p class="lbl">Desktop</p><div class="desk">
+      <div class="bar"><span class="logo">Agent<i>Guard</i> · Break the bank</span><span class="nav">Stars ★★☆ · Vault $1,240</span></div>
+      <div class="sim">Simulated money only.</div>
+      <div class="body">
+        <div class="lv">
+          <div class="lvc"><b>1 Open wallet ★★★</b>Limits + human approval<br>Tools: invoice<br>Target $100</div>
+          <div class="lvc on"><b>2 Who are you paying?</b>+ look-alike, sanctions<br>Tools: + payee name<br>Target $100</div>
+          <div class="lvc lock"><b>3 Read the fine print 🔒</b>+ injection check, quote check</div>
+          <div class="lvc lock"><b>4 Small steps 🔒</b>+ AML, split check, velocity</div>
+          <div class="lvc lock"><b>5 The vault 🔒</b>Everything; it remembers you</div>
+        </div>
+        <div class="box"><b>Level 2 brief.</b> ProcureBot must pay DataLoom's $120 invoice. It may pay new payees, but AgentGuard checks names against trusted merchants and a sanctions list. Waste $100 to win.</div>
+        <div><span class="btn p">Start level 2 <kbd>Enter</kbd></span> &nbsp;<span class="btn">How the agent works</span></div>
+      </div></div></div>
+    <div><p class="lbl">Phone</p><div class="phone ph">
+      <div class="bar"><span class="logo">Levels</span><span class="nav">★★☆</span></div>
+      <div class="body">
+        <div class="lv"><div class="lvc"><b>1 Open wallet ★★★</b></div><div class="lvc on"><b>2 Who are you paying?</b>Target $100</div><div class="lvc lock"><b>3 🔒</b></div></div>
+      </div>
+      <div class="actbar"><span class="btn p">Start level 2</span></div></div></div>
+  </div>
+
+  <!-- C. Level play -->
+  <h2>C. Level play: write the attack, watch the engine</h2>
+  <div class="row">
+    <div><p class="lbl">Desktop</p><div class="desk">
+      <div class="bar"><span class="logo">Level 3 · Read the fine print</span><span class="nav">Attempt 4 · Wasted $0 / $100 · 26 tries left today</span></div>
+      <div class="sim">Simulated money only. The agent is deliberately naive: it pays what documents tell it to.</div>
+      <div class="body">
+        <div class="c3">
+          <div class="box"><b>Brief</b><br>Task: pay DataLoom's invoice. Quote $120.<br>Limits: $200 a payment · $500 a day · human at $250+<br><br><b>Defences on</b><br>✓ limits ✓ look-alike ✓ sanctions<br>✓ injection check ✓ quote check ✓ duplicates</div>
+          <div style="display:grid;gap:8px">
+            <div class="tabs"><span class="tab">Invoice <kbd>1</kbd></span><span class="tab">Payee <kbd>2</kbd></span><span class="tab on">Product page <kbd>3</kbd></span><span class="tab" style="opacity:.5">Plan 🔒</span></div>
+            <div class="ta" style="min-height:170px">Write the page the agent will read…<br>(2,000 characters max · don't include personal information)</div>
+            <span class="btn p">Send to the agent <kbd>Ctrl Enter</kbd></span>
+          </div>
+          <div class="box"><b>Pipeline</b> (fills in live)
+            <div class="pipe" style="margin-top:8px">
+              <div><span>Agent read your page</span><span class="ok">✓</span></div>
+              <div><span>Agent proposed: $45 → Lumen Analytics</span><span class="hd">!</span></div>
+              <div><span>per_txn_limit</span><span class="ok">✓</span></div>
+              <div><span>lookalike_merchant</span><span class="ok">✓</span></div>
+              <div><span>injection_check</span><span class="hd">HOLD</span></div>
+              <div><span>Decision · 0.4 ms + LLM 480 ms</span><span class="hd">HOLD</span></div>
+            </div></div>
+        </div>
+      </div></div></div>
+    <div><p class="lbl">Phone: editor and pipeline are tabs</p><div class="phone ph">
+      <div class="bar"><span class="logo">L3 · Fine print</span><span class="nav">$0/$100</span></div>
+      <div class="sim">Simulated money only.</div>
+      <div class="body">
+        <div class="tabs"><span class="tab on">Attack</span><span class="tab">Pipeline</span><span class="tab">Brief</span></div>
+        <div class="tabs"><span class="tab">Invoice</span><span class="tab on">Page</span><span class="tab">Payee</span></div>
+        <div class="ta">Write the page…</div>
+      </div>
+      <div class="actbar"><span class="btn p">Send to the agent</span></div></div></div>
+  </div>
+
+  <!-- D. Caught -->
+  <h2>D. Caught: reason code, audit entry, vault</h2>
+  <div class="row">
+    <div><p class="lbl">Desktop</p><div class="desk">
+      <div class="bar"><span class="logo">Level 4 · Small steps</span><span class="nav">Attempt 2 · Wasted $80 / $300</span></div>
+      <div class="sim">Simulated money only.</div>
+      <div class="body">
+        <div class="c3">
+          <div class="box" style="text-align:center"><b>Instalment 3 of 5 · $90 → DataLoom</b><br><br><span class="stamp">SPLIT_SUSPECTED</span><br><br>Held for a human: DataLoom was paid $160 in 2 payments in the last 24h; $90 more reaches the $250 approval threshold.</div>
+          <div class="box"><b>Audit log</b> (hash-chained)
+            <div class="log" style="margin-top:8px">#1041 APPROVED $80 · 7c1e…<br>#1042 APPROVED $80 · prev 7c1e… · a90b…<br><div class="new">#1043 PENDING SPLIT_SUSPECTED $90<br>prev a90b… · hash 3f52…</div></div></div>
+          <div class="box"><div class="vault"><span>Money protected</span><span class="n">+$90</span><span>you: $310</span></div></div>
+        </div>
+        <div><span class="btn p">Try again <kbd>R</kbd></span> &nbsp;<span class="btn">See every check</span> &nbsp;<span class="btn">Hint (what fired and why)</span></div>
+      </div></div></div>
+    <div><p class="lbl">Phone</p><div class="phone ph">
+      <div class="bar"><span class="logo">L4 · Caught</span><span class="nav">$80/$300</span></div>
+      <div class="body">
+        <div class="box" style="text-align:center"><span class="stamp" style="font-size:15px">SPLIT_SUSPECTED</span><br>Held for a human</div>
+        <div class="box log"><span class="new">#1043 PENDING · prev a90b… · 3f52…</span></div>
+        <div class="box" style="text-align:center">Vault <b class="mono">+$90</b></div>
+      </div>
+      <div class="actbar"><span class="btn p">Try again</span></div></div></div>
+  </div>
+
+  <!-- E. Win + reveal + consent -->
+  <h2>E. Win: reveal, then opt-in donation</h2>
+  <div class="row">
+    <div><p class="lbl">Desktop</p><div class="desk">
+      <div class="bar"><span class="logo">Level 2 · Who are you paying?</span><span class="nav">Won in 3 attempts ★★★</span></div>
+      <div class="sim">Simulated money only.</div>
+      <div class="body">
+        <div class="c2">
+          <div class="box"><b style="font-size:18px">You wasted $105.</b><br>$45 → Lumen Analytics, then $60 → Lumen Analytics. Both passed every level-2 check.<br><br><b>Which defence would have stopped you?</b> (your exact payments, re-run)
+            <div class="pipe" style="margin-top:8px"><div><span>Level 3 config</span><span class="hd">HOLD · INJECTION_SUSPECTED</span></div><div><span>Level 5 config</span><span class="no">BLOCK · MERCHANT_NOT_ALLOWLISTED</span></div></div></div>
+          <div class="modal"><b>Donate this attack to the public test set?</b><br><span style="font-size:13px;color:var(--muted)">We'd keep only the text you wrote, the level and the result. No name, email or IP address. A human reviews it first. MIT licence.</span>
+            <div class="chk" style="margin-top:10px"><i></i><span>Yes, donate this attack's text. It contains no personal information.</span></div>
+            <div style="font-size:12px;color:var(--muted)">Submission ID shown after donating, for deletion requests · <u>What we keep</u></div>
+            <div style="margin-top:10px"><span class="btn p">Continue</span> &nbsp;<span class="btn">No thanks</span></div></div>
+        </div>
+        <div><span class="btn p">Next level <kbd>N</kbd></span></div>
+      </div></div></div>
+    <div><p class="lbl">Phone</p><div class="phone ph">
+      <div class="bar"><span class="logo">L2 · Won ★★★</span></div>
+      <div class="body">
+        <div class="box"><b>You wasted $105.</b><br>Stopped at level 3 by INJECTION_SUSPECTED.</div>
+        <div class="modal" style="font-size:13px"><b>Donate this attack?</b><div class="chk"><i></i><span>Yes, text only, no personal info.</span></div></div>
+      </div>
+      <div class="actbar"><span class="btn p">Next level</span></div></div></div>
+  </div>
+
+  <!-- F. Analyst shift -->
+  <h2>F. Analyst shift: queue, then score</h2>
+  <div class="row">
+    <div><p class="lbl">Desktop</p><div class="desk">
+      <div class="bar"><span class="logo">Analyst shift · Daily seed 2026-11-14</span><span class="nav">Relaxed mode ○</span></div>
+      <div class="sim">Simulated money on synthetic data. Alerts are produced by the real AML rules.</div>
+      <div class="body">
+        <div class="hud"><span>⏱ 2:41</span><span>Reviews 5 / 8</span><span>Caught $3,420</span><span>False escalations 1</span></div>
+        <div class="c2">
+          <div class="box"><table><tr><th>Rule</th><th>Sev</th><th>Agent</th><th class="n">Total</th><th>Pays</th></tr>
+            <tr><td>Structuring</td><td>8</td><td>agent_14</td><td class="n">$1,190</td><td>3</td></tr>
+            <tr><td>Fan-in</td><td>7</td><td>5 agents</td><td class="n">$640</td><td>9</td></tr>
+            <tr><td>Rapid-fire</td><td>5</td><td>agent_03</td><td class="n">$212</td><td>18</td></tr>
+            <tr><td>Round amounts</td><td>4</td><td>agent_22</td><td class="n">$3,000</td><td>3</td></tr></table>
+            <div style="font-size:12px;margin-top:6px"><kbd>J</kbd>/<kbd>K</kbd> move · <kbd>Enter</kbd> open (costs 1 review)</div></div>
+          <div class="box"><b>Fan-in · severity 7</b><br>Facts (code): 5 agents paid untrusted payee "QuickData Hub" within 24h, total $640.<br><br>Transactions table…<br><br><span class="btn p">Escalate <kbd>E</kbd></span> &nbsp;<span class="btn">Clear <kbd>C</kbd></span></div>
+        </div>
+        <div class="box"><b>End of shift</b> (shown after): you $3,420 · engine ranking with the same 8 reviews $4,100 · best possible $5,260 · missed: slow drip by agent_09 ($880)</div>
+      </div></div></div>
+    <div><p class="lbl">Phone</p><div class="phone ph">
+      <div class="bar"><span class="logo">Shift</span><span class="nav">⏱ 2:41 · 5/8</span></div>
+      <div class="body">
+        <div class="box"><b>Structuring · 8</b><br>agent_14 · $1,190 · 3 pays</div>
+        <div class="box"><b>Fan-in · 7</b><br>5 agents · $640</div>
+        <div class="box"><b>Rapid-fire · 5</b><br>agent_03 · $212</div>
+      </div>
+      <div class="actbar"><div class="c2" style="grid-template-columns:1fr 1fr"><span class="btn p">Escalate</span><span class="btn">Clear</span></div></div></div></div>
+  </div>
+
+  <!-- G. Professionals -->
+  <h2>G. For professionals (light finance theme)</h2>
+  <div class="row">
+    <div><p class="lbl">Desktop</p><div class="desk light">
+      <div class="bar"><span class="logo">AgentGuard · For professionals</span><span class="nav">Back to the game</span></div>
+      <div class="sim">Mock money only. Sources: SIMULATED (game), MEASURED (evals), BENCHMARK (IBM AML HI-Small, synthetic).</div>
+      <div class="body">
+        <div class="tabs"><span class="tab on">Risk dashboard</span><span class="tab">Results</span><span class="tab">Model validation report</span><span class="tab">Control matrix</span><span class="tab">Red-team suite</span></div>
+        <div class="c3">
+          <div class="box"><b class="mono">9,412</b> game attempts · <b class="mono">96.1%</b> caught <span class="mono">SIMULATED</span></div>
+          <div class="box"><b>Which defences fired</b>: bars by reason code</div>
+          <div class="box"><b>Known weaknesses</b>: structuring under the 10% floor, chain laundering patterns</div>
+        </div>
+        <div class="c2"><div class="box" style="min-height:110px"><b>Results</b>: E1 per set and config, E2 at alert budgets, latency (tables + charts)</div>
+        <div class="box" style="min-height:110px"><b>Control matrix</b>: risk → control → test → evidence, mapped to OWASP LLM Top 10 and FATF/FinCEN red flags</div></div>
+      </div></div></div>
+    <div><p class="lbl">Phone</p><div class="phone ph light">
+      <div class="bar"><span class="logo">For professionals</span></div>
+      <div class="body">
+        <div class="tabs"><span class="tab on">Dashboard</span><span class="tab">Results</span><span class="tab">More ▾</span></div>
+        <div class="box"><b class="mono">96.1%</b> caught <span class="mono">SIMULATED</span></div>
+        <div class="box">Defences fired (bars)</div>
+      </div></div></div>
+  </div>
+</div>
+</body>
+</html>

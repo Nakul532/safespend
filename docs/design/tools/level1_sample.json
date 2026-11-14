@@ -1,0 +1,37 @@
+{
+ "outcome": "PENDING_APPROVAL",
+ "reason": "APPROVAL_REQUIRED",
+ "detail": "payment is at or above the approval threshold",
+ "checks": [
+  "circuit_breaker",
+  "agent_known",
+  "agent_active",
+  "amount_valid",
+  "merchant_known",
+  "lookalike_merchant",
+  "merchant_allowlist",
+  "sanctions",
+  "price_matches_quote",
+  "injection_check",
+  "recurring_commitment",
+  "stored_credential",
+  "per_txn_limit",
+  "merchant_daily_limit",
+  "agent_daily_budget",
+  "owner_daily_budget",
+  "agent_velocity",
+  "owner_velocity",
+  "duplicate_heuristic",
+  "sufficient_funds",
+  "split_check",
+  "aml_hold",
+  "human_approval"
+ ],
+ "decision_id": "D0000001",
+ "payment_hash": "25828c8dea76ead727f0e370aef3535a6fc1cf419614e6330729091d8d467194",
+ "audit": {
+  "seq": 1,
+  "hash": "32edfaacf6cf0051734298a1a87b6fe6ceadf841fffcf7d4daa4bb145eea11e0",
+  "prev_hash": "0000000000000000000000000000000000000000000000000000000000000000"
+ }
+}
