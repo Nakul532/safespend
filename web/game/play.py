@@ -129,10 +129,13 @@ def _rec(r) -> dict:
 
 def reveal(world: World, attempts: list[dict], *, llm=None, store=None) -> list[dict]:
     """Re-run the exact attempts under each later defence level and the boss configuration."""
+    base = run(world, attempts, llm=llm, store=store)
+    got_through = {(a["n"], i) for a in base["attempts"] for i, row in enumerate(a["rows"]) if row["settled"] and row["waste"]}
     out = []
     for lv in range(world.level + 1, 7):
         r = run(world, attempts, llm=llm, store=store, defence_level=lv)
-        first = next((row for a in r["attempts"] for row in a["rows"] if row["waste"] and not row["settled"]), None)
+        first = next((row for a in r["attempts"] for i, row in enumerate(a["rows"])
+                      if (a["n"], i) in got_through and not row["settled"]), None)
         out.append({"defence_level": lv, "label": "Boss (full, as evaluated)" if lv == 6 else f"Level {lv} defences",
                     "stopped": not r["won"], "first_catch": first and {"reason": first["reason"], "outcome": first["outcome"],
                                                                      "payee": first["payee"], "amount": first["amount"]},

@@ -24,3 +24,6 @@ redteam/heldout/*-raw.txt
 # Datasets (licensed separately; never committed)
 data/
 eval/cache/
+web/.local/
+.vercel/
+__pycache__/
