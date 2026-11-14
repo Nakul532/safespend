@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>What we keep · AgentGuard</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet"><link rel="stylesheet" href="/assets/app.css"></head>
+<body class="ledger-bg">
+<header class="top"><div class="wrap"><a class="brand" href="/">Agent<b>Guard</b></a><nav class="nav"><a href="/play">Break the bank</a><a href="/shift">Analyst shift</a><a href="/pro">For professionals</a></nav></div></header>
+<main class="wrap" style="max-width:760px;padding:24px 16px">
+<div class="card"><h1>What we keep</h1>
+<p><strong>While you play:</strong> a random ID in a cookie, so your level progress survives a reload, and the text you send to the agent with the agent's reply, so the engine can replay your level. No name, email or account.</p>
+<p><strong>For limits:</strong> a daily count of tries per cookie and per hashed IP address. The hash uses a secret that changes every day and is never stored next to anything you wrote.</p>
+<p><strong>Only if you tick "Let AgentGuard learn from my attack":</strong> the text of that winning attack, the level and the result, under a submission ID shown to you. We scrub it for personal data and a person reviews it before it is used in a future visitor-submitted test set. Never asked for losing attempts. At most 3 a day per visitor and 200 a month in total.</p>
+<p><strong>Delete a donation:</strong> enter its ID.</p>
+<div class="field"><label for="sid">Submission ID</label><input type="text" id="sid" placeholder="D-1A2B3C4D"></div>
+<button class="btn btn-s" id="del">Delete it</button><p id="msg" role="status" class="hint"></p></div></main>
+<script type="module">
+import { api, esc } from "/assets/common.js";
+document.getElementById("del").onclick = async () => { const r = await api("/api/donate/delete", { submission_id: document.getElementById("sid").value.trim() });
+  document.getElementById("msg").textContent = r.deleted ? "Deleted." : "No donation with that ID."; };
+</script></body></html>

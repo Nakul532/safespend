@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>For professionals · AgentGuard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/app.css">
+<style>
+  body { background:var(--surface); }
+  .doc { max-width:1100px; padding-top:16px; padding-bottom:32px; }
+  .doc h2 { margin-top:32px; } .doc h3 { margin-top:20px; font-size:17px; }
+  .doc section { display:none; } .doc section.on { display:block; }
+  .cell b { font-family:var(--mono); } .cell small { color:var(--ink-2); display:block; font-size:12px; }
+  .chart text { font:12px var(--sans); fill:var(--ink-2); } .chart .lab { fill:var(--ink); }
+  .legend { display:flex; gap:16px; flex-wrap:wrap; font-size:13px; color:var(--ink-2); } .legend i { display:inline-block; width:12px; height:12px; border-radius:2px; margin-right:6px; vertical-align:-1px; }
+  code { font-family:var(--mono); font-size:13px; }
+  @media print { .top, .sim, .tabs, .foot, .noprint { display:none !important; } .doc section { display:block !important; page-break-before:always; } }
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="/">Agent<b>Guard</b></a>
+  <nav class="nav" aria-label="Main"><a href="/play">Break the bank</a><a href="/shift">Analyst shift</a><a href="/pro" aria-current="page">For professionals</a></nav>
+</div></header>
+<div class="sim"><div class="wrap"><p><strong>Simulated money.</strong> Sources: MEASURED (our evaluations), BENCHMARK (IBM AML HI-Small, synthetic), SIMULATED (the game).</p></div></div>
+<main class="wrap doc">
+  <h1>The evidence</h1>
+  <p class="muted">Every number on this page is generated from <code>eval/results/</code> by <code>web/build_pro.py</code>. Held-out results come first; the builder never read the held-out scenarios. <button class="btn btn-s noprint" onclick="print()">Print everything</button></p>
+  <div class="tabs noprint" role="tablist" id="tabs"></div>
+  <div id="sections"><p class="muted">Loading…</p></div>
+</main>
+<footer class="foot"><div class="wrap">Source code, the MIT red-team suite and full tables: the repository's <code>eval/RESULTS.md</code>.</div></footer>
+<script type="module" src="/assets/pro.js"></script>
+</body>
+</html>

@@ -77,6 +77,11 @@ def page(page):
     return send_from_directory(PUBLIC, page)
 
 
+@app.get("/data/<path:p>")
+def data(p):
+    return send_from_directory(PUBLIC / "data", p)
+
+
 @app.get("/assets/<path:p>")
 def assets(p):
     return send_from_directory(PUBLIC / "assets", p)
@@ -114,8 +119,10 @@ def level_state(key):
         return respond({"error": "unknown level"}, status=404)
     vid = visitor()
     att = store.attempts(vid[0], key)
-    res = run(WORLDS[key], att, llm=llm(), store=store.KV("llm:")) if att else None
-    return respond({"level": world_info(WORLDS[key]), "attempts": att, "result": res}, vid)
+    kv = store.KV("llm:")
+    res = run(WORLDS[key], att, llm=llm(), store=kv) if att else None
+    rv = reveal(WORLDS[key], att, llm=llm(), store=kv) if res and res["won"] else None
+    return respond({"level": world_info(WORLDS[key]), "attempts": att, "result": res, "reveal": rv}, vid)
 
 
 @app.post("/api/attempt")
