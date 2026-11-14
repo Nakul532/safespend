@@ -32,11 +32,15 @@ class PolicyConfig:
     # Added after lock (Stage 4 game, level 4). Off by default = Stage 1 behaviour.
     commitment_check: bool = False  # hold recurring commitments and stored credentials for a human
     commitment_horizon_days: int = 365  # horizon for the worst-case amount of a commitment
+    # Game levels only (Stage 4): checks to skip, so early levels genuinely lack later defences.
+    # Empty = every check runs. The boss level and every eval config leave this empty.
+    disabled_checks: frozenset[str] = frozenset()
 
     @property
     def config_hash(self) -> str:
         data = asdict(self)
         data["owner_daily_budgets"] = dict(self.owner_daily_budgets)
+        data["disabled_checks"] = sorted(self.disabled_checks)
         return sha256_hex(data)
 
 

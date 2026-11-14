@@ -119,13 +119,14 @@ class InjectionChecker:
     """Heuristics + optional LLM, with an on-disk cache so eval runs are repeatable and cheap."""
 
     def __init__(self, llm: LlmClient | None = None, *, model: str | None = None, cache_dir: Path | None = None,
-                 run_tag: str = "run1", min_interval_s: float = 0.0, max_retries: int = 6) -> None:
+                 run_tag: str = "run1", min_interval_s: float = 0.0, max_retries: int = 6, store: Any = None) -> None:
         self.llm = llm
         self.model = model
         self.cache_dir = cache_dir
         self.run_tag = run_tag  # part of the cache key, so repeated runs make fresh calls
         self.min_interval_s = min_interval_s
         self.max_retries = max_retries
+        self.store = store  # optional get(key)->dict|None / put(key, dict) cache (the web game uses its database)
         self._last_call = 0.0
         self.calls = 0
         self.cache_hits = 0
@@ -137,10 +138,10 @@ class InjectionChecker:
         content = f"[task the owner gave]\n{context.get('task') or ''}\n\n{content}"
         key = hashlib.sha256(json.dumps([self.run_tag, self.model, SYSTEM_PROMPT, content]).encode()).hexdigest()
         path = self.cache_dir / f"{key}.json" if self.cache_dir else None
-        if path and path.exists():
+        d = json.loads(path.read_text()) if path and path.exists() else (self.store.get(key) if self.store else None)
+        if d is not None:
             self.cache_hits += 1
             self.last_cached = True
-            d = json.loads(path.read_text())
             return d["flagged"], d["confidence"], tuple(d["reasons"]), d["latency_ms"], d.get("error")
         self.last_cached = False
         messages = [{"role": "system", "content": SYSTEM_PROMPT}, {"role": "user", "content": content}]
@@ -174,9 +175,12 @@ class InjectionChecker:
                 out = (flagged, str(data.get("confidence")), tuple(r for r in reasons if r), resp.latency_ms, None)
             except (json.JSONDecodeError, AttributeError, TypeError):
                 out = (True, "unparseable", ("model reply was not valid JSON",), resp.latency_ms, "unparseable")
-        if path and out[4] is None:  # never cache failures
-            path.write_text(json.dumps({"flagged": out[0], "confidence": out[1], "reasons": list(out[2]),
-                                        "latency_ms": out[3], "error": out[4]}))
+        if out[4] is None:  # never cache failures
+            rec = {"flagged": out[0], "confidence": out[1], "reasons": list(out[2]), "latency_ms": out[3], "error": out[4]}
+            if path:
+                path.write_text(json.dumps(rec))
+            if self.store:
+                self.store.put(key, rec)
         return out
 
     def check(self, context: Mapping[str, Any], *, borderline: bool = False) -> InjectionResult:

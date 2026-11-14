@@ -71,3 +71,15 @@ def test_detection_patterns():
     assert detect_terms(CARD).credential
     assert detect_terms(PLAIN).kinds == () and not detect_terms(PLAIN).credential
     assert "recurring" in detect_terms({"p": "Billed annually. Renews automatically."}).kinds
+
+
+def test_disabled_checks_skip_and_are_audited(clock):
+    from agentguard.audit import EventType
+    guard = make_guard(clock, policy=PolicyConfig(disabled_checks=frozenset({"merchant_allowlist"})))
+    d = guard.submit_payment(req(merchant="m_oracleai"))  # not on agent_001's allowlist
+    assert d.approved and "merchant_allowlist" not in d.checks_evaluated
+    rec = guard.audit.by_type(EventType.DECISION)[-1]
+    assert rec.payload["checks_skipped"] == ["merchant_allowlist"]
+    import pytest
+    with pytest.raises(ValueError):
+        make_guard(clock, policy=PolicyConfig(disabled_checks=frozenset({"nope"}))).submit_payment(req())

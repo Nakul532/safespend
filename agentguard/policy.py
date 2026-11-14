@@ -451,7 +451,17 @@ class PolicyEngine:
         c = _Ctx(self, req)
         failures: list[CheckResult] = []
         evaluated: list[str] = []
+        names = {n for n, _ in self.CHECK_ORDER}
+        unknown = set(self.config.disabled_checks) - names
+        if unknown:
+            raise ValueError(f"unknown checks in disabled_checks: {sorted(unknown)}")
+        if "idempotency_key" in self.config.disabled_checks:
+            raise ValueError("idempotency cannot be disabled")
+        skipped: list[str] = []
         for name, check in self.CHECK_ORDER:
+            if name in self.config.disabled_checks:
+                skipped.append(name)
+                continue
             evaluated.append(name)
             result = check(self, c)
             if result is not None:
@@ -483,7 +493,7 @@ class PolicyEngine:
             decided_at=c.now,
             permit=permit,
         )
-        self._audit_decision(req, d)
+        self._audit_decision(req, d, skipped)
         self.idempotency.put(req.agent_id, req.idempotency_key, req.payment_hash, d)
         if outcome is Outcome.PENDING_APPROVAL:
             self.approvals.register_pending(req, decision_id)

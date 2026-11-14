@@ -1,0 +1,7 @@
+{
+ "file": "intent-v1.json",
+ "sha256": "3bcade6034788d1849f726154f60843fbed30241d1d6d97cf35c5e56c2560c06",
+ "cases": 26,
+ "locked_before": "the intent check existed; builder has not read the cases",
+ "label": "added after lock (Stage 4)"
+}
