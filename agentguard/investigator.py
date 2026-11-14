@@ -22,8 +22,10 @@ from .aml.rules import Alert
 from .llm.client import LlmConfigError, LlmError, LlmRateLimited
 from .money import fmt_usd
 
-PROMPT_VERSION = "v2"  # v2: may not argue against the alert's computed facts (found in hand review)
-FILTER_VERSION = "v1.1"  # v1.1 (found in E3): also drop spelled-out numbers, which v1 let through
+PROMPT_VERSION = "v3"  # v2: may not argue against computed facts; v3: no number words either
+FILTER_VERSION = "v1.2"  # v1.1: drop spelled-out numbers; v1.2 (hand review): drop sentences that excuse the flagged pattern
+_EXCUSES = re.compile(r"\b(routine|normal|legitimate|innocent|innocuous|benign|typical|ordinary|expected|nothing unusual|"
+                      r"business as usual|consistent with (?:normal|regular|routine|legitimate|business))\b", re.I)
 _ID = re.compile(r"\bT\d{7}\b")
 _NUMBER_WORDS = re.compile(r"\b(two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|"
                            r"sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|hundred|thousand|dozen)\b", re.I)
@@ -35,7 +37,8 @@ is not suspicious, and what would explain it innocently. Then recommend one of: 
 Rules:
 - Every sentence must cite the transaction IDs it relies on, in square brackets, like [T0000123].
 - Cite only IDs listed in the evidence. Do not invent facts that are not in the evidence.
-- Do not write any numbers: no amounts, counts, dates, times or percentages. Say "several", "just under the threshold",
+- Do not write any numbers, as digits OR as words: no amounts, counts, dates, times or percentages, and no words such as
+  "two", "three", "four", "dozen" or "hundred". Say "several", "a few", "multiple", "just under the threshold",
   "within minutes" instead. The analyst sees the exact figures next to your note.
 - The rule explanation was computed by code from the ledger and is true. Never dispute it, and never describe the very
   pattern the rule detected as routine or normal: payments kept just under an approval threshold ARE the structuring red
@@ -109,6 +112,9 @@ def verify(alert_id: str, data: dict, allowed: set[str], identifiers: set[str]) 
             note.dropped["contains a number"] += 1
         elif _NUMBER_WORDS.search(scrub):
             note.dropped["contains a spelled-out number"] += 1
+        elif _EXCUSES.search(scrub):
+            # The rule's facts are computed by code and true; the model may not argue them away.
+            note.dropped["argues against the alert's computed facts"] += 1
         else:
             note.sentences.append({"text": text, "cites": sorted(cites)})
     return note

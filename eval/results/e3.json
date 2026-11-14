@@ -1,25 +1,29 @@
 {
- "alerts": 30,
+ "alerts": 31,
+ "includes_reported_case": "seed 20261114, AML_TEAM_STRUCTURING (from hand review)",
+ "investigator_prompt": "v3",
  "investigator_model": "openai/gpt-oss-120b",
  "judge_model": "qwen/qwen3.8-27b",
  "totals": {
-  "alerts": 30,
+  "alerts": 31,
   "notes_with_error": 0,
-  "raw_sentences": 94,
-  "kept_sentences": 67,
-  "cited_total": 466,
+  "raw_sentences": 76,
+  "kept_sentences": 30,
+  "cited_total": 446,
   "cited_unknown": 0,
-  "notes_shown": 30,
-  "dropped: contains a spelled-out number": 22,
-  "dropped: contains a number": 5
+  "notes_shown": 21,
+  "dropped: contains a spelled-out number": 24,
+  "dropped: argues against the alert's computed facts": 21,
+  "notes_contradicting_rule": 0,
+  "dropped: contains a number": 1
  },
  "citation_existence_rate": 1.0,
  "judge_verdicts_on_kept_sentences": {
-  "partly": 9,
-  "supported": 50,
-  "unsupported": 8
+  "supported": 27,
+  "unsupported": 1,
+  "partly": 2
  },
- "judge_version": "v2: judge sees the same row fields as the investigator (v1 omitted category, trust, team and threshold)",
+ "judge_version": "v3: same row fields as the investigator; also asks whether the sentence argues against the rule's computed facts",
  "judge_v1_verdicts_stripped_rows": {
   "supported": 32,
   "partly": 23,
@@ -31,13 +35,14 @@
   "partly": 11,
   "unsupported": 9
  },
- "filter_version": "v1.1",
+ "investigator_v1_results": "eval/results/e3_v1.json (30 alerts, prompt v1)",
+ "investigator_v2_results": "eval/results/e3_v2.json (31 alerts, prompt v2)",
+ "filter_version": "v1.2",
  "recommendation_vs_truth": {
-  "laundering -> more_info": 4,
-  "benign -> more_info": 3,
-  "laundering -> clear": 3,
-  "benign -> clear": 11,
-  "laundering -> escalate": 9
+  "laundering -> escalate": 14,
+  "laundering -> more_info": 3,
+  "benign -> more_info": 8,
+  "benign -> escalate": 6
  },
  "numbers_in_shown_text": 0,
  "note": "Numbers shown with a note come from code; the filter guarantees no model-written digits are displayed."

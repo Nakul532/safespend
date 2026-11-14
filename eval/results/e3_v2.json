@@ -1,0 +1,49 @@
+{
+ "alerts": 31,
+ "includes_reported_case": "seed 20261114, AML_TEAM_STRUCTURING (from hand review)",
+ "investigator_prompt": "v2",
+ "investigator_model": "openai/gpt-oss-120b",
+ "judge_model": "qwen/qwen3.8-27b",
+ "totals": {
+  "alerts": 31,
+  "notes_with_error": 0,
+  "raw_sentences": 80,
+  "kept_sentences": 50,
+  "cited_total": 499,
+  "cited_unknown": 0,
+  "notes_shown": 26,
+  "dropped: contains a spelled-out number": 24,
+  "notes_contradicting_rule": 1,
+  "dropped: contains a number": 6
+ },
+ "citation_existence_rate": 1.0,
+ "judge_verdicts_on_kept_sentences": {
+  "supported": 43,
+  "partly": 5,
+  "contradicts_rule": 1,
+  "unsupported": 2
+ },
+ "judge_version": "v3: same row fields as the investigator; also asks whether the sentence argues against the rule's computed facts",
+ "judge_v1_verdicts_stripped_rows": {
+  "supported": 32,
+  "partly": 23,
+  "unsupported": 34
+ },
+ "filter_v1_with_judge_v2": {
+  "kept_sentences": 89,
+  "supported": 69,
+  "partly": 11,
+  "unsupported": 9
+ },
+ "investigator_v1_results": "eval/results/e3_v1.json (30 alerts, prompt v1)",
+ "filter_version": "v1.1",
+ "recommendation_vs_truth": {
+  "laundering -> escalate": 11,
+  "laundering -> more_info": 6,
+  "benign -> more_info": 6,
+  "benign -> clear": 1,
+  "benign -> escalate": 7
+ },
+ "numbers_in_shown_text": 0,
+ "note": "Numbers shown with a note come from code; the filter guarantees no model-written digits are displayed."
+}

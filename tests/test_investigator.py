@@ -31,3 +31,12 @@ def test_draft_on_a_real_alert_with_mock_model():
     assert n.sentences and n.recommendation == "more_info"
     bad = Investigator(MockLlmClient(lambda m: "nope")).draft(a, sh.by_id, sh.registry)
     assert bad.error == "unparseable" and not bad.sentences
+
+
+def test_sentences_excusing_the_flagged_pattern_are_dropped():
+    data = {"recommendation": "more_info", "sentences": [
+        {"text": "The payments sit just under the threshold [T0000001].", "cites": ["T0000001"]},
+        {"text": "This could be routine procurement kept below approval limits [T0000002].", "cites": ["T0000002"]}]}
+    n = verify("A1", data, ALLOWED, set())
+    assert [x["text"][:12] for x in n.sentences] == ["The payments"]
+    assert n.dropped == {"argues against the alert's computed facts": 1}

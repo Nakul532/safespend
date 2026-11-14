@@ -38,7 +38,7 @@ See the results tabs. Headlines, all MEASURED:
 - Legitimate tasks blocked: 0/55 in every configuration. Held for a human: 1/55 under C4, 6/55 under C5 (the commitment hold catches subscription renewals).
 - Intent set: 26/26 correct in three runs (16/16 mismatches held, 10/10 matches allowed); fields alone catch 4/16.
 - IBM, first 7 days, all alerts: precision 0.15% vs 0.13% for a $10,000 threshold. At 50 reviews a day: recall 3.1% vs 0.3%.
-- E3 (30 alerts): 100% of cited IDs exist and were in the evidence; of kept sentences, 75% supported, 12% unsupported (independent judge, qwen3.8-27b).
+- E3 (31 alerts, including a case flagged in hand review): 100% of cited IDs exist and were in the evidence. Code removes sentences with numbers or that excuse the flagged pattern; of the 30 kept sentences, 90% are supported and none argue against the rule (independent judge, qwen3.8-27b). Only 21 of 31 alerts keep a note. No laundering alert was recommended "clear"; 6 benign alerts were recommended "escalate".
 - Latency: deterministic path p50 0.26 ms, p95 0.44 ms; LLM call p50 472 ms, p95 1,022 ms.
 
 ## 6. Sensitivity
@@ -51,7 +51,7 @@ See the results tabs. Headlines, all MEASURED:
 - Small evaluation sets; perfect scores on 26 intent cases written by the builder's model family are not strong evidence.
 - Commitment detection is keyword-based; stored-card charges outside AgentGuard are invisible; no subscription ledger.
 - AML rules miss chain patterns (stack, cycle, bipartite) that need graph analysis.
-- The investigator sometimes claims context it was not shown (for example "just under the threshold" when far below).
+- The investigator sometimes claims context it was not shown, and its drafts often fail the number and no-excuse checks, so about a third of alerts show facts without a note.
 
 ## 8. Ongoing monitoring plan
 - Re-run every locked set on each release; block release if any held-out result falls.

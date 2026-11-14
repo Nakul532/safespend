@@ -1,4 +1,12 @@
 {
+ "A6c2d42955a": {
+  "laundering": true,
+  "laundering_micros": 3844388789,
+  "patterns": [
+   "structuring",
+   "team structuring"
+  ]
+ },
  "A7e59c626f7": {
   "laundering": true,
   "laundering_micros": 382088899,
@@ -16,30 +24,6 @@
   "laundering_micros": 85656270,
   "patterns": [
    "look-alike merchant"
-  ]
- },
- "Af8b5bd96bf": {
-  "laundering": true,
-  "laundering_micros": 66111432,
-  "patterns": [
-   "fan-in"
-  ]
- },
- "Ab8db42ee72": {
-  "laundering": false,
-  "laundering_micros": 0,
-  "patterns": []
- },
- "Ace44491292": {
-  "laundering": false,
-  "laundering_micros": 0,
-  "patterns": []
- },
- "Ae623be73af": {
-  "laundering": true,
-  "laundering_micros": 1829785731,
-  "patterns": [
-   "structuring"
   ]
  },
  "A66911940a4": {
@@ -60,6 +44,30 @@
   "patterns": [
    "cash-out",
    "fan-in"
+  ]
+ },
+ "A5dc119776f": {
+  "laundering": true,
+  "laundering_micros": 1027745649,
+  "patterns": [
+   "cash-out",
+   "rapid-fire drain"
+  ]
+ },
+ "A67b66cf0f1": {
+  "laundering": true,
+  "laundering_micros": 2702990990,
+  "patterns": [
+   "cash-out",
+   "dormant then active",
+   "rapid-fire drain"
+  ]
+ },
+ "A47eec2724c": {
+  "laundering": true,
+  "laundering_micros": 84355208,
+  "patterns": [
+   "look-alike merchant"
   ]
  }
 }
