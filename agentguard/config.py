@@ -29,6 +29,9 @@ class PolicyConfig:
     split_window_hours: int = 24  # trailing window, so splits cannot hide across midnight
     split_min_share: float = 0.1  # ignore payments under this share of the threshold (micropayments)
     lookalike_hold_min_trusted: int | None = None  # with at least this many trusted merchants, look-alikes hold
+    # Added after lock (Stage 4 game, level 4). Off by default = Stage 1 behaviour.
+    commitment_check: bool = False  # hold recurring commitments and stored credentials for a human
+    commitment_horizon_days: int = 365  # horizon for the worst-case amount of a commitment
 
     @property
     def config_hash(self) -> str:

@@ -18,6 +18,7 @@ from .clock import Clock, utc_day_start
 from .config import PolicyConfig
 from .idempotency import IdempotencyStore
 from .ledger import Ledger
+from .commitments import detect_terms, worst_case
 from .lookalike import find_lookalike
 from .models import (
     Agent,
@@ -38,7 +39,8 @@ from .signing import Signer
 # Approval failures that leave the payment waiting for a (new) human approval.
 _WAITS_FOR_APPROVAL = {ReasonCode.APPROVAL_REQUIRED, ReasonCode.APPROVAL_EXPIRED,
                        ReasonCode.INJECTION_SUSPECTED, ReasonCode.AML_HOLD,
-                       ReasonCode.SPLIT_SUSPECTED, ReasonCode.LOOKALIKE_REVIEW}
+                       ReasonCode.SPLIT_SUSPECTED, ReasonCode.LOOKALIKE_REVIEW,
+                       ReasonCode.RECURRING_COMMITMENT, ReasonCode.STORED_CREDENTIAL}
 
 
 class _Ctx:
@@ -108,7 +110,8 @@ class PolicyEngine:
     def _amount(self, c: _Ctx) -> CheckResult | None:
         if c.req.currency != "USD":
             return CheckResult(ReasonCode.INVALID_AMOUNT, f"unsupported currency {c.req.currency}")
-        if not isinstance(c.req.amount, int) or isinstance(c.req.amount, bool) or c.req.amount <= 0:
+        zero_ok = self.config.commitment_check and c.req.amount == 0 and self._sets_up_future_charges(c)
+        if not isinstance(c.req.amount, int) or isinstance(c.req.amount, bool) or (c.req.amount <= 0 and not zero_ok):
             return CheckResult(ReasonCode.INVALID_AMOUNT, "amount must be a positive whole number of micro-dollars")
         return None
 
@@ -319,6 +322,45 @@ class PolicyEngine:
             f"{cfg.split_window_hours}h; {fmt_usd(c.req.amount)} more reaches the {fmt_usd(a.approval_threshold)} approval threshold",
         )
 
+    # -- added after lock (Stage 4 game, level 4) -----------------------------
+
+    def _terms(self, c: _Ctx):
+        if not hasattr(c, "terms"):
+            c.terms = detect_terms(c.req.context)
+        return c.terms
+
+    def _sets_up_future_charges(self, c: _Ctx) -> bool:
+        t = self._terms(c)
+        return bool(c.req.commitment or c.req.store_credential or t.kinds or t.credential)
+
+    def _commitment(self, c: _Ctx) -> CheckResult | None:
+        if not self.config.commitment_check:
+            return None
+        t, declared = self._terms(c), c.req.commitment
+        if not declared and not t.kinds:
+            return None
+        if self._approved_by_human(c):
+            return None
+        if declared:
+            wc = worst_case(declared, self.config.commitment_horizon_days)
+            limit = (f"up to {fmt_usd(wc)} over {self.config.commitment_horizon_days} days" if wc is not None
+                     else "no upper limit is stated")
+            detail = f"this payment sets up a {declared.kind.replace('_', ' ')} commitment; {limit}"
+        else:
+            detail = (f"the content the agent read sets up future charges ({', '.join(k.replace('_', ' ') for k in t.kinds)}) "
+                      f"that the agent did not declare; no upper limit is known")
+        return CheckResult(ReasonCode.RECURRING_COMMITMENT, f"{fmt_usd(c.req.amount)} today, but {detail}; held for a human")
+
+    def _credential(self, c: _Ctx) -> CheckResult | None:
+        if not self.config.commitment_check:
+            return None
+        if not (c.req.store_credential or self._terms(c).credential) or self._approved_by_human(c):
+            return None
+        how = "the agent asked to store" if c.req.store_credential else "the checkout the agent read would store"
+        return CheckResult(ReasonCode.STORED_CREDENTIAL,
+                           f"{how} the payment card with {c.req.merchant_id}; later charges on it would not pass through "
+                           f"AgentGuard; held for a human")
+
     CHECK_ORDER: tuple[tuple[str, Check], ...] = (
         ("circuit_breaker", _breaker),
         ("agent_known", _agent_known),
@@ -330,6 +372,8 @@ class PolicyEngine:
         ("sanctions", _sanctions),
         ("price_matches_quote", _price),  # added after lock
         ("injection_check", _injection),  # added after lock
+        ("recurring_commitment", _commitment),  # added after lock (Stage 4)
+        ("stored_credential", _credential),  # added after lock (Stage 4)
         ("per_txn_limit", _per_txn),
         ("merchant_daily_limit", _merchant_limit),
         ("agent_daily_budget", _budget),

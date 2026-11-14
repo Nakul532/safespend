@@ -42,6 +42,9 @@ class ReasonCode(StrEnum):
     # Added after Stage 3 results (round 2).
     SPLIT_SUSPECTED = "SPLIT_SUSPECTED"
     LOOKALIKE_REVIEW = "LOOKALIKE_REVIEW"
+    # Added after lock (Stage 4 game, level 4).
+    RECURRING_COMMITMENT = "RECURRING_COMMITMENT"
+    STORED_CREDENTIAL = "STORED_CREDENTIAL"
 
     # AML alert codes
     AML_STRUCTURING = "AML_STRUCTURING"

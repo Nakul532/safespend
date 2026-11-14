@@ -37,6 +37,7 @@ class AgentGuard:
         self.clock = clock or SystemClock()
         self.registry = registry
         self.policy_config = policy or PolicyConfig()
+        self.future_commitments: list[dict] = []  # added after lock (Stage 4)
         version = self.policy_config.version
         permit_signer = Signer()
         self.audit = AuditLog(self.clock)
@@ -86,7 +87,24 @@ class AgentGuard:
             self.policy_config.version,
         )
         self.breaker.evaluate_spend(self.ledger)
+        self._record_commitment(request, txn)
         return replace(decision, txn_id=txn.txn_id)
+
+    def _record_commitment(self, request: PaymentRequest, txn) -> None:
+        """Added after lock (Stage 4): keep approved future commitments visible. Sign-up time only."""
+        if not self.policy_config.commitment_check:
+            return
+        from .commitments import detect_terms, worst_case
+        t = detect_terms(request.context)
+        if not (request.commitment or request.store_credential or t.kinds or t.credential):
+            return
+        c = request.commitment
+        self.future_commitments.append({
+            "txn_id": txn.txn_id, "agent_id": request.agent_id, "merchant_id": request.merchant_id,
+            "kind": c.kind if c else (t.kinds[0] if t.kinds else "stored_credential"),
+            "worst_case": worst_case(c, self.policy_config.commitment_horizon_days) if c else None,
+            "stored_credential": bool(request.store_credential or t.credential),
+        })
 
     def fund(self, agent_id: str, amount: int) -> LedgerTxn:
         return self.ledger.fund(self.registry.agents[agent_id], amount)

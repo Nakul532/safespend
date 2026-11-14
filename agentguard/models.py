@@ -90,6 +90,14 @@ class Approval:
 
 
 @dataclass(frozen=True)
+class Commitment:
+    """A future charge the payment sets up. ADDED AFTER LOCK (Stage 4)."""
+    kind: str  # recurring | trial_conversion | auto_topup
+    amount_per_period: int | None = None  # micro-dollars
+    period_days: int | None = None
+
+
+@dataclass(frozen=True)
 class PaymentRequest:
     agent_id: str
     merchant_id: str
@@ -102,6 +110,10 @@ class PaymentRequest:
     # Stage 3 (added after lock): what the agent was shown. Not part of the payment hash.
     quoted_amount: int | None = field(default=None, compare=False)
     context: Mapping[str, Any] | None = field(default=None, compare=False)
+    # Stage 4 (added after lock): future commitments. Part of the payment hash only when set,
+    # so an approval covers the terms it was granted for and older hashes are unchanged.
+    commitment: Commitment | None = None
+    store_credential: bool = False
 
     def financial_fields(self) -> dict[str, Any]:
         """The fields that define 'the same payment'. Description and approval are excluded."""
@@ -112,7 +124,9 @@ class PaymentRequest:
             "currency": self.currency,
             "idempotency_key": self.idempotency_key,
             "invoice_ref": self.invoice_ref,
-        }
+        } | ({"commitment": {"kind": self.commitment.kind, "amount_per_period": self.commitment.amount_per_period,
+                             "period_days": self.commitment.period_days}} if self.commitment else {}) \
+          | ({"store_credential": True} if self.store_credential else {})
 
     @property
     def payment_hash(self) -> str:
