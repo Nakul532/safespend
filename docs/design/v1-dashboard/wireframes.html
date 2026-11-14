@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AgentGuard wireframes</title>
+<style>
+  :root { --ink:#0E1726; --ink-2:#475467; --bg:#F6F7F9; --surface:#FFFFFF; --line:#D0D5DD; --primary:#1849A9;
+          --allow:#067647; --hold:#93370D; --block:#B42318; --sim:#5925DC; --wf:#E4E7EC; --wf-2:#98A2B3; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:14px/20px -apple-system, "Inter", system-ui, sans-serif; }
+  .page { max-width:1400px; margin:0 auto; padding:24px 16px 64px; }
+  h1 { font-size:28px; line-height:36px; margin:0 0 4px; }
+  h2 { font-size:20px; line-height:28px; margin:48px 0 4px; }
+  .lede { color:var(--ink-2); margin:0 0 16px; max-width:760px; }
+  .row { display:flex; gap:24px; align-items:flex-start; flex-wrap:wrap; }
+  .lbl { font-size:12px; color:var(--ink-2); margin:0 0 6px; text-transform:uppercase; letter-spacing:.04em; }
+  .desk { width:min(960px,100%); background:var(--surface); border:1px solid var(--line); border-radius:8px; overflow:hidden; }
+  .phone { width:300px; background:var(--surface); border:1px solid var(--line); border-radius:24px; overflow:hidden; padding-top:8px; }
+  .bar { display:flex; align-items:center; gap:12px; padding:10px 16px; border-bottom:1px solid var(--line); }
+  .logo { font-weight:700; }
+  .nav { display:flex; gap:12px; color:var(--ink-2); font-size:13px; margin-left:auto; flex-wrap:wrap; }
+  .mock { background:#F4F3FF; color:var(--sim); font-size:12px; padding:6px 16px; border-bottom:1px solid var(--line); }
+  .body { padding:16px; display:grid; gap:12px; }
+  .box { background:var(--wf); border-radius:6px; padding:10px 12px; color:var(--ink-2); font-size:13px; }
+  .box b { color:var(--ink); font-weight:600; }
+  .btn { display:inline-flex; align-items:center; justify-content:center; min-height:44px; padding:0 16px; border-radius:8px;
+         border:1px solid var(--line); background:var(--surface); font-weight:600; font-size:14px; color:var(--ink); }
+  .btn.p { background:var(--primary); color:#fff; border-color:var(--primary); }
+  .kpis { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; }
+  .kpi { border:1px solid var(--line); border-radius:6px; padding:8px 10px; }
+  .kpi .n { font:600 22px/28px "JetBrains Mono", ui-monospace, monospace; }
+  .tag { font:600 10px/14px ui-monospace, monospace; color:var(--sim); border:1px solid var(--sim); border-radius:4px; padding:0 4px; }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .split { display:grid; grid-template-columns:320px 1fr; gap:12px; }
+  table { width:100%; border-collapse:collapse; font-size:12px; }
+  th, td { border-bottom:1px solid var(--line); padding:6px 8px; text-align:left; }
+  th { color:var(--ink-2); font-weight:600; }
+  td.n { text-align:right; font-family:ui-monospace, monospace; }
+  .pill { font:700 11px/16px ui-monospace, monospace; padding:1px 6px; border-radius:10px; color:#fff; }
+  .allow { background:var(--allow); } .hold { background:var(--hold); } .block { background:var(--block); }
+  .ph .kpis { grid-template-columns:1fr 1fr; }
+  .ph .grid2, .ph .split { grid-template-columns:1fr; }
+  .ta { height:90px; border:1px dashed var(--wf-2); border-radius:6px; padding:8px; color:var(--ink-2); font-size:12px; }
+  .note { font-size:12px; color:var(--ink-2); }
+  .sw { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:8px; }
+  .sw div { border:1px solid var(--line); border-radius:6px; overflow:hidden; background:var(--surface); font-size:12px; }
+  .sw i { display:block; height:44px; }
+  .sw span { display:block; padding:6px 8px; font-family:ui-monospace, monospace; }
+  @media (max-width:700px) { .kpis { grid-template-columns:1fr 1fr; } .split, .grid2 { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+<div class="page">
+  <h1>AgentGuard wireframes (low fidelity, for approval)</h1>
+  <p class="lede">Grey boxes are placeholders. Numbers are illustrative layout only, except where they repeat Stage 3 results. Every screen with money carries the mock-money strip. Desktop on the left, phone on the right.</p>
+
+  <!-- 1. Landing -->
+  <h2>1. Landing</h2>
+  <div class="row">
+    <div><p class="lbl">Desktop</p>
+      <div class="desk">
+        <div class="bar"><span class="logo">AgentGuard</span><span class="nav">Dashboard · Alerts · Red-team · Sandbox · Results · Track record · Case study</span></div>
+        <div class="mock">Mock money only. No real payments are made.</div>
+        <div class="body">
+          <div class="box" style="padding:24px"><b style="font-size:24px;line-height:32px">A payment firewall for AI agents: code decides every payment, and AML monitoring watches what gets through.</b></div>
+          <div><span class="btn p">Run the red-team</span> &nbsp; <span class="btn">Try to trick it</span> &nbsp;<span class="note">Replays saved results; no cost.</span></div>
+          <div class="kpis" style="grid-template-columns:repeat(3,1fr)">
+            <div class="kpi"><div class="n">14/18</div>held-out attacks stopped, full config <span class="tag">MEASURED</span></div>
+            <div class="kpi"><div class="n">0/55</div>legitimate tasks blocked <span class="tag">MEASURED</span></div>
+            <div class="kpi"><div class="n">0.44 ms</div>p95 policy decision <span class="tag">MEASURED</span></div>
+          </div>
+          <div class="grid2"><div class="box"><b>How it works</b>: agent proposes → policy engine decides → ledger settles → AML watches (diagram)</div>
+          <div class="box"><b>What it does not catch yet</b>: link to known weaknesses</div></div>
+        </div>
+      </div></div>
+    <div><p class="lbl">Phone</p>
+      <div class="phone ph">
+        <div class="bar"><span class="logo">AgentGuard</span><span class="nav">☰</span></div>
+        <div class="mock">Mock money only.</div>
+        <div class="body">
+          <div class="box"><b style="font-size:18px;line-height:24px">A payment firewall for AI agents.</b></div>
+          <span class="btn p" style="width:100%">Run the red-team</span>
+          <span class="btn" style="width:100%">Try to trick it</span>
+          <div class="kpis"><div class="kpi"><div class="n">14/18</div>held-out stopped <span class="tag">MEASURED</span></div><div class="kpi"><div class="n">0</div>false blocks</div></div>
+          <div class="box">How it works (stacked diagram)</div>
+        </div>
+      </div></div>
+  </div>
+
+  <!-- 2. Risk dashboard -->
+  <h2>2. Risk dashboard (Head of Risk)</h2>
+  <div class="row">
+    <div><p class="lbl">Desktop</p>
+      <div class="desk">
+        <div class="bar"><span class="logo">AgentGuard</span><span class="nav">Dashboard · Alerts · Red-team · Sandbox</span></div>
+        <div class="mock">Mock money only. Figures are SIMULATED unless tagged.</div>
+        <div class="body">
+          <div class="kpis">
+            <div class="kpi"><div class="n">$6,892</div>losses prevented <span class="tag">SIMULATED</span></div>
+            <div class="kpi"><div class="n">$558</div>residual loss</div>
+            <div class="kpi"><div class="n">14</div>alert backlog</div>
+            <div class="kpi"><div class="n">0%</div>false-block rate</div>
+            <div class="kpi"><div class="n" style="color:var(--allow)">● OK</div>circuit breaker</div>
+          </div>
+          <div class="grid2">
+            <div class="box" style="height:150px"><b>Decisions over time</b>: stacked allow / hold / block by hour</div>
+            <div class="box" style="height:150px"><b>Top typologies</b>: horizontal bars (structuring, injection, look-alike…) → click filters the alert queue</div>
+          </div>
+          <div class="grid2">
+            <div class="box"><b>Held for a human</b>: table of pending payments with approve / reject (approver ≠ owner)</div>
+            <div class="box"><b>Audit log</b>: "Log verified ✓ (hash chain)" · Export for auditors</div>
+          </div>
+        </div>
+      </div></div>
+    <div><p class="lbl">Phone</p>
+      <div class="phone ph">
+        <div class="bar"><span class="logo">Dashboard</span><span class="nav">☰</span></div>
+        <div class="mock">Mock money only.</div>
+        <div class="body">
+          <div class="kpis"><div class="kpi"><div class="n">$6,892</div>prevented</div><div class="kpi"><div class="n">14</div>backlog</div>
+          <div class="kpi"><div class="n">0%</div>false blocks</div><div class="kpi"><div class="n" style="color:var(--allow)">● OK</div>breaker</div></div>
+          <div class="box" style="height:90px"><b>Top typologies</b> (bars)</div>
+          <div class="box"><b>Held for a human</b> (cards)</div>
+        </div>
+      </div></div>
+  </div>
+
+  <!-- 3. Alert queue -->
+  <h2>3. Alert queue + case note (Compliance analyst)</h2>
+  <div class="row">
+    <div><p class="lbl">Desktop</p>
+      <div class="desk">
+        <div class="bar"><span class="logo">AgentGuard</span><span class="nav">Dashboard · Alerts · Red-team · Sandbox</span></div>
+        <div class="mock">Mock money only.</div>
+        <div class="body">
+          <div class="note">Reviewed today: <b>12 of 50</b> · sorted by severity, then amount · filter: rule ▾ agent ▾</div>
+          <div class="split">
+            <div class="box" style="background:var(--surface);border:1px solid var(--line)">
+              <table><tr><th>Sev</th><th>Rule</th><th>Agent</th><th class="n">Amount</th></tr>
+              <tr><td>8</td><td>Structuring</td><td>agent_007</td><td class="n">$1,019.80</td></tr>
+              <tr><td>7</td><td>Fan-in</td><td>3 agents</td><td class="n">$412.00</td></tr>
+              <tr><td>5</td><td>Rapid-fire</td><td>agent_002</td><td class="n">$88.40</td></tr></table>
+            </div>
+            <div style="display:grid;gap:12px">
+              <div class="box"><b>AML_STRUCTURING · severity 8</b> — facts computed by code: 3 payments under the $400 threshold, total $1,019.80</div>
+              <div class="box"><b>Transactions</b>: table (ID, time, merchant, amount) <span class="tag">SIMULATED</span></div>
+              <div class="box"><b>Case note (AI draft)</b>: text citing T0000412 ✓ T0000415 ✓ T0000419 ✓ — "checked against the ledger"; numbers in the note come from code</div>
+              <div class="ta">Analyst reason (required)</div>
+              <div><span class="btn p">Escalate</span> &nbsp;<span class="btn">Close as false positive</span> &nbsp;<span class="btn">Hold agent</span></div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    <div><p class="lbl">Phone: list, then detail</p>
+      <div class="phone ph">
+        <div class="bar"><span class="logo">‹ Alerts</span><span class="nav">12/50</span></div>
+        <div class="mock">Mock money only.</div>
+        <div class="body">
+          <div class="box"><b>AML_STRUCTURING · sev 8</b><br>agent_007 · $1,019.80</div>
+          <div class="box">Facts · Transactions (cards)</div>
+          <div class="box"><b>Case note</b> with ✓ citations</div>
+          <div class="ta" style="height:60px">Reason (required)</div>
+          <span class="btn p" style="width:100%">Escalate</span>
+          <div class="grid2" style="grid-template-columns:1fr 1fr"><span class="btn">Close</span><span class="btn">Hold agent</span></div>
+        </div>
+      </div></div>
+  </div>
+
+  <!-- 4. Red-team runner -->
+  <h2>4. Red-team runner (Developer)</h2>
+  <div class="row">
+    <div><p class="lbl">Desktop</p>
+      <div class="desk">
+        <div class="bar"><span class="logo">AgentGuard</span><span class="nav">Dashboard · Alerts · Red-team · Sandbox</span></div>
+        <div class="mock">Mock money only. Results are MEASURED on the locked suite.</div>
+        <div class="body">
+          <div class="row" style="gap:12px"><span class="btn">Suite: v1 (110) ▾</span><span class="btn">Config: full + split check ▾</span><span class="btn">Replay saved ◉ / Run live ○</span><span class="btn p">Run the red-team</span></div>
+          <div class="kpis"><div class="kpi"><div class="n">41/55</div>stopped so far</div><div class="kpi"><div class="n">$312</div>lost</div><div class="kpi"><div class="n">0</div>false blocks</div><div class="kpi"><div class="n">26%</div>held</div><div class="kpi"><div class="n">78/110</div>done</div></div>
+          <div class="grid2">
+            <div class="box" style="background:var(--surface);border:1px solid var(--line)">
+              <table><tr><th>Scenario</th><th>Category</th><th>Decision</th><th>Reason</th></tr>
+              <tr><td>INJ-04</td><td>Injection</td><td><span class="pill hold">HOLD</span></td><td>INJECTION_SUSPECTED</td></tr>
+              <tr><td>LKA-02</td><td>Look-alike</td><td><span class="pill block">BLOCK</span></td><td>LOOKALIKE_MERCHANT</td></tr>
+              <tr><td>LEG-11</td><td>Legitimate</td><td><span class="pill allow">ALLOW</span></td><td>APPROVED</td></tr></table>
+            </div>
+            <div class="box" style="height:150px"><b>By category</b>: stopped / got through bars, filling in live</div>
+          </div>
+          <div class="box"><b>Run it on your own guardrails</b>: copyable command for the MIT runner · link to the suite JSON</div>
+        </div>
+      </div></div>
+    <div><p class="lbl">Phone</p>
+      <div class="phone ph">
+        <div class="bar"><span class="logo">Red-team</span><span class="nav">☰</span></div>
+        <div class="mock">Mock money only.</div>
+        <div class="body">
+          <span class="btn" style="width:100%">Suite: v1 ▾</span><span class="btn" style="width:100%">Config: full ▾</span>
+          <span class="btn p" style="width:100%">Run the red-team</span>
+          <div class="kpis"><div class="kpi"><div class="n">41/55</div>stopped</div><div class="kpi"><div class="n">$312</div>lost</div></div>
+          <div class="box">Scenario cards with decision pills</div>
+        </div>
+      </div></div>
+  </div>
+
+  <!-- 5. Sandbox -->
+  <h2>5. Injection sandbox (visitors)</h2>
+  <div class="row">
+    <div><p class="lbl">Desktop</p>
+      <div class="desk">
+        <div class="bar"><span class="logo">AgentGuard</span><span class="nav">Dashboard · Alerts · Red-team · Sandbox</span></div>
+        <div class="mock">Mock money only. You have 7 of 10 tries left today.</div>
+        <div class="body">
+          <div class="grid2">
+            <div style="display:grid;gap:12px">
+              <div class="ta" style="height:160px">Write the merchant page or tool output the agent will read. Try to make it spend.</div>
+              <div class="row" style="gap:8px"><span class="btn">Agent: ResearchBot ▾</span><span class="btn">Merchant ▾</span><span class="btn">$ amount</span></div>
+              <span class="btn p">Submit payment</span>
+            </div>
+            <div style="display:grid;gap:12px">
+              <div class="box"><span class="pill hold">HOLD</span> <b>INJECTION_SUSPECTED</b> — held for a human</div>
+              <div class="box"><b>Heuristics matched</b>: authority claim, limit change</div>
+              <div class="box"><b>LLM reasons</b> (no digits shown): "claims an admin approved a higher budget"</div>
+              <div class="box"><b>Every check</b>: list with ✓ / ✗ · decision time <span class="tag">MEASURED</span></div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    <div><p class="lbl">Phone</p>
+      <div class="phone ph">
+        <div class="bar"><span class="logo">Sandbox</span><span class="nav">7/10 left</span></div>
+        <div class="mock">Mock money only.</div>
+        <div class="body">
+          <div class="ta">Merchant page text…</div>
+          <span class="btn" style="width:100%">Agent ▾ · Merchant ▾ · $</span>
+          <span class="btn p" style="width:100%">Submit payment</span>
+          <div class="box"><span class="pill hold">HOLD</span> INJECTION_SUSPECTED</div>
+          <div class="box">Reasons · checks (collapsible)</div>
+        </div>
+      </div></div>
+  </div>
+
+  <!-- Tokens -->
+  <h2>Token sheet</h2>
+  <p class="lede">Status always shows a word and icon as well as colour. Text pairs meet at least 4.5:1 contrast.</p>
+  <div class="sw">
+    <div><i style="background:#0E1726"></i><span>--ink #0E1726</span></div>
+    <div><i style="background:#475467"></i><span>--ink-2 #475467</span></div>
+    <div><i style="background:#F6F7F9"></i><span>--bg #F6F7F9</span></div>
+    <div><i style="background:#D0D5DD"></i><span>--line #D0D5DD</span></div>
+    <div><i style="background:#1849A9"></i><span>--primary #1849A9</span></div>
+    <div><i style="background:#067647"></i><span>--allow #067647</span></div>
+    <div><i style="background:#93370D"></i><span>--hold #93370D</span></div>
+    <div><i style="background:#B42318"></i><span>--block #B42318</span></div>
+    <div><i style="background:#5925DC"></i><span>--sim #5925DC</span></div>
+  </div>
+  <p class="note" style="margin-top:12px">Type: Inter 12/14/16/20/28 · JetBrains Mono (tabular) for money, IDs, codes · spacing 4/8/12/16/24/32/48 · radius 6 (cards) / 8 (buttons) · tap targets ≥ 44 px · table rows 36 px.</p>
+</div>
+</body>
+</html>
