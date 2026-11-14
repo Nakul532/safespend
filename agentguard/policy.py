@@ -40,7 +40,8 @@ from .signing import Signer
 _WAITS_FOR_APPROVAL = {ReasonCode.APPROVAL_REQUIRED, ReasonCode.APPROVAL_EXPIRED,
                        ReasonCode.INJECTION_SUSPECTED, ReasonCode.AML_HOLD,
                        ReasonCode.SPLIT_SUSPECTED, ReasonCode.LOOKALIKE_REVIEW,
-                       ReasonCode.RECURRING_COMMITMENT, ReasonCode.STORED_CREDENTIAL}
+                       ReasonCode.RECURRING_COMMITMENT, ReasonCode.STORED_CREDENTIAL,
+                       ReasonCode.INTENT_MISMATCH}
 
 
 class _Ctx:
@@ -74,6 +75,7 @@ class PolicyEngine:
         permit_signer: Signer,
         injection_checker: Any = None,
         aml_holds: set[str] | None = None,
+        intent_checker: Any = None,
     ) -> None:
         self.clock = clock
         self.config = config
@@ -86,6 +88,8 @@ class PolicyEngine:
         self._signer = permit_signer
         self.injection_checker = injection_checker  # None = Stage 1 behaviour
         self.aml_holds = aml_holds if aml_holds is not None else set()
+        self.intent_checker = intent_checker  # None = no intent check (added after lock, Stage 4)
+        self.last_intent = None
         self.last_injection = None  # result of the most recent injection check (for latency reporting)
         self.idempotency = IdempotencyStore()
         self._seq = itertools.count(1)
@@ -361,6 +365,19 @@ class PolicyEngine:
                            f"{how} the payment card with {c.req.merchant_id}; later charges on it would not pass through "
                            f"AgentGuard; held for a human")
 
+    def _intent(self, c: _Ctx) -> CheckResult | None:
+        self.last_intent = None
+        if self.intent_checker is None or c.req.intent is None or c.merchant is None:
+            return None
+        ctx = c.req.context or {}
+        page = "\n".join(str(ctx.get(k) or "") for k in ("merchant_page", "tool_output", "invoice")).strip()
+        res = self.intent_checker.check(c.req.intent, amount=c.req.amount, merchant_name=c.merchant.name,
+                                        category=c.merchant.category, item=c.req.description, page_text=page)
+        self.last_intent = res
+        if res.mismatch and not self._approved_by_human(c):
+            return CheckResult(ReasonCode.INTENT_MISMATCH, "purchase does not match what the person asked for: " + res.summary)
+        return None
+
     CHECK_ORDER: tuple[tuple[str, Check], ...] = (
         ("circuit_breaker", _breaker),
         ("agent_known", _agent_known),
@@ -372,6 +389,7 @@ class PolicyEngine:
         ("sanctions", _sanctions),
         ("price_matches_quote", _price),  # added after lock
         ("injection_check", _injection),  # added after lock
+        ("intent_check", _intent),  # added after lock (Stage 4)
         ("recurring_commitment", _commitment),  # added after lock (Stage 4)
         ("stored_credential", _credential),  # added after lock (Stage 4)
         ("per_txn_limit", _per_txn),

@@ -1,0 +1,173 @@
+{
+ "set": "dev",
+ "cases": 12,
+ "model": "openai/gpt-oss-120b",
+ "runs": {
+  "run1": {
+   "totals": {
+    "match_total": 6,
+    "match_allowed": 6,
+    "mismatch_total": 6,
+    "mismatch_held": 6,
+    "held_by_fields": 2,
+    "held_by_model_only": 4
+   },
+   "breakdown": {},
+   "llm_latency_ms_p50": 459,
+   "live_calls": 12,
+   "cache_hits": 0,
+   "rows": [
+    {
+     "id": "DEV-01",
+     "expected": "allow",
+     "held": false,
+     "fields": [],
+     "llm": false,
+     "conf": "high",
+     "reasons": [
+      "matches requested product type and quantity",
+      "price is within the specified limit"
+     ]
+    },
+    {
+     "id": "DEV-02",
+     "expected": "hold",
+     "held": true,
+     "fields": [],
+     "llm": true,
+     "conf": "high",
+     "reasons": [
+      "includes extra premium toner bundle not requested",
+      "adds unwanted items beyond the requested paper"
+     ]
+    },
+    {
+     "id": "DEV-03",
+     "expected": "hold",
+     "held": true,
+     "fields": [],
+     "llm": true,
+     "conf": "high",
+     "reasons": [
+      "requested a one\u2011month API credit but the purchase is an annual plan",
+      "billing period and auto\u2011renewal differ from the one\u2011off month request"
+     ]
+    },
+    {
+     "id": "DEV-04",
+     "expected": "allow",
+     "held": false,
+     "fields": [],
+     "llm": false,
+     "conf": "high",
+     "reasons": [
+      "the merchant and category align with the weather data service request",
+      "no extra items or higher tier were added"
+     ]
+    },
+    {
+     "id": "DEV-05",
+     "expected": "hold",
+     "held": true,
+     "fields": [],
+     "llm": true,
+     "conf": "high",
+     "reasons": [
+      "the purchase includes an extra night beyond the requested single night",
+      "the quantity of nights is larger than what was asked for"
+     ]
+    },
+    {
+     "id": "DEV-06",
+     "expected": "allow",
+     "held": false,
+     "fields": [],
+     "llm": false,
+     "conf": "high",
+     "reasons": [
+      "Matches requested city and date",
+      "Room type aligns with standard request",
+      "No extra services or different dates"
+     ]
+    },
+    {
+     "id": "DEV-07",
+     "expected": "hold",
+     "held": true,
+     "fields": [
+      "'gift_cards' is a cash equivalent the person did not ask for"
+     ],
+     "llm": true,
+     "conf": "high",
+     "reasons": [
+      "requested a specific book but purchase is a store credit voucher",
+      "different product category (book vs gift card)",
+      "not the item requested"
+     ]
+    },
+    {
+     "id": "DEV-08",
+     "expected": "allow",
+     "held": false,
+     "fields": [],
+     "llm": false,
+     "conf": "high",
+     "reasons": [
+      "matches requested title",
+      "same product type",
+      "acceptable edition and format"
+     ]
+    },
+    {
+     "id": "DEV-09",
+     "expected": "hold",
+     "held": true,
+     "fields": [
+      "$96.00 is over the $80.00 the person allowed"
+     ],
+     "llm": false,
+     "conf": "high",
+     "reasons": [
+      "requested a ride to the airport and the purchase is for a ride to the airport",
+      "timing and service match the request"
+     ]
+    },
+    {
+     "id": "DEV-10",
+     "expected": "allow",
+     "held": false,
+     "fields": [],
+     "llm": false,
+     "conf": "high",
+     "reasons": [
+      "the purchase provides the requested ride to the airport now with a standard car, matching the request",
+      "no extra upgrades or unwanted items were added"
+     ]
+    },
+    {
+     "id": "DEV-11",
+     "expected": "hold",
+     "held": true,
+     "fields": [],
+     "llm": true,
+     "conf": "high",
+     "reasons": [
+      "requested short-term two\u2011hour GPU rental",
+      "duration and pricing differ significantly"
+     ]
+    },
+    {
+     "id": "DEV-12",
+     "expected": "allow",
+     "held": false,
+     "fields": [],
+     "llm": false,
+     "conf": "high",
+     "reasons": [
+      "the purchase exactly matches the request for a two\u2011hour GPU rental"
+     ]
+    }
+   ]
+  }
+ }
+}

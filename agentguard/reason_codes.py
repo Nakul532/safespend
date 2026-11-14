@@ -45,6 +45,7 @@ class ReasonCode(StrEnum):
     # Added after lock (Stage 4 game, level 4).
     RECURRING_COMMITMENT = "RECURRING_COMMITMENT"
     STORED_CREDENTIAL = "STORED_CREDENTIAL"
+    INTENT_MISMATCH = "INTENT_MISMATCH"
 
     # AML alert codes
     AML_STRUCTURING = "AML_STRUCTURING"

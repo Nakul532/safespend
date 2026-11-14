@@ -33,6 +33,7 @@ class AgentGuard:
         sanctions: SanctionsScreener | None = None,
         injection_checker=None,
         aml_hold_severity: int | None = None,
+        intent_checker=None,
     ) -> None:
         self.clock = clock or SystemClock()
         self.registry = registry
@@ -57,6 +58,7 @@ class AgentGuard:
             sanctions=sanctions or NullScreener(),
             permit_signer=permit_signer,
             injection_checker=injection_checker,
+            intent_checker=intent_checker,
         )
         # Added after lock: AML alerts at or above this severity hold the agents involved.
         self.aml_hold_severity = aml_hold_severity
