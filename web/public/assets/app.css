@@ -149,3 +149,6 @@ details > summary { min-height:48px; display:flex; align-items:center; cursor:po
 }
 
 .reveal .stamp.sm { font-size:14px; padding:2px 6px 1px; border-width:2px; gap:4px; } .reveal .stamp.sm svg { width:13px; height:13px; }
+@media (max-width:520px) { table.rows .stamp.sm { font-size:12px; padding:2px 5px 1px; border-width:2px; gap:3px; transform:none; } table.rows .stamp.sm svg { display:none; } table.rows td, table.rows th { padding:8px 6px; } }
+.reveal .stamp.sm { margin:0 8px 0 2px; transform:rotate(-2deg); }
+@media (max-width:520px) { table.rows th:nth-child(4), table.rows td:nth-child(4) { display:none; } }

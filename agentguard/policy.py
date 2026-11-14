@@ -141,7 +141,8 @@ class PolicyEngine:
                 )
             return CheckResult(
                 ReasonCode.LOOKALIKE_MERCHANT,
-                f"'{m.merchant_name}' resembles trusted merchant '{m.resembles_name}' (edit distance {m.distance})",
+                f"'{m.merchant_name}' resembles trusted merchant '{m.resembles_name}' "
+                f"({'identical once look-alike characters are normalised' if m.distance == 0 else f'edit distance {m.distance}'})",
             )
         return None
 

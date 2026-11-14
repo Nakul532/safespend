@@ -104,3 +104,14 @@ def test_agent_reply_is_validated():
     p1, _, c1 = propose(llm, WORLDS["L1"], {"invoice": "pay 100"}, store=store)
     p2, _, c2 = propose(llm, WORLDS["L1"], {"invoice": "pay 100"}, store=store)
     assert p1[0].amount == 100_000_000 and not c1 and c2
+
+
+def test_per_call_world_gives_each_call_an_id_and_repeats_are_merged():
+    props, _ = parse(json.dumps({"payments": [{"payee": "Mapwise API", "amount_usd": "0.45"}] * 30}), max_payments=200)
+    assert len(props) == 1 and props[0].count == 30
+    w = WORLDS["L2"]
+    r = run(w, [attempt(0, {"payee": "Mapwise API", "amount": 450_000, "count": 30})])
+    reasons = {row["reason"] for row in r["attempts"][0]["rows"]}
+    assert "DUPLICATE_SUSPECTED" not in reasons and "MERCHANT_LIMIT_EXCEEDED" in reasons
+    legit = run(w, [attempt(0, {"payee": "Mapwise API", "amount": 20_000, "count": 20})])
+    assert all(row["settled"] for row in legit["attempts"][0]["rows"])  # the real 20-call job is not blocked

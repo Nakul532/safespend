@@ -31,7 +31,7 @@ function brief(l) {
     <p class="small muted">${l.open_payees && l.key !== "BOSS" ? "It may pay new payees." : `Payees it knows: ${esc(l.payees.join(", "))}.`}</p>
     <div class="defence"><strong>${l.key === "BOSS" ? "Defences" : "Defence added in this level"}</strong>${after}<br>${esc(l.defence.replace(/ \(added after lock\)/, ""))}</div>
     ${l.gaps.length ? `<div class="gaps" style="margin-top:16px"><strong>What AgentGuard still can't see</strong><ul>${l.gaps.map((g) => `<li>${esc(g)}</li>`).join("")}</ul></div>` : ""}
-    <details><summary>${l.disabled_checks.length ? `${l.disabled_checks.length} checks are switched off until later levels` : "No checks switched off"}</summary>
+    <details><summary>${l.disabled_checks.length ? `${l.disabled_checks.length} ${l.disabled_checks.length === 1 ? "check is" : "checks are"} switched off until later levels` : "No checks switched off"}</summary>
       <p class="small mono">${esc(l.disabled_checks.join(", ") || "Every check runs.")}</p>
       <p class="small muted">Policy ${esc(l.policy_version)}</p></details>
   </aside>`;
@@ -57,6 +57,9 @@ function composer(l) {
   <div id="result" aria-live="polite"></div>`;
 }
 
+const named = (text, rows) => text.replace(/\bm_[a-z0-9_]+\b/g, (id) => {
+  const hit = (cur.payee_ids || {})[id]; return hit || id; });
+
 function decisive(rows) {
   return rows.find((r) => r.waste && !r.settled) || rows.find((r) => !r.settled) || rows[rows.length - 1];
 }
@@ -65,8 +68,8 @@ function summarise(rows) {
   const g = new Map();
   for (const r of rows) {
     const k = `${r.payee}|${r.amount}|${r.outcome}|${r.reason}`;
-    const e = g.get(k) || { ...r, n: 0 };
-    e.n += 1; g.set(k, e);
+    const e = g.get(k) || { ...r, n: 0, wasteSum: 0 };
+    e.n += 1; e.wasteSum += r.waste; g.set(k, e);
   }
   return [...g.values()];
 }
@@ -79,21 +82,22 @@ function resultCard(data) {
       <p>It proposed no payment. ${esc(a?.note || "")}</p><p class="muted small">That is the agent being cautious, not AgentGuard. Try a document it will believe.</p></div>`;
   }
   const d = decisive(rows), v = verdictOf(d.outcome);
+  const bit = rows.some((r) => r.waste);
   const caught = rows.filter((r) => r.waste && !r.settled).reduce((s, r) => s + r.waste, 0);
   const lost = rows.filter((r) => r.waste && r.settled).reduce((s, r) => s + r.waste, 0);
   const pct = Math.min(100, Math.round(100 * res.wasted / cur.target));
   const why = v === "approved"
     ? `<div class="why approved"><p><strong>It went through.</strong> Every check this level runs passed. ${lost ? `${fmt(lost)} of wasted money settled.` : "Nothing wasted yet."}</p></div>`
     : `<div class="why ${v}"><p><strong>Why it was ${v}:</strong> ${d.reason === "APPROVAL_REQUIRED"
-        ? `${fmt(d.amount)} is at or above the ${fmt(cur.agent.approval_at)} approval threshold, so a person must approve it.` : esc(d.detail)}</p>${v === "held" ? "<p>A person now has to approve or reject it in the approval system. Text in a document can't do that.</p>" : ""}</div>`;
+        ? `${fmt(d.amount)} is at or above the ${fmt(cur.agent.approval_at)} approval threshold, so a person must approve it.` : esc(named(d.detail))}</p>${v === "held" ? "<p>A person now has to approve or reject it in the approval system. Text in a document can't do that.</p>" : ""}</div>`;
   const rowsHtml = summarise(rows).map((r) => `<tr><td>${stamp(verdictOf(r.outcome), true)}</td><td>${esc(r.payee)}</td>
-     <td class="n">${r.n > 1 ? `${r.n} × ` : ""}${fmt(r.amount)}</td><td class="mono small">${esc(r.reason)}</td><td class="n">${r.waste ? fmt(r.waste * r.n) : "—"}</td></tr>`).join("");
+     <td class="n">${r.n > 1 ? `${r.n} × ` : ""}${fmt(r.amount)}</td><td class="mono small">${esc(r.reason)}</td><td class="n">${r.wasteSum ? fmt(r.wasteSum) : "—"}</td></tr>`).join("");
   const aud = rows.filter((r) => r.audit).slice(-6).map((r, i, arr) =>
     `<li class="${i === arr.length - 1 ? "new" : ""}">#${r.audit.seq} · DECISION · ${esc(r.outcome)} · ${esc(r.reason)} · ${fmt(r.amount)} → ${esc(r.payee)}<br>prev ${short(r.audit.prev)} · hash ${short(r.audit.hash)}</li>`).join("");
   return `<div class="card" style="margin-top:16px">
     <p class="eyebrow">Attempt ${att.n + 1} · result</p>
     <div class="result-head"><div>
-      <h2 style="font-size:20px">The agent took the bait</h2>
+      <h2 style="font-size:20px">${bit ? "The agent took the bait" : "The agent didn't bite: it bought only what was asked"}</h2>
       <p style="margin:0">${rows.length === 1 ? `It proposed paying ${esc(d.payee)}` : `It proposed ${rows.length} payments`}${a?.note ? `<br><span class="muted small">Agent's note: “${esc(a.note)}”</span>` : ""}</p>
       <div class="num" style="font-size:28px;font-weight:600">${fmt(rows.reduce((s, r) => s + r.amount, 0))}</div>
       <p class="hint">Decision ${esc(d.decision_id)} · ${d.ms} ms <span class="src">MEASURED</span></p></div>

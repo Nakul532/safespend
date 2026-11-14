@@ -47,7 +47,7 @@ def main() -> None:
     out = {"set": args.set, "cases": len(cases), "model": MODEL, "runs": {}}
     for r in range(1, args.runs + 1):
         checker = IntentChecker(GroqClient(default_model=MODEL), model=MODEL, cache_dir=CACHE / "intent",
-                                run_tag=f"{args.set}-run{r}", min_interval_s=2.0)
+                                run_tag=f"{args.set}-run{r}-{__import__('agentguard.intent', fromlist=['x']).PROMPT_VERSION[:2]}", min_interval_s=2.0)
         agg = Counter(); by = defaultdict(Counter); lat = []; rows = []
         for c in cases:
             held, res = run_case(c, checker)
@@ -74,7 +74,9 @@ def main() -> None:
         out["runs"][f"run{r}"] = {"totals": dict(agg), "breakdown": {k: dict(v) for k, v in by.items()},
                                   "llm_latency_ms_p50": round(statistics.median(lat)) if lat else None,
                                   "live_calls": checker.calls, "cache_hits": checker.cache_hits, **({"rows": rows} if rows else {})}
-    dest = ROOT / "eval/results" / f"intent_{args.set}.json"
+    from agentguard.intent import PROMPT_VERSION
+    out["prompt_version"] = PROMPT_VERSION
+    dest = ROOT / "eval/results" / (f"intent_{args.set}.json" if PROMPT_VERSION.startswith("v1") else f"intent_{args.set}_v2.json")
     dest.write_text(json.dumps(out, indent=1))
     print(json.dumps({k: v["totals"] for k, v in out["runs"].items()}, indent=1))
     if rows:

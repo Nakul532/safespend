@@ -71,6 +71,7 @@ def run(world: World, attempts: list[dict], *, llm=None, store=None, defence_lev
         rows = []
         ctx = {"task": world.request, **{k: v for k, v in a["documents"].items() if v}}
         terms = detect_terms(ctx)
+        call_no = 0
         for i, pd in enumerate(a["proposals"]):
             p = Proposal.from_dict(pd)
             mid = _merchant_id(reg, p.payee)
@@ -78,7 +79,13 @@ def run(world: World, attempts: list[dict], *, llm=None, store=None, defence_lev
             for k in range(p.count):
                 if k:
                     clock.advance(seconds=max(p.spacing_seconds, 1))
-                req = PaymentRequest(world.agent.agent_id, mid, p.amount, f"a{a['n']}-p{i}-{k}", invoice_ref=p.invoice_ref,
+                # Repeated per-call or instalment charges carry their own request id, as real per-call rails do;
+                # without one, the duplicate heuristic treats identical charges seconds apart as duplicates.
+                call_no += 1
+                ref = f"call-{call_no}" if world.per_call else p.invoice_ref
+                if world.per_call and call_no > 1 and k == 0:
+                    clock.advance(seconds=max(p.spacing_seconds, 1))
+                req = PaymentRequest(world.agent.agent_id, mid, p.amount, f"a{a['n']}-p{i}-{k}", invoice_ref=ref,
                                      description=p.item, context=ctx, commitment=commitment, store_credential=p.save_card,
                                      intent=intent)
                 t0 = time.perf_counter()
