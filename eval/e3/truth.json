@@ -1,0 +1,65 @@
+{
+ "A7e59c626f7": {
+  "laundering": true,
+  "laundering_micros": 382088899,
+  "patterns": [
+   "fan-in"
+  ]
+ },
+ "A8c45304f2c": {
+  "laundering": false,
+  "laundering_micros": 0,
+  "patterns": []
+ },
+ "Aa0ea638f1f": {
+  "laundering": true,
+  "laundering_micros": 85656270,
+  "patterns": [
+   "look-alike merchant"
+  ]
+ },
+ "Af8b5bd96bf": {
+  "laundering": true,
+  "laundering_micros": 66111432,
+  "patterns": [
+   "fan-in"
+  ]
+ },
+ "Ab8db42ee72": {
+  "laundering": false,
+  "laundering_micros": 0,
+  "patterns": []
+ },
+ "Ace44491292": {
+  "laundering": false,
+  "laundering_micros": 0,
+  "patterns": []
+ },
+ "Ae623be73af": {
+  "laundering": true,
+  "laundering_micros": 1829785731,
+  "patterns": [
+   "structuring"
+  ]
+ },
+ "A66911940a4": {
+  "laundering": true,
+  "laundering_micros": 677442546,
+  "patterns": [
+   "team structuring"
+  ]
+ },
+ "Abfed45050d": {
+  "laundering": false,
+  "laundering_micros": 0,
+  "patterns": []
+ },
+ "A19516591ae": {
+  "laundering": true,
+  "laundering_micros": 825328786,
+  "patterns": [
+   "cash-out",
+   "fan-in"
+  ]
+ }
+}
