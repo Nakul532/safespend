@@ -44,3 +44,7 @@ Keys (`GROQ_API_KEY`, `OPENROUTER_API_KEY`) are read only from environment varia
 ## Red-team suite
 
 `redteam/` holds the AgentGuard Red-Team Suite v1: 55 attacks and 55 legitimate tasks, a runner, and held-out sets. It is MIT-licensed and self-contained. See `redteam/README.md`.
+
+### Held-out sets are now public
+
+The v1 held-out sets (model-written, external-model and owner-sourced incidents) and the intent-mismatch set are published here together with their results. Once public they can no longer serve as held-out tests: anyone, including future builders, can read and tune against them. **Any future version of AgentGuard needs new held-out attacks**, written independently, locked before evaluation and run once, to make a fresh claim. Results on the v1 sets after publication should be read as regression checks, not as held-out evidence.
