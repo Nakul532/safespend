@@ -29,6 +29,7 @@ class Config:
     run_tag: str = "run1"  # separates repeated LLM runs in the cache
     split_check: bool = False  # added after Stage 3 results (round 2)
     lookalike_hold_min_trusted: int | None = None  # added after Stage 3 results (round 2)
+    commitment_check: bool = False  # added after lock (Stage 4)
 
     @property
     def after_lock(self) -> list[str]:
@@ -45,6 +46,8 @@ class Config:
             out.append("pre-payment split check")
         if self.lookalike_hold_min_trusted is not None:
             out.append(f"look-alike holds with >= {self.lookalike_hold_min_trusted} trusted merchants")
+        if self.commitment_check:
+            out.append("recurring-commitment and stored-credential holds")
         return out
 
 
@@ -96,7 +99,8 @@ class AgentGuardAdapter:
         version = "policy-2026.11.10-1" + ("+after-lock:" + ",".join(self.config.after_lock) if self.config.after_lock else "")
         self.guard = AgentGuard(reg, clock=self.clock, policy=PolicyConfig(version=version, price_check=self.config.price_check,
                                                                     split_check=self.config.split_check,
-                                                                    lookalike_hold_min_trusted=self.config.lookalike_hold_min_trusted),
+                                                                    lookalike_hold_min_trusted=self.config.lookalike_hold_min_trusted,
+                                                                    commitment_check=self.config.commitment_check),
                                 sanctions=screener, injection_checker=self.checker,
                                 aml_hold_severity=self.config.aml_hold_severity)
         for a in reg.agents.values():

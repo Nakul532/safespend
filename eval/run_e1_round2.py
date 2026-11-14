@@ -27,9 +27,12 @@ CONFIGS = [
     Config("C1+S policy + price + fuzzy + split check", split_check=True, lookalike_hold_min_trusted=50, **BASE),
     Config("C4 full + split check", split_check=True, lookalike_hold_min_trusted=50, **FULL),
 ]
+# Stage 4: the boss level's configuration. C4 plus the commitment holds; the intent check is inert on the
+# suites (their steps carry no original request) and is evaluated on its own locked set.
+C5 = Config("C5 boss: C4 + commitment holds", split_check=True, lookalike_hold_min_trusted=50, commitment_check=True, **FULL)
 
 
-def main() -> None:
+def main(configs=None, out_name="round2.json") -> None:
     out = ROOT / "eval" / "results" / "e1"
     loaded = {k: rt.load(p) for k, (_, p, _) in SETS.items()}
     for k, (s, w) in loaded.items():
@@ -37,7 +40,7 @@ def main() -> None:
         assert rt.check_lock(SETS[k][1]) is None or k != "v1"
     checker = make_checker("run1")
     res: dict = {"sets": {k: v[0] for k, v in SETS.items()}, "results": {}}
-    for cfg in CONFIGS:
+    for cfg in configs or CONFIGS:
         for k, (s, w) in loaded.items():
             r = rt.run_suite(AgentGuardAdapter(cfg, checker=checker, stats=Stats()), s, w)
             agg = {x: r[x] for x in ("overall", "adaptive_attacks", "by_category")}
@@ -46,8 +49,9 @@ def main() -> None:
             if not SETS[k][2]:
                 (out / f"v1__{cfg.name.split()[0]}.json").write_text(json.dumps(r, indent=2, default=str))
         print(cfg.name, "LLM live calls", checker.calls, "cache hits", checker.cache_hits, flush=True)
-    (out / "round2.json").write_text(json.dumps(res, indent=2, default=str))
+    (out / out_name).write_text(json.dumps(res, indent=2, default=str))
 
 
 if __name__ == "__main__":
-    main()
+    import sys as _s
+    main([C5], "c5_boss.json") if "--c5" in _s.argv else main()
