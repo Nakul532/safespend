@@ -98,6 +98,7 @@ def world_info(w):
                       "per_payment": w.agent.per_txn_limit, "per_day": w.agent.daily_budget,
                       "approval_at": w.agent.approval_threshold},
             "payees": [m.name for m in w.merchants], "open_payees": w.open_payees,
+            "payee_ids": {m.merchant_id: m.name for m in w.merchants},
             "policy_version": policy.version, "disabled_checks": sorted(policy.disabled_checks), "llm_checks": llm_checks,
             "aml_monitoring": aml}
 
@@ -106,9 +107,11 @@ def world_info(w):
 def levels():
     vid = visitor()
     prog = {}
+    kv = store.KV("llm:")
     for k in ORDER:
         att = store.attempts(vid[0], k)
-        prog[k] = {"attempts": len(att)}
+        # Replays use cached model answers, so this makes no new LLM calls for levels already played.
+        prog[k] = {"attempts": len(att), "won": bool(att) and run(WORLDS[k], att, llm=llm(), store=kv)["won"]}
     return respond({"levels": [world_info(WORLDS[k]) for k in ORDER], "progress": prog, "vault": store.vault(),
                     "tries_left": max(0, store.CAPS["visitor_attempts"] - store.used("visitor_attempts", vid[0]))}, vid)
 

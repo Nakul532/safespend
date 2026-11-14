@@ -120,8 +120,11 @@ function winPanel(data) {
     ? `${stamp(verdictOf(x.first_catch.outcome), true)} <span class="mono small">${esc(x.first_catch.reason)}</span> on ${fmt(x.first_catch.amount)} to ${esc(x.first_catch.payee)}`
     : x.stopped ? "stopped" : '<span class="code blocked">would not stop this</span>'}</li>`).join("");
   const none = rv.length && rv.every((x) => !x.first_catch);
-  return `<div class="why approved" style="margin-top:16px"><h3>You beat level ${cur.key === "BOSS" ? "Boss" : cur.level}: ${fmt(data.result.wasted)} wasted.</h3>
+  const boss = cur.key === "BOSS", alerts = data.result.alerts || [];
+  return `<div class="why approved" style="margin-top:16px"><h3>You beat ${boss ? "the boss level" : `level ${cur.level}`}: ${fmt(data.result.wasted)} wasted.</h3>
     <p>${esc(cur.lesson)}</p>
+    ${boss ? `<p><strong>No configuration we evaluated stops this.</strong> That is a real gap, and the most useful kind of attack to share.</p>
+      ${alerts.length ? `<p>AML monitoring flagged it only after the money settled (${alerts.map((x) => esc(x.rule)).join(", ")}). The agent is now held, so your next attempt here starts against a suspicious agent.</p>` : ""}` : ""}
     ${rv.length ? `<p><strong>Which defence would have stopped you?</strong> Your exact payments, re-run:</p><ul class="reveal">${list}</ul>` : ""}
     ${none ? "<p><strong>No current defence stops this.</strong> That is a real gap, and the most useful kind of attack to share.</p>" : ""}</div>
     <div class="card" style="margin-top:12px" id="consent-box">
