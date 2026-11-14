@@ -36,7 +36,7 @@ def test_model_flag_holds_and_human_releases(clock):
 def test_match_passes_and_no_intent_means_no_check(clock):
     g = guard(clock, OK)
     assert g.submit_payment(req(amount=usd("0.50"), description="one article", intent=WANT)).approved
-    assert g.submit_payment(req(amount=usd("0.50"))).approved
+    assert g.submit_payment(req(amount=usd("0.60"))).approved
 
 
 def test_field_checks_decide_without_model(clock):
