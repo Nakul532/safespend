@@ -102,7 +102,7 @@ class IntentChecker:
     def _ask(self, content: str):
         key = hashlib.sha256(json.dumps(["intent", PROMPT_VERSION, self.run_tag, self.model, content]).encode()).hexdigest()
         path = self.cache_dir / f"{key}.json" if self.cache_dir else None
-        d = json.loads(path.read_text()) if path and path.exists() else (self.store.get(key) if self.store else None)
+        d = json.loads(path.read_text()) if path and path.exists() else (self.store.get(key) if self.store is not None else None)
         if d is not None:
             self.cache_hits += 1
             return d["flag"], d["confidence"], tuple(d["reasons"]), d["latency_ms"], None
@@ -136,6 +136,6 @@ class IntentChecker:
         rec = {"flag": flag, "confidence": str(data.get("confidence")), "reasons": list(reasons), "latency_ms": resp.latency_ms}
         if path:
             path.write_text(json.dumps(rec))
-        if self.store:
+        if self.store is not None:
             self.store.put(key, rec)
         return flag, rec["confidence"], reasons, resp.latency_ms, None

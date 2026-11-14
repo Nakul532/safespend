@@ -122,7 +122,7 @@ class Investigator:
         ev, allowed, idents = evidence(alert, txns_by_id, registry, history)
         key = hashlib.sha256(json.dumps(["investigator", PROMPT_VERSION, self.model, ev]).encode()).hexdigest()
         path = self.cache_dir / f"{key}.json" if self.cache_dir else None
-        raw = json.loads(path.read_text()) if path and path.exists() else (self.store.get(key) if self.store else None)
+        raw = json.loads(path.read_text()) if path and path.exists() else (self.store.get(key) if self.store is not None else None)
         if raw is not None:
             self.cache_hits += 1
             return verify(alert.alert_id, raw, allowed, idents)
@@ -153,7 +153,7 @@ class Investigator:
             return CaseNote(alert.alert_id, [], None, error="unparseable", latency_ms=resp.latency_ms)
         if path:
             path.write_text(json.dumps(raw))
-        if self.store:
+        if self.store is not None:
             self.store.put(key, raw)
         note = verify(alert.alert_id, raw, allowed, idents)
         note.latency_ms = resp.latency_ms

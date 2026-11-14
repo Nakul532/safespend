@@ -138,7 +138,7 @@ class InjectionChecker:
         content = f"[task the owner gave]\n{context.get('task') or ''}\n\n{content}"
         key = hashlib.sha256(json.dumps([self.run_tag, self.model, SYSTEM_PROMPT, content]).encode()).hexdigest()
         path = self.cache_dir / f"{key}.json" if self.cache_dir else None
-        d = json.loads(path.read_text()) if path and path.exists() else (self.store.get(key) if self.store else None)
+        d = json.loads(path.read_text()) if path and path.exists() else (self.store.get(key) if self.store is not None else None)
         if d is not None:
             self.cache_hits += 1
             self.last_cached = True
@@ -179,7 +179,7 @@ class InjectionChecker:
             rec = {"flagged": out[0], "confidence": out[1], "reasons": list(out[2]), "latency_ms": out[3], "error": out[4]}
             if path:
                 path.write_text(json.dumps(rec))
-            if self.store:
+            if self.store is not None:
                 self.store.put(key, rec)
         return out
 
