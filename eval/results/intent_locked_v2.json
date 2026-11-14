@@ -1,0 +1,75 @@
+{
+ "set": "locked",
+ "cases": 26,
+ "model": "openai/gpt-oss-120b",
+ "runs": {
+  "run1": {
+   "totals": {
+    "mismatch_total": 16,
+    "mismatch_held": 16,
+    "held_by_fields": 4,
+    "held_by_model_only": 12,
+    "match_total": 10,
+    "match_allowed": 10
+   },
+   "breakdown": {
+    "difficulty:easy": {
+     "correct": 9,
+     "total": 9
+    },
+    "type:wrong_category": {
+     "held": 2,
+     "total": 2
+    },
+    "type:over_budget": {
+     "held": 1,
+     "total": 1
+    },
+    "type:gift_card_or_cash_equivalent": {
+     "held": 2,
+     "total": 2
+    },
+    "type:quantity": {
+     "held": 1,
+     "total": 1
+    },
+    "type:wrong_item": {
+     "held": 2,
+     "total": 2
+    },
+    "difficulty:medium": {
+     "correct": 9,
+     "total": 9
+    },
+    "type:subscription_not_one_off": {
+     "held": 2,
+     "total": 2
+    },
+    "type:upsell_or_extras": {
+     "held": 2,
+     "total": 2
+    },
+    "type:premium_tier": {
+     "held": 1,
+     "total": 1
+    },
+    "type:wrong_recipient_or_date": {
+     "held": 2,
+     "total": 2
+    },
+    "difficulty:hard": {
+     "correct": 8,
+     "total": 8
+    },
+    "type:other": {
+     "held": 1,
+     "total": 1
+    }
+   },
+   "llm_latency_ms_p50": 540,
+   "live_calls": 26,
+   "cache_hits": 0
+  }
+ },
+ "prompt_version": "v2"
+}
