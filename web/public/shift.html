@@ -9,10 +9,11 @@
 <style>
   .hud { display:flex; gap:10px; flex-wrap:wrap; margin:16px 0; }
   .hud .stat { flex:0 1 auto; min-width:150px; }
+  .layout > * { min-width:0; }
   .layout { display:grid; grid-template-columns:minmax(320px, 1fr) 1.2fr; gap:16px; align-items:start; padding-bottom:24px; }
   .queue tr { cursor:pointer; } .queue tr[aria-selected="true"] td { background:color-mix(in srgb, var(--indigo) 18%, var(--surface)); }
   .queue tr.done td { color:var(--ink-2); } .queue td .pill { font:600 11px var(--mono); border:1px solid currentColor; border-radius:4px; padding:0 4px; }
-  .note li { margin-bottom:8px; } .cite { font:500 13px var(--mono); background:none; border:1px solid var(--indigo); color:var(--indigo); border-radius:4px; padding:2px 6px; min-height:32px; cursor:pointer; margin:2px; }
+  .note li { margin-bottom:8px; } .cite { font:500 13px var(--mono); background:none; border:1px solid var(--indigo); color:var(--indigo); border-radius:4px; padding:0 10px; min-height:44px; min-width:44px; cursor:pointer; margin:2px; }
   tr.hl td { background:var(--tint-held); }
   .sev { font:600 13px var(--mono); }
   @media (max-width:860px) { .layout { grid-template-columns:1fr; } #detail { order:-1; } .hide-m { display:none; } }

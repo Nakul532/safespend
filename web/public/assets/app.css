@@ -135,7 +135,11 @@ details > summary { min-height:48px; display:flex; align-items:center; cursor:po
   h1 { font-size:28px; }
   .ledger { overflow-x:auto; } .ledger ol { grid-template-columns:repeat(6, minmax(130px, 1fr)); }
   .totals .lbl-long { display:none; }
-  .nav { margin-left:0; width:100%; }
+  .top { position:static; }
+  .top .wrap { min-height:0; padding-top:4px; }
+  .nav { margin-left:0; width:100%; flex-wrap:nowrap; overflow-x:auto; order:3; }
+  .nav a { white-space:nowrap; font-size:14px; padding:0 10px; }
+  .totals { margin-left:auto; }
 }
 @media (max-width:520px) {
   .btn.full-m { width:100%; }
@@ -143,3 +147,5 @@ details > summary { min-height:48px; display:flex; align-items:center; cursor:po
   .top .wrap { gap:4px; }
   .nav a { padding:0 10px; }
 }
+
+.reveal .stamp.sm { font-size:14px; padding:2px 6px 1px; border-width:2px; gap:4px; } .reveal .stamp.sm svg { width:13px; height:13px; }

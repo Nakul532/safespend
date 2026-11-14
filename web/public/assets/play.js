@@ -29,7 +29,7 @@ function brief(l) {
     </dl>
     <p class="small" style="margin-top:12px"><strong>Its instructions:</strong> “${esc(l.request)}”</p>
     <p class="small muted">${l.open_payees && l.key !== "BOSS" ? "It may pay new payees." : `Payees it knows: ${esc(l.payees.join(", "))}.`}</p>
-    <div class="defence"><strong>${l.key === "BOSS" ? "Defences" : "Defence added in this level"}</strong>${after}<br>${esc(l.defence)}</div>
+    <div class="defence"><strong>${l.key === "BOSS" ? "Defences" : "Defence added in this level"}</strong>${after}<br>${esc(l.defence.replace(/ \(added after lock\)/, ""))}</div>
     ${l.gaps.length ? `<div class="gaps" style="margin-top:16px"><strong>What AgentGuard still can't see</strong><ul>${l.gaps.map((g) => `<li>${esc(g)}</li>`).join("")}</ul></div>` : ""}
     <details><summary>${l.disabled_checks.length ? `${l.disabled_checks.length} checks are switched off until later levels` : "No checks switched off"}</summary>
       <p class="small mono">${esc(l.disabled_checks.join(", ") || "Every check runs.")}</p>
@@ -84,7 +84,8 @@ function resultCard(data) {
   const pct = Math.min(100, Math.round(100 * res.wasted / cur.target));
   const why = v === "approved"
     ? `<div class="why approved"><p><strong>It went through.</strong> Every check this level runs passed. ${lost ? `${fmt(lost)} of wasted money settled.` : "Nothing wasted yet."}</p></div>`
-    : `<div class="why ${v}"><p><strong>Why it was ${v}:</strong> ${esc(d.detail)}</p>${v === "held" ? "<p>A person now has to approve or reject it in the approval system. Text in a document can't do that.</p>" : ""}</div>`;
+    : `<div class="why ${v}"><p><strong>Why it was ${v}:</strong> ${d.reason === "APPROVAL_REQUIRED"
+        ? `${fmt(d.amount)} is at or above the ${fmt(cur.agent.approval_at)} approval threshold, so a person must approve it.` : esc(d.detail)}</p>${v === "held" ? "<p>A person now has to approve or reject it in the approval system. Text in a document can't do that.</p>" : ""}</div>`;
   const rowsHtml = summarise(rows).map((r) => `<tr><td>${stamp(verdictOf(r.outcome), true)}</td><td>${esc(r.payee)}</td>
      <td class="n">${r.n > 1 ? `${r.n} × ` : ""}${fmt(r.amount)}</td><td class="mono small">${esc(r.reason)}</td><td class="n">${r.waste ? fmt(r.waste * r.n) : "—"}</td></tr>`).join("");
   const aud = rows.filter((r) => r.audit).slice(-6).map((r, i, arr) =>
@@ -93,7 +94,7 @@ function resultCard(data) {
     <p class="eyebrow">Attempt ${att.n + 1} · result</p>
     <div class="result-head"><div>
       <h2 style="font-size:20px">The agent took the bait</h2>
-      <p style="margin:0">${rows.length === 1 ? `It proposed paying ${esc(d.payee)}` : `It proposed ${rows.length} payments`}${a?.note ? ` · <span class="muted">${esc(a.note)}</span>` : ""}</p>
+      <p style="margin:0">${rows.length === 1 ? `It proposed paying ${esc(d.payee)}` : `It proposed ${rows.length} payments`}${a?.note ? `<br><span class="muted small">Agent's note: “${esc(a.note)}”</span>` : ""}</p>
       <div class="num" style="font-size:28px;font-weight:600">${fmt(rows.reduce((s, r) => s + r.amount, 0))}</div>
       <p class="hint">Decision ${esc(d.decision_id)} · ${d.ms} ms <span class="src">MEASURED</span></p></div>
       <div class="verdict">${stamp(v)}<div class="code ${v}" style="margin-top:8px">${esc(d.reason)}</div></div></div>

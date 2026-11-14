@@ -168,7 +168,7 @@ def generate(seed: int, queue_size: int = 60) -> Shift:
     for _ in range(2):  # slow drip under the band: designed to evade the rules
         a, m = next(it), rng.choice(untrusted)
         for d in range(DAYS - PLANT_DAYS, DAYS):
-            pay(a, m, int(a.approval_threshold * rng.uniform(0.3, 0.5)), when(d), "slow drip (evades rules)")
+            pay(a, m, int(a.approval_threshold * rng.uniform(0.3, 0.5)), when(d), "slow drip")
     txns.sort(key=lambda t: (t.timestamp, t.txn_id))
     alerts = AmlMonitor(reg).scan(txns)
     cutoff = START + timedelta(days=DAYS - PLANT_DAYS)

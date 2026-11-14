@@ -18,7 +18,7 @@ function bars(e1) {
     });
     y += n * 10 + rowH;
   }
-  return `<svg class="chart" viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Attacks stopped by configuration">${g}</svg>
+  return `<svg class="chart" viewBox="0 0 ${W} ${H}" width="100%" style="max-width:${W}px" role="img" aria-label="Attacks stopped by configuration">${g}</svg>
     <div class="legend">${e1[0].cells.map((c, i) => `<span><i style="background:${COLORS[i]}"></i>${esc(c.config)}</span>`).join("")}</div>`;
 }
 
@@ -34,12 +34,13 @@ function e1(d) {
 function e2(d) {
   const b = d.e2.budgets, ks = Object.keys(b);
   const W = 640, H = 220, x0 = 50, y0 = 190, maxY = Math.max(...ks.map((k) => b[k].rules.recall)) * 1.15;
-  const X = (i) => x0 + i * ((W - x0 - 20) / (ks.length - 1)), Y = (v) => y0 - (v / maxY) * 170;
+  const X = (i) => x0 + 10 + i * ((W - x0 - 70) / (ks.length - 1)), Y = (v) => y0 - (v / maxY) * 170;
   const line = (key, col) => `<polyline fill="none" stroke="${col}" stroke-width="3" points="${ks.map((k, i) => `${X(i)},${Y(b[k][key].recall)}`).join(" ")}"/>` +
     ks.map((k, i) => `<circle cx="${X(i)}" cy="${Y(b[k][key].recall)}" r="4" fill="${col}"/>`).join("");
-  const chart = `<svg class="chart" viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Recall at daily alert budgets">
+  const ticks = [0, maxY / 2, maxY].map((v) => `<text x="4" y="${Y(v) + 4}">${(100 * v).toFixed(0)}%</text><line x1="${x0}" x2="${W - 20}" y1="${Y(v)}" y2="${Y(v)}" stroke="#E3DED3"/>`).join("");
+  const chart = `<svg class="chart" viewBox="0 0 ${W} ${H}" width="100%" style="max-width:${W}px" role="img" aria-label="Recall at daily alert budgets">${ticks}
     <line x1="${x0}" y1="${y0}" x2="${W - 10}" y2="${y0}" stroke="#E3DED3"/>${ks.map((k, i) => `<text x="${X(i) - 14}" y="${y0 + 18}">${k.split("/")[0].slice(2)}/day</text>`).join("")}
-    ${line("rules", "#3D4FC9")}${line("baseline_top_amounts", "#B33A2E")}<text x="${x0}" y="14">recall</text></svg>
+    ${line("rules", "#3D4FC9")}${line("baseline_top_amounts", "#B33A2E")}<text x="${x0}" y="10">recall (share of laundering caught)</text></svg>
     <div class="legend"><span><i style="background:#3D4FC9"></i>AgentGuard rules, ranked</span><span><i style="background:#B33A2E"></i>Baseline: largest transfers</span></div>`;
   const rows = ks.map((k) => `<tr><td>${k.split("/")[0].slice(2)}</td><td class="n">${pct(b[k].rules.recall)}</td><td class="n">${pct(b[k].rules.alert_precision)}</td><td class="n">${pct(b[k].baseline_top_amounts.recall)}</td></tr>`).join("");
   const u = d.e2.unbudgeted;
@@ -88,12 +89,13 @@ const TABS = [["results", "Red-team results", e1], ["ibm", "IBM benchmark", e2],
 
 fetch("/data/pro.json").then((r) => r.json()).then((d) => {
   const want = (location.hash || "#results").slice(1);
-  const on = TABS.some((t) => t[0] === want) ? want : want === "ibm" ? "ibm" : "results";
+  const on = TABS.some((t) => t[0] === want) ? want : "results";
   document.getElementById("tabs").innerHTML = TABS.map(([k, label]) => `<button class="tab" role="tab" aria-selected="${k === on}" data-k="${k}">${label}</button>`).join("");
   document.getElementById("sections").innerHTML = TABS.map(([k, , f]) => `<section id="s-${k}" class="${k === on ? "on" : ""}" role="tabpanel">${f(d)}</section>`).join("");
-  document.querySelectorAll("[data-k]").forEach((b) => b.onclick = () => {
-    document.querySelectorAll("[data-k]").forEach((x) => x.setAttribute("aria-selected", x === b));
-    document.querySelectorAll(".doc section").forEach((s) => s.classList.toggle("on", s.id === "s-" + b.dataset.k));
-    history.replaceState(null, "", "#" + b.dataset.k);
-  });
+  const show = (k) => {
+    document.querySelectorAll("[data-k]").forEach((x) => x.setAttribute("aria-selected", x.dataset.k === k));
+    document.querySelectorAll(".doc section").forEach((s) => s.classList.toggle("on", s.id === "s-" + k));
+  };
+  document.querySelectorAll("[data-k]").forEach((b) => b.onclick = () => { show(b.dataset.k); history.replaceState(null, "", "#" + b.dataset.k); });
+  addEventListener("hashchange", () => { const k = location.hash.slice(1); if (TABS.some((t) => t[0] === k)) show(k); });
 });
