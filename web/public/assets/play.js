@@ -90,8 +90,8 @@ function resultCard(data) {
     ? `<div class="why approved"><p><strong>It went through.</strong> Every check this level runs passed. ${lost ? `${fmt(lost)} of wasted money settled.` : "Nothing wasted yet."}</p></div>`
     : `<div class="why ${v}"><p><strong>Why it was ${v}:</strong> ${d.reason === "APPROVAL_REQUIRED"
         ? `${fmt(d.amount)} is at or above the ${fmt(cur.agent.approval_at)} approval threshold, so a person must approve it.` : esc(named(d.detail))}</p>${v === "held" ? "<p>A person now has to approve or reject it in the approval system. Text in a document can't do that.</p>" : ""}</div>`;
-  const rowsHtml = summarise(rows).map((r) => `<tr><td>${stamp(verdictOf(r.outcome), true)}</td><td>${esc(r.payee)}</td>
-     <td class="n">${r.n > 1 ? `${r.n} × ` : ""}${fmt(r.amount)}</td><td class="mono small">${esc(r.reason)}</td><td class="n">${r.wasteSum ? fmt(r.wasteSum) : "—"}</td></tr>`).join("");
+  const rowsHtml = summarise(rows).map((r) => `<tr><td data-label="Verdict">${stamp(verdictOf(r.outcome), true)}</td><td data-label="Payee">${esc(r.payee)}</td>
+     <td class="n" data-label="Amount">${r.n > 1 ? `${r.n} × ` : ""}${fmt(r.amount)}</td><td class="mono small" data-label="Reason code">${esc(r.reason)}</td><td class="n" data-label="At risk">${r.wasteSum ? fmt(r.wasteSum) : "—"}</td></tr>`).join("");
   const aud = rows.filter((r) => r.audit).slice(-6).map((r, i, arr) =>
     `<li class="${i === arr.length - 1 ? "new" : ""}">#${r.audit.seq} · DECISION · ${esc(r.outcome)} · ${esc(r.reason)} · ${fmt(r.amount)} → ${esc(r.payee)}<br>prev ${short(r.audit.prev)} · hash ${short(r.audit.hash)}</li>`).join("");
   return `<div class="card" style="margin-top:16px">
@@ -103,7 +103,7 @@ function resultCard(data) {
       <p class="hint">Decision ${esc(d.decision_id)} · ${d.ms} ms <span class="src">MEASURED</span></p></div>
       <div class="verdict">${stamp(v)}<div class="code ${v}" style="margin-top:8px">${esc(d.reason)}</div></div></div>
     ${why}
-    <div class="tablewrap" style="margin-top:12px"><table class="t rows" aria-describedby="atrisk-note"><thead><tr><th>Verdict</th><th>Payee</th><th class="n">Amount</th><th>Reason code</th><th class="n">At risk</th></tr></thead><tbody>${rowsHtml}</tbody></table></div>
+    <div class="tablewrap" style="margin-top:12px"><table class="t rows stack" aria-describedby="atrisk-note"><thead><tr><th>Verdict</th><th>Payee</th><th class="n">Amount</th><th>Reason code</th><th class="n">At risk</th></tr></thead><tbody>${rowsHtml}</tbody></table></div>
     <p class="hint" id="atrisk-note">At risk: money this payment would waste if it went through. It counts as wasted only when the verdict is Approved.</p>
     <div class="stats" style="margin-top:16px">
       <div class="stat"><div class="k">Money protected this try</div><div class="n">${fmt(caught)}</div></div>

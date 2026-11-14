@@ -77,9 +77,9 @@ function detail() {
     <p><strong>Facts (computed by code):</strong> ${esc(a.explanation)}</p>
     ${d.usual_merchants.length ? `<p class="small muted">This agent usually pays: ${esc(d.usual_merchants.join(", "))}</p>` : ""}
     <h3 style="font-size:16px;margin-top:12px">AI investigator's case note</h3>${noteHtml}
-    <div class="tablewrap"><table class="t" id="txns"><thead><tr><th>ID</th><th>Time (UTC)</th><th>Agent</th><th>Merchant</th><th class="n">Amount</th></tr></thead><tbody>
-      ${d.transactions.map((t) => `<tr data-id="${t.id}"><td class="mono small">${t.id}</td><td class="mono small">${t.at.slice(5, 16).replace("T", " ")}</td><td class="mono small">${esc(t.agent)}</td>
-        <td>${esc(t.merchant)} <span class="small muted">${esc(t.category)}${t.trusted ? "" : " · untrusted"}</span></td><td class="n">${fmt(t.amount)}</td></tr>`).join("")}</tbody></table></div>
+    <div class="tablewrap"><table class="t stack" id="txns"><thead><tr><th>ID</th><th>Time (UTC)</th><th>Agent</th><th>Merchant</th><th class="n">Amount</th></tr></thead><tbody>
+      ${d.transactions.map((t) => `<tr data-id="${t.id}"><td class="mono small" data-label="ID">${t.id}</td><td class="mono small" data-label="Time (UTC)">${t.at.slice(5, 16).replace("T", " ")}</td><td class="mono small" data-label="Agent">${esc(t.agent)}</td>
+        <td data-label="Merchant"><span>${esc(t.merchant)} <span class="small muted">${esc(t.category)}${t.trusted ? "" : " · untrusted"}</span></span></td><td class="n" data-label="Amount">${fmt(t.amount)}</td></tr>`).join("")}</tbody></table></div>
     <div class="actions" style="margin-top:12px">${dec ? `<p class="banner">You ${dec === "escalate" ? "escalated" : "cleared"} this alert.</p>`
       : `<button class="btn btn-p" id="esc">Escalate <kbd>E</kbd></button><button class="btn btn-s" id="clr">Clear <kbd>C</kbd></button>`}</div></div>`;
 }
