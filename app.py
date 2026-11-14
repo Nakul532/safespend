@@ -216,12 +216,6 @@ def shift_seed() -> int:
         return 1
 
 
-def cents(text: str) -> str:
-    """Round code-written dollar amounts to cents for display (synthetic data has sub-cent amounts)."""
-    import re
-    return re.sub(r"\$(\d[\d,]*)\.(\d{2})(\d+)", lambda m: fmt_usd(int(round(float(m.group(1).replace(",", "") + "." + m.group(2) + m.group(3)) * 100)) * 10_000), text)
-
-
 def subject_name(sh, a) -> str:
     if a.subject_type == "merchant":
         m = sh.registry.merchants.get(a.subject_id)
@@ -233,7 +227,7 @@ def alert_row(sh, a):
     total = sum(sh.by_id[t].amount for t in a.txn_ids)
     return {"id": a.alert_id, "rule": str(a.rule).replace("AML_", "").replace("_", " ").lower(), "code": str(a.rule),
             "severity": a.severity, "subject": subject_name(sh, a), "total": total, "payments": len(a.txn_ids),
-            "raised_at": a.raised_at.isoformat(), "explanation": cents(a.explanation)}
+            "raised_at": a.raised_at.isoformat(), "explanation": a.explanation}
 
 
 @app.get("/api/shift")

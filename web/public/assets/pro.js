@@ -5,21 +5,22 @@ const pct = (x, d = 1) => x == null ? "—" : (100 * x).toFixed(d) + "%";
 const COLORS = ["#C9C3B6", "#8A93A3", "#6D7ACF", "#3D4FC9", "#0E7C5A", "#151A22"];
 
 function bars(e1) {
-  // Attacks stopped (%) per set and config: grouped bars.
-  const W = 760, rowH = 34, pad = 230, groups = e1.length, n = e1[0].cells.length;
-  const H = groups * (n * 10 + rowH) + 30;
-  let y = 10, g = "";
+  // Attacks stopped per set, one bar per configuration, every bar labelled with its value.
+  const W = 760, bh = 13, gap = 4, pad = 210, n = e1[0].cells.length, groupH = n * (bh + gap) + 26;
+  const H = e1.length * groupH + 10, maxW = W - pad - 70;
+  let y = 8, g = "";
   for (const row of e1) {
     g += `<text class="lab" x="0" y="${y + 12}">${esc(row.set.replace(/ \(.*\)$/, ""))}</text>`;
     row.cells.forEach((c, i) => {
-      const v = c.attacks ? c.stopped / c.attacks : 0, w = (W - pad - 60) * v;
-      g += `<rect x="${pad}" y="${y + i * 10}" width="${w}" height="8" fill="${COLORS[i]}"><title>${esc(c.config)}: ${c.stopped}/${c.attacks}</title></rect>`;
-      if (i === n - 1) g += `<text x="${pad + w + 6}" y="${y + i * 10 + 8}">${c.stopped}/${c.attacks}</text>`;
+      const v = c.attacks ? c.stopped / c.attacks : 0, w = Math.max(2, maxW * v), yy = y + i * (bh + gap);
+      g += `<text x="${pad - 8}" y="${yy + bh - 2}" text-anchor="end">${esc(c.config.split(" ")[0])}</text>`;
+      g += `<rect x="${pad}" y="${yy}" width="${w}" height="${bh}" rx="2" fill="${COLORS[i]}"><title>${esc(c.config)}: ${c.stopped}/${c.attacks}</title></rect>`;
+      g += `<text x="${pad + w + 6}" y="${yy + bh - 2}">${c.stopped}/${c.attacks}</text>`;
     });
-    y += n * 10 + rowH;
+    y += groupH;
   }
-  return `<svg class="chart" viewBox="0 0 ${W} ${H}" width="100%" style="max-width:${W}px" role="img" aria-label="Attacks stopped by configuration">${g}</svg>
-    <div class="legend">${e1[0].cells.map((c, i) => `<span><i style="background:${COLORS[i]}"></i>${esc(c.config)}</span>`).join("")}</div>`;
+  const legend = `<div class="legend" style="margin-bottom:8px">${e1[0].cells.map((c, i) => `<span><i style="background:${COLORS[i]}"></i><strong>${esc(c.config.split(" ")[0])}</strong> ${esc(c.config.split(" ").slice(1).join(" "))}</span>`).join("")}</div>`;
+  return legend + `<svg class="chart" viewBox="0 0 ${W} ${H}" width="100%" style="max-width:${W}px" role="img" aria-label="Attacks stopped by configuration, per set">${g}</svg>`;
 }
 
 function e1(d) {

@@ -22,7 +22,7 @@ from .aml.rules import Alert
 from .llm.client import LlmConfigError, LlmError, LlmRateLimited
 from .money import fmt_usd
 
-PROMPT_VERSION = "v1"
+PROMPT_VERSION = "v2"  # v2: may not argue against the alert's computed facts (found in hand review)
 FILTER_VERSION = "v1.1"  # v1.1 (found in E3): also drop spelled-out numbers, which v1 let through
 _ID = re.compile(r"\bT\d{7}\b")
 _NUMBER_WORDS = re.compile(r"\b(two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|"
@@ -37,6 +37,12 @@ Rules:
 - Cite only IDs listed in the evidence. Do not invent facts that are not in the evidence.
 - Do not write any numbers: no amounts, counts, dates, times or percentages. Say "several", "just under the threshold",
   "within minutes" instead. The analyst sees the exact figures next to your note.
+- The rule explanation was computed by code from the ledger and is true. Never dispute it, and never describe the very
+  pattern the rule detected as routine or normal: payments kept just under an approval threshold ARE the structuring red
+  flag, a burst far above the agent's usual rate IS the velocity red flag, many agents paying one untrusted merchant IS the
+  fan-in red flag. An innocent explanation may be offered only as something the analyst should verify, and only if the
+  evidence supports it beyond the rule's own facts.
+- Recommend "clear" only if the evidence shows a specific innocent reason; otherwise recommend "escalate" or "more_info".
 
 Reply with JSON only:
 {"sentences": [{"text": "...", "cites": ["T0000123", "..."]}], "recommendation": "escalate" | "clear" | "more_info"}"""

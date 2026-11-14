@@ -115,7 +115,10 @@ def test_usd_exact_and_rejects_float():
 
 
 def test_fmt_usd():
-    assert fmt_usd(usd("0.002")) == "$0.002"
+    assert fmt_usd(usd("0.002")) == "$0.00"
+    assert fmt_usd(usd("0.005")) == "$0.01"  # half up
+    assert fmt_usd(usd("3844.388789")) == "$3,844.39"
+    assert fmt_usd(0) == "$0.00" and fmt_usd(-usd("0.004")) == "$0.00"
     assert fmt_usd(usd(5)) == "$5.00"
     assert fmt_usd(usd("1234.5")) == "$1,234.50"
     assert fmt_usd(-usd("0.25")) == "-$0.25"

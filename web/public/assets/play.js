@@ -103,7 +103,8 @@ function resultCard(data) {
       <p class="hint">Decision ${esc(d.decision_id)} · ${d.ms} ms <span class="src">MEASURED</span></p></div>
       <div class="verdict">${stamp(v)}<div class="code ${v}" style="margin-top:8px">${esc(d.reason)}</div></div></div>
     ${why}
-    <div class="tablewrap" style="margin-top:12px"><table class="t rows"><thead><tr><th>Verdict</th><th>Payee</th><th class="n">Amount</th><th>Reason code</th><th class="n">Wasted</th></tr></thead><tbody>${rowsHtml}</tbody></table></div>
+    <div class="tablewrap" style="margin-top:12px"><table class="t rows" aria-describedby="atrisk-note"><thead><tr><th>Verdict</th><th>Payee</th><th class="n">Amount</th><th>Reason code</th><th class="n">At risk</th></tr></thead><tbody>${rowsHtml}</tbody></table></div>
+    <p class="hint" id="atrisk-note">At risk: money this payment would waste if it went through. It counts as wasted only when the verdict is Approved.</p>
     <div class="stats" style="margin-top:16px">
       <div class="stat"><div class="k">Money protected this try</div><div class="n">${fmt(caught)}</div></div>
       <div class="stat"><div class="k">Wasted so far this level</div><div class="n">${fmt(res.wasted)} <span class="small muted">of ${fmt(cur.target)}</span></div><div class="target" aria-hidden="true"><i style="width:${pct}%"></i></div></div>
@@ -116,9 +117,18 @@ function resultCard(data) {
 
 function winPanel(data) {
   const rv = data.reveal || [];
-  const list = rv.map((x) => `<li><strong>${esc(x.label)}:</strong> ${x.first_catch
+  // Group consecutive levels with the same outcome: "Levels 2–4 defences: …".
+  const key = (x) => x.first_catch ? `${x.first_catch.outcome}|${x.first_catch.reason}|${x.first_catch.amount}|${x.first_catch.payee}` : (x.stopped ? "stopped" : "none");
+  const groups = [];
+  for (const x of rv) { const g = groups[groups.length - 1]; if (g && g.key === key(x)) g.items.push(x); else groups.push({ key: key(x), items: [x] }); }
+  const label = (g) => {
+    const lv = g.items.map((x) => x.defence_level).filter((n) => n < 6), boss = g.items.some((x) => x.defence_level === 6);
+    if (!lv.length) return "Boss (full, as evaluated)";
+    const lvs = lv.length > 1 ? `Levels ${lv[0]}–${lv[lv.length - 1]}` : `Level ${lv[0]}`;
+    return boss ? `${lvs} and boss defences` : `${lvs} defences`; };
+  const list = groups.map((g) => { const x = g.items[0]; return `<li><strong>${esc(label(g))}:</strong> ${x.first_catch
     ? `${stamp(verdictOf(x.first_catch.outcome), true)} <span class="mono small">${esc(x.first_catch.reason)}</span> on ${fmt(x.first_catch.amount)} to ${esc(x.first_catch.payee)}`
-    : x.stopped ? "stopped" : '<span class="code blocked">would not stop this</span>'}</li>`).join("");
+    : x.stopped ? "stopped" : '<span class="code blocked">would not stop this</span>'}</li>`; }).join("");
   const none = rv.length && rv.every((x) => !x.first_catch);
   const boss = cur.key === "BOSS", alerts = data.result.alerts || [];
   return `<div class="why approved" style="margin-top:16px"><h3>You beat ${boss ? "the boss level" : `level ${cur.level}`}: ${fmt(data.result.wasted)} wasted.</h3>

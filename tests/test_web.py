@@ -56,3 +56,22 @@ def test_shift_endpoints(tmp_path, monkeypatch):
     assert s["you"]["false_alarms"] >= 0 and len(s["engine_order"]) == 15
     o = c.post("/api/shift/open", json={"seed": 42, "alert_id": ids[0]}).get_json()
     assert o["transactions"] and o["case_note"] is None  # no model configured: no note, never a fake one
+
+
+def test_every_dollar_amount_in_api_text_has_exactly_two_decimals(tmp_path, monkeypatch):
+    import json
+    import re
+    c, _ = client(tmp_path, monkeypatch)
+    bad = re.compile(r"\$\d[\d,]*\.\d{3,}|\$\d[\d,]*\.\d(?!\d)|\$\d[\d,]*(?![\d,.])")
+    texts = []
+    for seed in (42, 20261114, 7):
+        q = c.get(f"/api/shift?seed={seed}").get_json()
+        texts += [a["explanation"] for a in q["alerts"]]
+    from web.game.levels import WORLDS
+    from web.game.play import run
+    from tests.test_game import attempt
+    r = run(WORLDS["L2"], [attempt(0, {"payee": "Mapwise API", "amount": 450_000, "count": 30})])
+    texts += [row["detail"] for a in r["attempts"] for row in a["rows"]]
+    texts += [" ".join([w.defence, w.brief, w.lesson, w.request, *w.gaps, *(t for _, t in w.templates)]) for w in WORLDS.values()]
+    offenders = [t for t in texts if bad.search(t)]
+    assert not offenders, offenders[:3]

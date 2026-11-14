@@ -28,10 +28,11 @@ def usd(value: str | int | Decimal) -> int:
 
 
 def fmt_usd(micros: int) -> str:
-    """Format micro-dollars for display, keeping at least two decimals."""
-    sign = "-" if micros < 0 else ""
-    dollars = Decimal(abs(micros)) / MICROS_PER_USD
-    text = f"{dollars:,.6f}".rstrip("0")
-    whole, _, frac = text.partition(".")
-    frac = frac.ljust(2, "0")
-    return f"{sign}${whole}.{frac}"
+    """Format micro-dollars for display: always exactly two decimals, rounded half up.
+
+    Amounts are stored to the micro-dollar; only the display is rounded, so sub-cent API prices
+    (for example $0.002) show as $0.00 while the ledger keeps the exact value."""
+    from decimal import ROUND_HALF_UP
+    dollars = (Decimal(micros) / MICROS_PER_USD).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
+    sign = "-" if dollars < 0 else ""
+    return f"{sign}${abs(dollars):,.2f}"
