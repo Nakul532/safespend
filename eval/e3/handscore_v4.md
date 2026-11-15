@@ -29,15 +29,17 @@ Note 1 is the frozen reference case (A6c2d42955a, data before the whole-cent / I
    _cites E7, E8: Nimbus Resell (compute, untrusted): 6 payments, $1,968.96, from 3 agents. | Orbit Tools (software, untrusted): 4 payments, $1,875.43, from 1 agent._
 3. **open_questions** — What prompted the switch of agent 08 between merchants?  
    _cites E9: agent_08 switched from Orbit Tools to Nimbus Resell between 11-09 20:41 and 11-10 08:38 (11 h 57 m apart)._
-4. **actions** — Review the risk profiles of the untrusted merchants involved  
+4. **open_questions** — Are there legitimate business reasons for these near-threshold payments?  
+   _cites E2: 10 payments totalling $3,844.39, from 3 agents to 2 merchants._
+5. **actions** — Review the risk profiles of the untrusted merchants involved  
    _cites E7: Nimbus Resell (compute, untrusted): 6 payments, $1,968.96, from 3 agents._
-5. **actions** — Examine the business justification and approval workflow for each agent's payments  
+6. **actions** — Examine the business justification and approval workflow for each agent's payments  
    _cites E3, E4, E5: agent_03 (team ops): 2 payments, $183.21, each 89.6%–93.6% of its $100.00 approval threshold. | agent_08 (team ops): 6 payments, $2,752.61, each 87.0%–98.5% of its $500.00 approval threshold. | agent_13 (team ops): 2 payments, $908.57, each 84.9%–96.8% of its $500.00 approval threshold._
-6. **actions** — Query whether the agents share a common operational purpose or directive  
+7. **actions** — Query whether the agents share a common operational purpose or directive  
    _cites E1: Rule explanation (computed by code, true): 10 payments from 3 agents of one owner, each just under its approval threshold, totalling $3,844.39._
 
 Recommendation: **escalate** · checklist: limit_proximity ✓, time_window ✗, merchant_concentration ✓, cross_alert_links ✗, recommendation_with_reason ✗, next_steps ✓
-Dropped by the checker: {'claims a short period without support': 3, 'contains a spelled-out number': 2, "argues against the alert's computed facts": 1}
+Dropped by the checker: {'claims a short period without support': 3, 'contains a spelled-out number': 2}
 
 ## Note 2: AML_TEAM_STRUCTURING (severity 8) · reported (synth-v2)
 
@@ -70,17 +72,21 @@ Dropped by the checker: {'claims a short period without support': 3, 'contains a
    _cites E7: Nimbus Resell (compute, untrusted): 6 payments, $1,968.93, from 3 agents._
 5. **evidence** — Payments were also directed to an untrusted software merchant  
    _cites E8: Orbit Tools (software, untrusted): 4 payments, $1,875.41, from 1 agent._
-6. **open_questions** — Are there any approved contracts or services that justify the near-threshold amounts?  
-   _cites E1: Rule explanation (computed by code, true): 10 payments from 3 agents of one owner, each just under its approval threshold, totalling $3,844.34._
-7. **actions** — Request documentation of contracts with the compute and software merchants  
+6. **open_questions** — What legitimate business need links these agents to the compute and software merchants?  
    _cites E7, E8: Nimbus Resell (compute, untrusted): 6 payments, $1,968.93, from 3 agents. | Orbit Tools (software, untrusted): 4 payments, $1,875.41, from 1 agent._
-8. **actions** — Interview the ops owner to explain the agents' activity and merchant selection  
+7. **open_questions** — Are there any approved contracts or services that justify the near-threshold amounts?  
    _cites E1: Rule explanation (computed by code, true): 10 payments from 3 agents of one owner, each just under its approval threshold, totalling $3,844.34._
-9. **actions** — Check for any prior approvals or exemptions for near-threshold payments  
+8. **actions** — Request documentation of contracts with the compute and software merchants  
+   _cites E7, E8: Nimbus Resell (compute, untrusted): 6 payments, $1,968.93, from 3 agents. | Orbit Tools (software, untrusted): 4 payments, $1,875.41, from 1 agent._
+9. **actions** — Interview the ops owner to explain the agents' activity and merchant selection  
+   _cites E1: Rule explanation (computed by code, true): 10 payments from 3 agents of one owner, each just under its approval threshold, totalling $3,844.34._
+10. **actions** — Check for any prior approvals or exemptions for near-threshold payments  
    _cites E4: agent_08 (team ops): 6 payments, $2,752.58, each 87.0%–98.5% of its $500.00 approval threshold._
+11. **reason** — The pattern shows multiple agents structuring payments just under thresholds to untrusted merchants without an evident legitimate purpose  
+   _cites E1: Rule explanation (computed by code, true): 10 payments from 3 agents of one owner, each just under its approval threshold, totalling $3,844.34._
 
-Recommendation: **more_info** · checklist: limit_proximity ✓, time_window ✗, merchant_concentration ✓, cross_alert_links ✗, recommendation_with_reason ✗, next_steps ✓
-Dropped by the checker: {'claims a short period without support': 2, "argues against the alert's computed facts": 2, 'contains a spelled-out number': 1}
+Recommendation: **more_info** · checklist: limit_proximity ✓, time_window ✗, merchant_concentration ✓, cross_alert_links ✗, recommendation_with_reason ✓, next_steps ✓
+Dropped by the checker: {'claims a short period without support': 2, 'contains a spelled-out number': 1}
 
 ## Note 3: AML_FAN_IN (severity 7) · seed 301
 
@@ -109,15 +115,17 @@ Dropped by the checker: {'claims a short period without support': 2, "argues aga
    _cites E6: First payment 11-09 10:55, last 11-09 18:01: all 4 within 7 h 6 m._
 4. **evidence** — All payments targeted the same untrusted merchant  
    _cites E7: Orbit Tools (software, untrusted): 4 payments, $402.06, from 3 agents._
-5. **open_questions** — Do any of the agents share a common project or approval workflow that explains the coordinated payments?  
+5. **open_questions** — Is there a legitimate business need linking these agents to the merchant?  
+   _cites E9, E10, E11, E12, E13, E14: Also flagged: A0445b0b381 (new merchant burst, severity 6, in your queue, raised 11-09 12:38) shares merchant Orbit Tools; agent agent_12. | Also flagged: A7ad9c0c8fe (fan in, severity 7, in your queue, raised 11-10 16:55) shares agent agent_12. | Also flagged: A1b7690874c (new merchant burst, severity 6, in your queue, raised 11-11 18:28) shares merchant Orbit Tools. | Also flagged: Abd9a471328 (fan in, severity 7, in your queue, raised 11-12 12:53) shares agent agent_02. | Also flagged: A414852597d (new merchant burst, severity 6, not in your queue, raised 11-13 16:51) shares merchant Orbit Tools. | Also flagged: A2b2f89b8e9 (velocity spike, severity 6, in your queue, raised 11-14 01:48) shares merchant Orbit Tools._
+6. **open_questions** — Do any of the agents share a common project or approval workflow that explains the coordinated payments?  
    _cites E9, E10: Also flagged: A0445b0b381 (new merchant burst, severity 6, in your queue, raised 11-09 12:38) shares merchant Orbit Tools; agent agent_12. | Also flagged: A7ad9c0c8fe (fan in, severity 7, in your queue, raised 11-10 16:55) shares agent agent_12._
-6. **actions** — Review the business justification and approval records for each payment  
+7. **actions** — Review the business justification and approval records for each payment  
    _cites E2: 4 payments totalling $402.06, from 3 agents to 1 merchant._
-7. **actions** — Check for any recent onboarding or policy changes involving the merchant  
+8. **actions** — Check for any recent onboarding or policy changes involving the merchant  
    _cites E9: Also flagged: A0445b0b381 (new merchant burst, severity 6, in your queue, raised 11-09 12:38) shares merchant Orbit Tools; agent agent_12._
 
 Recommendation: **escalate** · checklist: time_window ✓, merchant_concentration ✓, cross_alert_links ✓, recommendation_with_reason ✗, next_steps ✓
-Dropped by the checker: {"claims 'just under the threshold' without support": 3, "argues against the alert's computed facts": 1}
+Dropped by the checker: {"claims 'just under the threshold' without support": 3}
 
 ## Note 4: AML_HIGH_RISK_CATEGORY (severity 6) · seed 301
 
@@ -140,21 +148,23 @@ Dropped by the checker: {"claims 'just under the threshold' without support": 3,
    _cites E3: agent_36 (team research): 1 payment, $14.97, at 6.0% of its $250.00 approval threshold._
 3. **evidence** — merchant is classified as untrusted gift-cards, matching the high-risk category  
    _cites E5: Apex Vouchers (gift_cards, untrusted): 1 payment, $14.97, from 1 agent._
-4. **open_questions** — Does agent_36 normally interact with gift-card merchants or is this an outlier?  
-   _cites E3: agent_36 (team research): 1 payment, $14.97, at 6.0% of its $250.00 approval threshold._
-5. **open_questions** — Are there any internal approvals or documentation for this transaction?  
-   _cites E2: 1 payment totalling $14.97, from 1 agent to 1 merchant._
-6. **actions** — Review agent_36's transaction history for similar merchant interactions  
-   _cites E3: agent_36 (team research): 1 payment, $14.97, at 6.0% of its $250.00 approval threshold._
-7. **actions** — Request supporting documentation or business justification for the purchase from Apex Vouchers  
-   _cites E2: 1 payment totalling $14.97, from 1 agent to 1 merchant._
-8. **actions** — Check if the merchant Apex Vouchers is on any internal watchlist beyond the high-risk tag  
+4. **open_questions** — Is there a legitimate business purpose for agent_36 to purchase from Apex Vouchers?  
    _cites E5: Apex Vouchers (gift_cards, untrusted): 1 payment, $14.97, from 1 agent._
-9. **reason** — the payment is low-value and isolated but involves an untrusted high-risk merchant, requiring further context  
+5. **open_questions** — Does agent_36 normally interact with gift-card merchants or is this an outlier?  
+   _cites E3: agent_36 (team research): 1 payment, $14.97, at 6.0% of its $250.00 approval threshold._
+6. **open_questions** — Are there any internal approvals or documentation for this transaction?  
+   _cites E2: 1 payment totalling $14.97, from 1 agent to 1 merchant._
+7. **actions** — Review agent_36's transaction history for similar merchant interactions  
+   _cites E3: agent_36 (team research): 1 payment, $14.97, at 6.0% of its $250.00 approval threshold._
+8. **actions** — Request supporting documentation or business justification for the purchase from Apex Vouchers  
+   _cites E2: 1 payment totalling $14.97, from 1 agent to 1 merchant._
+9. **actions** — Check if the merchant Apex Vouchers is on any internal watchlist beyond the high-risk tag  
+   _cites E5: Apex Vouchers (gift_cards, untrusted): 1 payment, $14.97, from 1 agent._
+10. **reason** — the payment is low-value and isolated but involves an untrusted high-risk merchant, requiring further context  
    _cites E1: Rule explanation (computed by code, true): 1 payments, $14.97, to a merchant in high-risk category 'gift_cards'._
 
 Recommendation: **more_info** · checklist: time_window ✗, merchant_concentration ✓, cross_alert_links ✗, recommendation_with_reason ✓, next_steps ✓
-Dropped by the checker: {'claims a burst without support': 1, "argues against the alert's computed facts": 1}
+Dropped by the checker: {'claims a burst without support': 1}
 
 ## Note 5: AML_LOOKALIKE_MERCHANT (severity 9) · seed 301
 
@@ -225,17 +235,19 @@ Dropped by the checker: {"claims 'just under the threshold' without support": 2}
    _cites E7: Swiftpay Transfer (money_transfer, untrusted): 1 payment, $21.59, from 1 agent._
 5. **open_questions** — What business justification does the finance team have for using these untrusted software and transfer services?  
    _cites E5, E6, E7: Orbit Tools (software, untrusted): 1 payment, $66.11, from 1 agent. | Pixel Forge Studio (software, untrusted): 1 payment, $29.89, from 1 agent. | Swiftpay Transfer (money_transfer, untrusted): 1 payment, $21.59, from 1 agent._
-6. **open_questions** — Do the other alerts sharing these merchants indicate a coordinated pattern?  
+6. **open_questions** — Are there any legitimate contracts or approvals linking agent 12 to these merchants?  
+   _cites E8, E9: agent_12 switched from Orbit Tools to Pixel Forge Studio between 11-09 12:27 and 11-09 12:27 (6 s apart). | agent_12 switched from Pixel Forge Studio to Swiftpay Transfer between 11-09 12:27 and 11-09 12:38 (10 m apart)._
+7. **open_questions** — Do the other alerts sharing these merchants indicate a coordinated pattern?  
    _cites E11, E12, E13, E14, E15, E16: Also flagged: A19310559d0 (fan in, severity 7, in your queue, raised 11-09 18:01) shares merchant Orbit Tools; agent agent_12. | Also flagged: A43df955213 (new merchant burst, severity 6, in your queue, raised 11-09 18:44) shares merchant Swiftpay Transfer. | Also flagged: A7ad9c0c8fe (fan in, severity 7, in your queue, raised 11-10 16:55) shares merchant Swiftpay Transfer; agent agent_12. | Also flagged: A1b7690874c (new merchant burst, severity 6, in your queue, raised 11-11 18:28) shares merchant Orbit Tools, Swiftpay Transfer. | Also flagged: A6accdc0dcf (round amounts, severity 4, in your queue, raised 11-12 14:18) shares merchant Pixel Forge Studio. | Also flagged: A7e1b8dcd5f (velocity spike, severity 6, in your queue, raised 11-13 04:41) shares merchant Swiftpay Transfer._
-7. **actions** — Request documentation of approved vendors for the finance team and verify contracts for the listed merchants.  
+8. **actions** — Request documentation of approved vendors for the finance team and verify contracts for the listed merchants.  
    _cites E5, E6, E7: Orbit Tools (software, untrusted): 1 payment, $66.11, from 1 agent. | Pixel Forge Studio (software, untrusted): 1 payment, $29.89, from 1 agent. | Swiftpay Transfer (money_transfer, untrusted): 1 payment, $21.59, from 1 agent._
-8. **actions** — Cross-check the agent's recent activity against internal policy for first-time merchant usage.  
+9. **actions** — Cross-check the agent's recent activity against internal policy for first-time merchant usage.  
    _cites E17: Before this alert, agent_12 made 33 payments over 12 d 22 h (about 2.6 a day), mostly to Mapwise, Fernway Foods, Deskline Supplies, Northwind Air._
-9. **actions** — Escalate to the senior AML team for a comprehensive review of the linked alerts.  
+10. **actions** — Escalate to the senior AML team for a comprehensive review of the linked alerts.  
    _cites E11, E12, E13: Also flagged: A19310559d0 (fan in, severity 7, in your queue, raised 11-09 18:01) shares merchant Orbit Tools; agent agent_12. | Also flagged: A43df955213 (new merchant burst, severity 6, in your queue, raised 11-09 18:44) shares merchant Swiftpay Transfer. | Also flagged: A7ad9c0c8fe (fan in, severity 7, in your queue, raised 11-10 16:55) shares merchant Swiftpay Transfer; agent agent_12._
 
 Recommendation: **escalate** · checklist: time_window ✗, merchant_concentration ✓, cross_alert_links ✓, recommendation_with_reason ✗, next_steps ✓
-Dropped by the checker: {'claims a burst without support': 1, 'contains a spelled-out number': 1, "argues against the alert's computed facts": 2}
+Dropped by the checker: {'claims a burst without support': 2, 'contains a spelled-out number': 1}
 
 ## Note 7: AML_RAPID_FIRE (severity 5) · seed 301
 
@@ -279,21 +291,23 @@ Dropped by the checker: {'claims a burst without support': 1, 'contains a spelle
    _cites E16: agent_27 switched from Tallyhouse Software to Brightline Print Co. between 11-10 18:25 and 11-10 18:25 (2 s apart)._
 6. **evidence** — other high-severity alerts involve same agent  
    _cites E22: Also flagged: A48f0463e50 (new merchant burst, severity 6, in your queue, raised 11-10 18:26) shares agent agent_27._
-7. **open_questions** — Is there any documented batch payment schedule for this agent?  
+7. **open_questions** — What legitimate business process would require multiple trusted merchants in rapid succession?  
+   _cites E6, E7, E8, E9, E10, E11, E12, E13, E14, E15: Brightline Print Co. (print, trusted): 2 payments, $10.00, from 1 agent. | CityCab (rides, trusted): 1 payment, $5.00, from 1 agent. | CoreCloud (compute, trusted): 2 payments, $10.00, from 1 agent. | Fernway Foods (food, trusted): 2 payments, $10.00, from 1 agent. | Ledgerly (software, trusted): 1 payment, $5.00, from 1 agent. | Lexa AI (ai_api, trusted): 1 payment, $5.00, from 1 agent. | Mapwise (data, trusted): 2 payments, $10.00, from 1 agent. | Northwind Air (flights, trusted): 1 payment, $5.00, from 1 agent. | Quillbase (software, trusted): 1 payment, $5.00, from 1 agent. | Tallyhouse Software (software, trusted): 3 payments, $15.00, from 1 agent._
+8. **open_questions** — Is there any documented batch payment schedule for this agent?  
    _cites E25: Before this alert, agent_27 made 60 payments over 13 d 3 h (about 4.6 a day), mostly to CityCab, Pageturn Books._
-8. **open_questions** — Do any of the merchants share ownership or backend accounts?  
+9. **open_questions** — Do any of the merchants share ownership or backend accounts?  
    _cites E6, E7, E8, E9, E10, E11, E12, E13, E14, E15: Brightline Print Co. (print, trusted): 2 payments, $10.00, from 1 agent. | CityCab (rides, trusted): 1 payment, $5.00, from 1 agent. | CoreCloud (compute, trusted): 2 payments, $10.00, from 1 agent. | Fernway Foods (food, trusted): 2 payments, $10.00, from 1 agent. | Ledgerly (software, trusted): 1 payment, $5.00, from 1 agent. | Lexa AI (ai_api, trusted): 1 payment, $5.00, from 1 agent. | Mapwise (data, trusted): 2 payments, $10.00, from 1 agent. | Northwind Air (flights, trusted): 1 payment, $5.00, from 1 agent. | Quillbase (software, trusted): 1 payment, $5.00, from 1 agent. | Tallyhouse Software (software, trusted): 3 payments, $15.00, from 1 agent._
-9. **actions** — Request a business justification for the rapid multi-merchant payments from the agent's supervisor  
+10. **actions** — Request a business justification for the rapid multi-merchant payments from the agent's supervisor  
    _cites E3: agent_27 (team finance): 16 payments, $80.00, each 2.0%–2.0% of its $250.00 approval threshold._
-10. **actions** — Verify the legitimacy and relationship of each merchant despite trusted status  
+11. **actions** — Verify the legitimacy and relationship of each merchant despite trusted status  
    _cites E6, E7, E8, E9, E10, E11, E12, E13, E14, E15: Brightline Print Co. (print, trusted): 2 payments, $10.00, from 1 agent. | CityCab (rides, trusted): 1 payment, $5.00, from 1 agent. | CoreCloud (compute, trusted): 2 payments, $10.00, from 1 agent. | Fernway Foods (food, trusted): 2 payments, $10.00, from 1 agent. | Ledgerly (software, trusted): 1 payment, $5.00, from 1 agent. | Lexa AI (ai_api, trusted): 1 payment, $5.00, from 1 agent. | Mapwise (data, trusted): 2 payments, $10.00, from 1 agent. | Northwind Air (flights, trusted): 1 payment, $5.00, from 1 agent. | Quillbase (software, trusted): 1 payment, $5.00, from 1 agent. | Tallyhouse Software (software, trusted): 3 payments, $15.00, from 1 agent._
-11. **actions** — Cross-check the agent's activity against the other flagged alerts for patterns  
+12. **actions** — Cross-check the agent's activity against the other flagged alerts for patterns  
    _cites E22, E23, E24: Also flagged: A48f0463e50 (new merchant burst, severity 6, in your queue, raised 11-10 18:26) shares agent agent_27. | Also flagged: Aea86239f87 (velocity spike, severity 6, in your queue, raised 11-10 18:26) shares agent agent_27. | Also flagged: A8a3ef664e1 (fan in, severity 7, in your queue, raised 11-15 18:45) shares agent agent_27._
-12. **reason** — pattern meets rapid-fire criteria and coincides with multiple other high-severity alerts involving the same agent  
+13. **reason** — pattern meets rapid-fire criteria and coincides with multiple other high-severity alerts involving the same agent  
    _cites E1, E5, E22: Rule explanation (computed by code, true): 16 payments with at least 15 inside 60s. | Busiest stretch: 16 payments within 30 s (11-10 18:25–18:26). | Also flagged: A48f0463e50 (new merchant burst, severity 6, in your queue, raised 11-10 18:26) shares agent agent_27._
 
 Recommendation: **escalate** · checklist: time_window ✓, merchant_concentration ✓, cross_alert_links ✓, recommendation_with_reason ✓, next_steps ✓
-Dropped by the checker: {"claims 'just under the threshold' without support": 1, "argues against the alert's computed facts": 1}
+Dropped by the checker: {"claims 'just under the threshold' without support": 1}
 
 ## Note 8: AML_ROUND_AMOUNTS (severity 4) · seed 301
 
@@ -316,21 +330,23 @@ Dropped by the checker: {"claims 'just under the threshold' without support": 1,
    _cites E3: agent_30 (team growth): 3 payments, $70.00, each 8.0%–12.0% of its $250.00 approval threshold._
 3. **evidence** — the recipient is a trusted software provider  
    _cites E5: Ledgerly (software, trusted): 3 payments, $70.00, from 1 agent._
-4. **open_questions** — Do the other alerts linked to the same agent indicate a broader pattern of concern?  
-   _cites E7, E8, E9: Also flagged: A35f7572ae2 (fan in, severity 7, in your queue, raised 11-13 09:40) shares agent agent_30. | Also flagged: Afa1aeff6e1 (structuring, severity 8, in your queue, raised 11-13 17:23) shares agent agent_30. | Also flagged: Ae645828e69 (high risk category, severity 6, in your queue, raised 11-15 14:16) shares agent agent_30._
-5. **open_questions** — Could the agent's recent activity level explain the timing of these payments?  
-   _cites E10: Before this alert, agent_30 made 24 payments over 13 d 2 h (about 1.8 a day), mostly to Promptworks, DataLoom, Quillbase._
-6. **actions** — Review the details of the linked alerts sharing the same agent  
-   _cites E7: Also flagged: A35f7572ae2 (fan in, severity 7, in your queue, raised 11-13 09:40) shares agent agent_30._
-7. **actions** — Request supporting documentation for the payments to the software vendor  
+4. **open_questions** — Is there a legitimate business justification for multiple round-amount payments to this vendor?  
    _cites E5: Ledgerly (software, trusted): 3 payments, $70.00, from 1 agent._
-8. **actions** — Interview the agent's team to confirm the business purpose of the transactions  
+5. **open_questions** — Do the other alerts linked to the same agent indicate a broader pattern of concern?  
+   _cites E7, E8, E9: Also flagged: A35f7572ae2 (fan in, severity 7, in your queue, raised 11-13 09:40) shares agent agent_30. | Also flagged: Afa1aeff6e1 (structuring, severity 8, in your queue, raised 11-13 17:23) shares agent agent_30. | Also flagged: Ae645828e69 (high risk category, severity 6, in your queue, raised 11-15 14:16) shares agent agent_30._
+6. **open_questions** — Could the agent's recent activity level explain the timing of these payments?  
+   _cites E10: Before this alert, agent_30 made 24 payments over 13 d 2 h (about 1.8 a day), mostly to Promptworks, DataLoom, Quillbase._
+7. **actions** — Review the details of the linked alerts sharing the same agent  
+   _cites E7: Also flagged: A35f7572ae2 (fan in, severity 7, in your queue, raised 11-13 09:40) shares agent agent_30._
+8. **actions** — Request supporting documentation for the payments to the software vendor  
+   _cites E5: Ledgerly (software, trusted): 3 payments, $70.00, from 1 agent._
+9. **actions** — Interview the agent's team to confirm the business purpose of the transactions  
    _cites E3: agent_30 (team growth): 3 payments, $70.00, each 8.0%–12.0% of its $250.00 approval threshold._
-9. **reason** — the pattern involves round amounts within a short period to a trusted vendor, but no explicit justification is present.  
+10. **reason** — the pattern involves round amounts within a short period to a trusted vendor, but no explicit justification is present.  
    _cites E1, E4: Rule explanation (computed by code, true): 3 payments in exact multiples of $10.00. | First payment 11-09 16:12, last 11-09 17:10: all 3 within 57 m._
 
 Recommendation: **more_info** · checklist: time_window ✓, merchant_concentration ✓, cross_alert_links ✓, recommendation_with_reason ✓, next_steps ✓
-Dropped by the checker: {'contains a spelled-out number': 1, 'claims a burst without support': 1, "argues against the alert's computed facts": 1}
+Dropped by the checker: {'contains a spelled-out number': 1, 'claims a burst without support': 1}
 
 ## Note 9: AML_STRUCTURING (severity 8) · seed 301
 
@@ -355,21 +371,23 @@ Dropped by the checker: {'contains a spelled-out number': 1, 'claims a burst wit
    _cites E5: QuickData Hub (data, untrusted): 4 payments, $1,829.76, from 1 agent._
 4. **evidence** — payments are among the largest near-threshold amounts  
    _cites E6: Largest payments: T0001701 $475.22 (agent_01 to QuickData Hub, 11-11 19:03); T0001569 $462.69 (agent_01 to QuickData Hub, 11-11 09:11); T0001693 $448.05 (agent_01 to QuickData Hub, 11-11 18:27); T0001606 $443.80 (agent_01 to QuickData Hub, 11-11 11:52)._
-5. **open_questions** — Why does the agent repeatedly use this untrusted merchant despite other regular vendors?  
-   _cites E10: Before this alert, agent_01 made 33 payments over 16 d 2 h (about 2.0 a day), mostly to Brightline Print Co., Fernway Foods, Vectorly, Quillbase._
-6. **open_questions** — Are the other flagged alerts related to coordinated activity with this merchant?  
-   _cites E7, E8, E9: Also flagged: A43df955213 (new merchant burst, severity 6, in your queue, raised 11-09 18:44) shares merchant QuickData Hub. | Also flagged: A301dda7de9 (new merchant burst, severity 6, in your queue, raised 11-15 18:45) shares merchant QuickData Hub. | Also flagged: A8a3ef664e1 (fan in, severity 7, in your queue, raised 11-15 18:45) shares merchant QuickData Hub; agent agent_01._
-7. **actions** — Conduct a merchant risk assessment for the data provider  
+5. **open_questions** — Is there a legitimate research need for data from this merchant?  
    _cites E5: QuickData Hub (data, untrusted): 4 payments, $1,829.76, from 1 agent._
-8. **actions** — Request a business justification from the agent's team for these payments  
+6. **open_questions** — Why does the agent repeatedly use this untrusted merchant despite other regular vendors?  
    _cites E10: Before this alert, agent_01 made 33 payments over 16 d 2 h (about 2.0 a day), mostly to Brightline Print Co., Fernway Foods, Vectorly, Quillbase._
-9. **actions** — Add monitoring for future near-threshold payments to this merchant  
+7. **open_questions** — Are the other flagged alerts related to coordinated activity with this merchant?  
+   _cites E7, E8, E9: Also flagged: A43df955213 (new merchant burst, severity 6, in your queue, raised 11-09 18:44) shares merchant QuickData Hub. | Also flagged: A301dda7de9 (new merchant burst, severity 6, in your queue, raised 11-15 18:45) shares merchant QuickData Hub. | Also flagged: A8a3ef664e1 (fan in, severity 7, in your queue, raised 11-15 18:45) shares merchant QuickData Hub; agent agent_01._
+8. **actions** — Conduct a merchant risk assessment for the data provider  
+   _cites E5: QuickData Hub (data, untrusted): 4 payments, $1,829.76, from 1 agent._
+9. **actions** — Request a business justification from the agent's team for these payments  
+   _cites E10: Before this alert, agent_01 made 33 payments over 16 d 2 h (about 2.0 a day), mostly to Brightline Print Co., Fernway Foods, Vectorly, Quillbase._
+10. **actions** — Add monitoring for future near-threshold payments to this merchant  
    _cites E1: Rule explanation (computed by code, true): 4 payments each just under the $500.00 approval threshold, totalling $1,829.76._
-10. **reason** — pattern matches structuring with multiple near-threshold payments to an untrusted merchant  
+11. **reason** — pattern matches structuring with multiple near-threshold payments to an untrusted merchant  
    _cites E1: Rule explanation (computed by code, true): 4 payments each just under the $500.00 approval threshold, totalling $1,829.76._
 
 Recommendation: **escalate** · checklist: limit_proximity ✓, time_window ✓, merchant_concentration ✓, cross_alert_links ✗, recommendation_with_reason ✓, next_steps ✓
-Dropped by the checker: {'contains a spelled-out number': 1, "argues against the alert's computed facts": 1}
+Dropped by the checker: {'contains a spelled-out number': 1}
 
 ## Note 10: AML_TEAM_STRUCTURING (severity 8) · seed 301
 
@@ -396,18 +414,20 @@ Dropped by the checker: {'contains a spelled-out number': 1, "argues against the
    _cites E6: First payment 11-10 15:03, last 11-10 18:23: all 6 within 3 h 20 m._
 3. **evidence** — Payments were directed to an untrusted merchant  
    _cites E7: Halcyon Consulting (other, untrusted): 6 payments, $677.42, from 3 agents._
-4. **open_questions** — Why were multiple agents used instead of a single agent?  
+4. **open_questions** — Is there a legitimate business relationship between the owner and the untrusted merchant?  
+   _cites E7: Halcyon Consulting (other, untrusted): 6 payments, $677.42, from 3 agents._
+5. **open_questions** — Why were multiple agents used instead of a single agent?  
    _cites E3, E4, E5: agent_03 (team ops): 2 payments, $169.80, each 84.3%–85.5% of its $100.00 approval threshold. | agent_08 (team ops): 2 payments, $90.22, each 89.4%–91.0% of its $50.00 approval threshold. | agent_13 (team ops): 2 payments, $417.40, each 82.2%–84.7% of its $250.00 approval threshold._
-5. **open_questions** — Are there any approved exceptions for payments near thresholds to this merchant?  
+6. **open_questions** — Are there any approved exceptions for payments near thresholds to this merchant?  
    _cites E1: Rule explanation (computed by code, true): 6 payments from 3 agents of one owner, each just under its approval threshold, totalling $677.42._
-6. **actions** — Request documentation of the business purpose for these payments  
+7. **actions** — Request documentation of the business purpose for these payments  
    _cites E7: Halcyon Consulting (other, untrusted): 6 payments, $677.42, from 3 agents._
-7. **actions** — Obtain information on the merchant's legitimacy and relationship to the owner  
+8. **actions** — Obtain information on the merchant's legitimacy and relationship to the owner  
    _cites E7: Halcyon Consulting (other, untrusted): 6 payments, $677.42, from 3 agents._
-8. **actions** — Monitor future transactions from these agents for similar patterns  
+9. **actions** — Monitor future transactions from these agents for similar patterns  
    _cites E6: First payment 11-10 15:03, last 11-10 18:23: all 6 within 3 h 20 m._
-9. **reason** — Pattern matches structuring criteria with multiple near-threshold payments to an untrusted merchant  
+10. **reason** — Pattern matches structuring criteria with multiple near-threshold payments to an untrusted merchant  
    _cites E1: Rule explanation (computed by code, true): 6 payments from 3 agents of one owner, each just under its approval threshold, totalling $677.42._
 
 Recommendation: **escalate** · checklist: limit_proximity ✗, time_window ✓, merchant_concentration ✓, cross_alert_links ✗, recommendation_with_reason ✓, next_steps ✓
-Dropped by the checker: {'contains a spelled-out number': 3, "argues against the alert's computed facts": 1}
+Dropped by the checker: {'contains a spelled-out number': 3}

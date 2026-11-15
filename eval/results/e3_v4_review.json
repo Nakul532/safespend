@@ -1,0 +1,30 @@
+{
+ "about": "Review of E3 v4 (filter v2.2) requested before shipping. Unsupported-line types were classified by the builder's AI assistant reading each line, its cited pack lines and the whole pack; not by the judge and not human-verified.",
+ "unsupported_lines": 9,
+ "unsupported_by_type": {
+  "interpretation beyond the pack": {"count": 3, "examples": [
+   {"alert": "A7a01e4019d", "rule": "HIGH_RISK_CATEGORY", "line": "payments approach or exceed the approval threshold", "cites": "E5: agent_25 3 payments, each 53.7%-85.8% of its $250.00 threshold", "why": "no payment exceeds the threshold; the near-threshold check missed 'approach or exceed'"},
+   {"alert": "Acfeca1b29d", "rule": "ROUND_AMOUNTS", "line": "agent switched merchants between each payment", "cites": "E16: one switch", "why": "the pack lists only the first five switches, and two merchants got repeat payments, so 'each payment' is not shown"},
+   {"alert": "Acfeca1b29d", "rule": "ROUND_AMOUNTS", "line": "final payment went to a different merchant", "cites": "E20: the fifth listed switch", "why": "E20 is the last switch listed, not the last payment; the pack caps switches at five without saying so"}]},
+  "wrong or incomplete citation (claim true elsewhere in the pack)": {"count": 4, "examples": [
+   {"alert": "A38f4156628", "rule": "NEW_MERCHANT_BURST", "line": "Payments were to a variety of trusted merchants across different categories", "cites": "E6: one merchant", "why": "true per E2 and E6-E15, but cites one merchant line; the judge also flagged it as arguing against the rule"},
+   {"alert": "A4c4a537c7e", "rule": "TEAM_STRUCTURING", "line": "the largest share of funds went to an untrusted software merchant", "cites": "E8: Pixel Forge Studio $935.45", "why": "true ($935.45 vs $629.35 in E9), but the comparison needs E9 or E2"},
+   {"alert": "A714007b02d", "rule": "TEAM_STRUCTURING", "line": "Trusted merchant received the smaller payment", "cites": "E7: Quillbase 1 payment $40.00", "why": "true against E6, which it does not cite"}],
+   "also": [{"alert": "Ab95d4de054", "rule": "RAPID_FIRE", "line": "the merchant list consists entirely of trusted categories", "cites": "E20: a switch", "why": "true per E6-E15, cites a switch line; judge flagged it as arguing against the rule"}]},
+  "wording the judge disliked (claim supported by the cited line and the alert header)": {"count": 2, "examples": [
+   {"alert": "A6dc5ab4930", "rule": "ROUND_AMOUNTS", "line": "the recipient is a trusted software provider", "cites": "E5: Ledgerly (software, trusted)", "why": "E5 states exactly this; the judge objected that the line does not mention round amounts"},
+   {"alert": "A714007b02d", "rule": "TEAM_STRUCTURING", "line": "Untrusted merchant received the bulk of the payments", "cites": "E6: QuickData Hub 4 payments $379.33", "why": "the judge saw the $419.33 total in the rule line; $379.33 is the bulk"}]},
+  "other": {"count": 0, "examples": []}
+ },
+ "checklist_comparison": {
+  "method": "Same text-based checks on the model-written text of v3 sentences and v4 kept lines (pack figures excluded), plus v4's citation-based checklist. v3 ran on synth-v1 data, v4 on synth-v2: same selection method, different alerts. v3 had no reason or next-step fields; its 'recommendation with reason' counts a recommendation with at least one kept sentence.",
+  "rows": {
+   "limit_proximity": {"v3_text": [2, 10], "v4_text": [8, 10], "v4_cited": [8, 10]},
+   "time_window": {"v3_text": [11, 31], "v4_text": [26, 31], "v4_cited": [26, 31]},
+   "merchant_concentration": {"v3_text": [19, 31], "v4_text": [31, 31], "v4_cited": [27, 31]},
+   "cross_alert_links": {"v3_text": [0, 31], "v4_text": [14, 31], "v4_cited": [19, 31]},
+   "recommendation_with_reason": {"v3_text": [21, 31], "v4_text": [25, 31], "v4_cited": [25, 31]},
+   "next_steps": {"v3_text": [2, 31], "v4_text": [31, 31], "v4_cited": [31, 31]}
+  }
+ }
+}

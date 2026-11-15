@@ -102,6 +102,8 @@ def main() -> None:
         "e3v4": {k: v for k, v in json.loads((R / "e3_v4.json").read_text()).items() if k != "reference_frozen"}
                 | {"reference": {k: v for k, v in json.loads((R / "e3_v4.json").read_text())["reference_frozen"].items() if k != "judged"}},
         "handscore_v3": handscore(),
+        "e3v4_v21": json.loads((R / "e3_v4_filter_v2.1.json").read_text())["main"],
+        "e3v4_review": json.loads((R / "e3_v4_review.json").read_text()),
         "docs": {"validation": md((ROOT / "docs/MODEL_VALIDATION.md").read_text()),
                  "controls": md((ROOT / "docs/CONTROL_MATRIX.md").read_text())},
     }

@@ -103,3 +103,16 @@ def test_agent_names_with_unicode_spaces_are_identifiers_not_numbers():
     n = verify(a.alert_id, data, pack, by_id, identifiers_for(pack, reg))
     assert n.sections["evidence"][0]["text"] == "Agent 08 made most payments near-threshold"
     assert n.dropped == {"claims a short period without support": 1}
+
+
+def test_filter_v22_questions_and_negated_excuses():
+    a, by_id, reg, pack = ref()
+    data = {"open_questions": [{"text": "Is there a legitimate business need for these payments?", "cites": ["E1"]}],
+            "reason": {"text": "Payments go to untrusted merchants without an evident legitimate purpose.", "cites": ["E7"]},
+            "summary": [{"text": "This is routine procurement.", "cites": ["E1"]},
+                        {"text": "There is nothing unusual here.", "cites": ["E1"]},
+                        {"text": "These payments are not routine.", "cites": ["E1"]}]}
+    n = verify(a.alert_id, data, pack, by_id, identifiers_for(pack, reg))
+    assert len(n.sections["open_questions"]) == 1 and len(n.sections["reason"]) == 1
+    assert [x["text"] for x in n.sections["summary"]] == ["These payments are not routine."]
+    assert n.dropped == {"argues against the alert's computed facts": 2}

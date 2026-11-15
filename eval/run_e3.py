@@ -177,7 +177,9 @@ def main() -> None:
                                                         "judged": ref["judged"], "checks": ref["checks"]},
            "claim_check_thresholds": {"just_under_min_pct": inv_mod.NEAR_PCT, "burst_max_s": inv_mod.BURST_S, "short_period_max_s": inv_mod.SHORT_S},
            "earlier_results_unchanged": ["eval/results/e3_v1.json", "eval/results/e3_v2.json", "eval/results/e3_v3_prompt_only.json",
-                                         "eval/results/e3_v3.json"],
+                                         "eval/results/e3_v3.json", "eval/results/e3_v4_filter_v2.1.json"],
+           "post_results_change": "filter v2.2 was approved after the v2.1 results: no excuse filter on open questions; negated "
+                                  "excuses allowed. Same drafts (cached), re-checked; v2.1 results kept in e3_v4_filter_v2.1.json.",
            "note": "Figures shown with a note come from the evidence pack (code); the checker guarantees no model-written digits."}
     (ROOT / "eval/results/e3_v4.json").write_text(json.dumps(res, indent=1, default=str))
     print(json.dumps({k: res[k] for k in ("main",)}, indent=1))

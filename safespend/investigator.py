@@ -26,7 +26,8 @@ from .evidence import PACK_VERSION, Pack, build
 from .llm.client import LlmConfigError, LlmError, LlmRateLimited
 
 PROMPT_VERSION = "v4"
-FILTER_VERSION = "v2.1"  # v2.1: normalise Unicode spaces/hyphens; agent names written as "Agent 08"; wider near/short phrases
+FILTER_VERSION = "v2.2"  # v2.2 (after E3 v4 results): no excuse filter on open questions; negated phrases ("without a legitimate purpose") allowed
+# v2.1: v2.1: normalise Unicode spaces/hyphens; agent names written as "Agent 08"; wider near/short phrases
 # v2.0 claim checks: limit proximity >= 80%, burst <= 10 min, short period <= 24 h; doubts only as questions
 NEAR_PCT, BURST_S, SHORT_S = 80.0, 600, 86400
 MAX_PER_SECTION = 10
@@ -34,6 +35,18 @@ SECTIONS = ("summary", "evidence", "open_questions", "actions", "reason")
 
 _EXCUSES = re.compile(r"\b(routine|normal|legitimate|innocent|innocuous|benign|typical|ordinary|expected|nothing unusual|"
                       r"business as usual|consistent with (?:normal|regular|routine|legitimate|business))\b", re.I)
+_NEGATED = re.compile(r"\b(?:no|not|without|never|nor|lacks?|lacking|absence of|lack of|rather than)\b(?:\s+[\w'-]+){0,3}\s*$", re.I)
+
+
+def excuses(text: str) -> bool:
+    """True if the text excuses the flagged pattern. A negated excuse ("without a legitimate purpose", "not routine")
+    argues FOR the alert, so it is allowed (v2.2). "nothing unusual" is always an excuse."""
+    for m in _EXCUSES.finditer(text):
+        if m.group(0).lower() == "nothing unusual" or not _NEGATED.search(text[:m.start()]):
+            return True
+    return False
+
+
 _NUMBER_WORDS = re.compile(r"\b(two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|"
                            r"sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|hundred|thousand|dozen|half|twice)\b", re.I)
 _NEAR = re.compile(r"\b(?:just|right|slightly|barely|narrowly)\s+(?:under|below|beneath|short of)\b|\b(?:close|near|nearly|up)\s+to\s+"
@@ -120,7 +133,7 @@ def check_line(text: str, cites: list[str], section: str, pack: Pack, all_txns: 
         return "contains a number"
     if _NUMBER_WORDS.search(scrub):
         return "contains a spelled-out number"
-    if _EXCUSES.search(scrub):
+    if section != "open_questions" and excuses(scrub):
         return "argues against the alert's computed facts"
     if section == "open_questions":
         if not text.rstrip().endswith("?"):

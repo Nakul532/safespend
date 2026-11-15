@@ -1,7 +1,7 @@
 {
  "version": "E3 v4",
  "investigator_prompt": "v4",
- "filter_version": "v2.1",
+ "filter_version": "v2.2",
  "pack_version": "p2",
  "data_version": "synth-v2",
  "investigator_model": "openai/gpt-oss-120b",
@@ -14,31 +14,31 @@
    "alerts": 31,
    "notes_with_error": 0,
    "raw_lines": 381,
-   "kept_lines": 287,
-   "kept_claim_lines": 134,
+   "kept_lines": 317,
+   "kept_claim_lines": 138,
    "cited_total": 686,
    "cited_unknown": 0,
    "notes_shown": 31,
    "notes_with_summary": 15,
    "dropped: claims a short period without support": 4,
-   "dropped: argues against the alert's computed facts": 33,
    "dropped: contains a spelled-out number": 18,
    "kept: summary": 15,
    "kept: evidence": 98,
-   "kept: open_questions": 65,
+   "kept: open_questions": 91,
    "kept: actions": 88,
-   "kept: reason": 21,
+   "kept: reason": 25,
    "notes_contradicting_rule": 2,
    "dropped: claims 'just under the threshold' without support": 23,
-   "dropped: claims a burst without support": 16
+   "dropped: claims a burst without support": 17,
+   "dropped: argues against the alert's computed facts": 2
   },
   "judge_verdicts_on_kept_claim_lines": {
-   "supported": 103,
+   "supported": 105,
    "contradicts_rule": 2,
-   "partly": 22,
+   "partly": 24,
    "unsupported": 9
   },
-  "supported_rate": 0.7687,
+  "supported_rate": 0.7609,
   "citation_existence_rate": 1.0,
   "usefulness_checklist": {
    "limit_proximity": {
@@ -47,8 +47,8 @@
     "fail": 2
    },
    "time_window": {
-    "fail": 6,
-    "pass": 25
+    "fail": 5,
+    "pass": 26
    },
    "merchant_concentration": {
     "pass": 27,
@@ -59,8 +59,8 @@
     "pass": 19
    },
    "recommendation_with_reason": {
-    "fail": 10,
-    "pass": 21
+    "pass": 25,
+    "fail": 6
    },
    "next_steps": {
     "pass": 31
@@ -68,10 +68,10 @@
   },
   "usefulness_pass_rate": {
    "limit_proximity": 0.8,
-   "time_window": 0.8065,
+   "time_window": 0.8387,
    "merchant_concentration": 0.871,
    "cross_alert_links": 0.6129,
-   "recommendation_with_reason": 0.6774,
+   "recommendation_with_reason": 0.8065,
    "next_steps": 1.0
   },
   "recommendation_vs_truth": {
@@ -86,7 +86,7 @@
    "alerts": 1,
    "notes_with_error": 0,
    "raw_lines": 12,
-   "kept_lines": 6,
+   "kept_lines": 7,
    "kept_claim_lines": 1,
    "cited_total": 15,
    "cited_unknown": 0,
@@ -94,10 +94,9 @@
    "notes_with_summary": 0,
    "dropped: claims a short period without support": 3,
    "dropped: contains a spelled-out number": 2,
-   "dropped: argues against the alert's computed facts": 1,
    "kept: summary": 0,
    "kept: evidence": 1,
-   "kept: open_questions": 2,
+   "kept: open_questions": 3,
    "kept: actions": 3,
    "kept: reason": 0,
    "notes_contradicting_rule": 0
@@ -174,6 +173,15 @@
       "facts": [
        "agent_08 switched from Orbit Tools to Nimbus Resell between 11-09 20:41 and 11-10 08:38 (11 h 57 m apart)."
       ]
+     },
+     {
+      "text": "Are there legitimate business reasons for these near-threshold payments?",
+      "cites": [
+       "E2"
+      ],
+      "facts": [
+       "10 payments totalling $3,844.39, from 3 agents to 2 merchants."
+      ]
      }
     ],
     "actions": [
@@ -214,8 +222,7 @@
    "recommendation": "escalate",
    "dropped": {
     "claims a short period without support": 3,
-    "contains a spelled-out number": 2,
-    "argues against the alert's computed facts": 1
+    "contains a spelled-out number": 2
    },
    "cited_total": 15,
    "cited_unknown": 0,
@@ -420,7 +427,9 @@
   "eval/results/e3_v1.json",
   "eval/results/e3_v2.json",
   "eval/results/e3_v3_prompt_only.json",
-  "eval/results/e3_v3.json"
+  "eval/results/e3_v3.json",
+  "eval/results/e3_v4_filter_v2.1.json"
  ],
+ "post_results_change": "filter v2.2 was approved after the v2.1 results: no excuse filter on open questions; negated excuses allowed. Same drafts (cached), re-checked; v2.1 results kept in e3_v4_filter_v2.1.json.",
  "note": "Figures shown with a note come from the evidence pack (code); the checker guarantees no model-written digits."
 }
