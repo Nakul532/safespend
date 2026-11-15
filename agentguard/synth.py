@@ -22,6 +22,8 @@ from .models import Agent, Merchant
 from .money import usd
 from .registry import Registry
 
+DATA_VERSION = "synth-v2"  # v2: whole-cent amounts; transaction IDs assigned in time order
+
 DAYS = 21
 PLANT_DAYS = 7
 START = datetime(2026, 10, 26, tzinfo=timezone.utc)
@@ -47,6 +49,7 @@ class Shift:
     alerts: list[Alert]  # the queue (real rule output, sampled to the queue size)
     all_alerts: int = 0
     by_id: dict[str, LedgerTxn] = field(default_factory=dict)
+    pool: list[Alert] = field(default_factory=list)  # every alert the rules raised in the last 7 days (for cross-alert links)
 
     def alert_truth(self, a: Alert) -> dict:
         bad = [t for t in a.txn_ids if t in self.txn_pattern]
@@ -83,14 +86,11 @@ def generate(seed: int, queue_size: int = 60) -> Shift:
     looks = [m for m in reg.merchants.values() if m.name in dict(LOOKALIKES)]
     agents = list(reg.agents.values())
 
+    raw: list[tuple] = []
+
     def pay(agent: Agent, merchant: Merchant, amount: int, at: datetime, pattern: str | None = None) -> None:
-        amount = max(amount, 10_000)  # at least one cent
-        t = LedgerTxn(txn_id=f"T{next(seq):07d}", kind=TxnKind.PAYMENT, timestamp=at, amount=amount,
-                      postings=(Posting(agent.wallet_account, -amount), Posting(f"merchant:{merchant.merchant_id}", amount)),
-                      agent_id=agent.agent_id, owner_id=agent.owner_id, merchant_id=merchant.merchant_id)
-        txns.append(t)
-        if pattern:
-            label[t.txn_id] = pattern
+        # Whole cents (synth-v2), so an alert's total always equals the sum of its displayed rows.
+        raw.append((at, len(raw), agent, merchant, max(amount // 10_000 * 10_000, 10_000), pattern))
 
     def when(day: float, hour_lo=8, hour_hi=19) -> datetime:
         return START + timedelta(days=int(day), hours=rng.uniform(hour_lo, hour_hi))
@@ -169,13 +169,20 @@ def generate(seed: int, queue_size: int = 60) -> Shift:
         a, m = next(it), rng.choice(untrusted)
         for d in range(DAYS - PLANT_DAYS, DAYS):
             pay(a, m, int(a.approval_threshold * rng.uniform(0.3, 0.5)), when(d), "slow drip")
-    txns.sort(key=lambda t: (t.timestamp, t.txn_id))
+    # IDs are assigned in time order (synth-v2), so a later payment always has a larger ID.
+    for at, _, agent, merchant, amount, pattern in sorted(raw, key=lambda r: (r[0], r[1])):
+        t = LedgerTxn(txn_id=f"T{next(seq):07d}", kind=TxnKind.PAYMENT, timestamp=at, amount=amount,
+                      postings=(Posting(agent.wallet_account, -amount), Posting(f"merchant:{merchant.merchant_id}", amount)),
+                      agent_id=agent.agent_id, owner_id=agent.owner_id, merchant_id=merchant.merchant_id)
+        txns.append(t)
+        if pattern:
+            label[t.txn_id] = pattern
     alerts = AmlMonitor(reg).scan(txns)
     cutoff = START + timedelta(days=DAYS - PLANT_DAYS)
     recent = [a for a in alerts if a.raised_at >= cutoff]
     queue = rng.sample(recent, min(queue_size, len(recent)))
     queue.sort(key=lambda a: a.raised_at)
-    return Shift(seed, reg, txns, label, queue, len(recent), {t.txn_id: t for t in txns})
+    return Shift(seed, reg, txns, label, queue, len(recent), {t.txn_id: t for t in txns}, recent)
 
 
 def score(shift: Shift, escalated: list[str], penalty: int = usd(50)) -> dict:

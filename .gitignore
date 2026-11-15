@@ -22,7 +22,7 @@ node_modules/
 redteam/heldout/*-raw.txt
 
 # Datasets (licensed separately; never committed)
-data/
+/data/
 eval/cache/
 web/.local/
 .vercel/

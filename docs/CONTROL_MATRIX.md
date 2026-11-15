@@ -20,6 +20,6 @@ Risk → control → test → evidence. Guardrails map to the OWASP Top 10 for L
 | Dormant account suddenly active | FinCEN red flag | Dormant-then-active rule | Synthetic data, tests | tests/test_aml.py |
 | Cash-out via gift cards, crypto, transfers | FinCEN advisories on gift-card fraud | High-risk category rule; intent field check on cash equivalents | Synthetic data; intent set | tests; intent results |
 | Tampered records | Audit and record-keeping | Hash-chained audit log with verification and export | Tamper tests | tests/test_ledger_audit_breaker.py |
-| Unexplained alert decisions | Model risk (SR 11-7) | Reason codes on every decision; investigator notes with verified citations | E3 (30 alerts) | eval/results/e3.json |
+| Unexplained alert decisions | Model risk (SR 11-7) | Reason codes on every decision; code-computed evidence pack; investigator notes checked against it (citations, no model numbers, claim checks) | E3 v4 (31 alerts) and earlier versions | eval/results/e3_v4.json, e3_v3.json |
 | Unbounded LLM cost on the public site | OWASP LLM10 Unbounded consumption | Per-visitor, per-IP and site-wide daily caps | Cap tests | web/store.py |
 | Personal data in visitor submissions | Privacy | Opt-in only, text-only, scrubbed, human review, deletion by ID | Scrub tests | web/store.py; /privacy |

@@ -47,6 +47,27 @@ def md(text: str) -> str:
     return "\n".join(out)
 
 
+def handscore() -> dict:
+    """Hand-score verdicts on the v3 pack, reported separately by source."""
+    import csv
+    rows = list(csv.DictReader((ROOT / "eval/e3/handscore_verdicts_2026-11-14.csv").open()))
+    out = {}
+    for r in rows:
+        k = "owner" if r["verdict_source"].startswith("owner") else "ai_drafted_owner_approved"
+        o = out.setdefault(k, {"notes": set(), "lines": 0, "supported": 0, "useful_y": 0, "useful_partly": 0, "rec_ok": 0, "rec_n": 0})
+        o["lines"] += 1
+        o["supported"] += r["supported_Y_N"] == "Y"
+        o["useful_y"] += r["useful_Y_N"] == "Y"
+        o["useful_partly"] += r["useful_Y_N"].lower() == "partly"
+        if r["note"] not in o["notes"] and r["recommendation_ok_Y_N"]:
+            o["rec_n"] += 1
+            o["rec_ok"] += r["recommendation_ok_Y_N"] == "Y"
+        o["notes"].add(r["note"])
+    for o in out.values():
+        o["notes"] = len(o["notes"])
+    return out
+
+
 def main() -> None:
     s = json.loads((R / "e1/summary.json").read_text())
     r2 = json.loads((R / "e1/round2.json").read_text())
@@ -77,7 +98,10 @@ def main() -> None:
         "rapidfire": {"chosen": rf["chosen"], "before": rf["test_before"]["unbudgeted"]["all_rules"], "after": rf["test_after"]["unbudgeted"]["all_rules"]},
         "lookalike": json.loads((R / "lookalike_fp.json").read_text()),
         "intent": json.loads((R / "intent_locked.json").read_text())["runs"],
-        "e3": json.loads((R / "e3.json").read_text()),
+        "e3": json.loads((R / "e3_v3.json").read_text()),
+        "e3v4": {k: v for k, v in json.loads((R / "e3_v4.json").read_text()).items() if k != "reference_frozen"}
+                | {"reference": {k: v for k, v in json.loads((R / "e3_v4.json").read_text())["reference_frozen"].items() if k != "judged"}},
+        "handscore_v3": handscore(),
         "docs": {"validation": md((ROOT / "docs/MODEL_VALIDATION.md").read_text()),
                  "controls": md((ROOT / "docs/CONTROL_MATRIX.md").read_text())},
     }

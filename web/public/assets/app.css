@@ -166,3 +166,13 @@ details > summary { min-height:48px; display:flex; align-items:center; cursor:po
 .hero-stamp { animation:drop-hero .5s cubic-bezier(.2,1.5,.4,1) 1; }  /* no fill: if the animation never runs, the stamp is still visible */
 @keyframes drop-hero { from { transform:rotate(-4deg) translateY(-24px) scale(1.7); opacity:0; } to { transform:rotate(-4deg) scale(1); opacity:1; } }
 @media (max-width:640px) { table.stack td .stamp.sm { animation:none; } table.stack td span.small { display:block; } }
+
+/* Investigator v4: evidence pack and note sections */
+ol.pack { margin: 8px 0 0; padding-left: 0; list-style: none; display: grid; gap: 4px; font-size: 14px; }
+ol.pack li { padding: 6px 8px; border-left: 3px solid var(--hairline); overflow-wrap: anywhere; }
+ol.pack li.hl { background: var(--hl-bg, rgba(61,79,201,.12)); border-left-color: var(--indigo); }
+.note-h { font-size: 13px; text-transform: uppercase; letter-spacing: .04em; margin: 12px 0 4px; }
+ul.note { margin: 0; padding-left: 18px; }
+ul.note li { margin: 4px 0; overflow-wrap: anywhere; }
+.fact { font-family: var(--mono); font-size: 13px; }
+table.t tr.hl td { background: rgba(61,79,201,.12); }

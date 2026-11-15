@@ -12,7 +12,8 @@ from pathlib import Path
 
 from flask import Flask, jsonify, make_response, request, send_from_directory
 
-from agentguard.investigator import Investigator, evidence
+from agentguard.evidence import build as build_pack
+from agentguard.investigator import Investigator
 from agentguard.llm import GroqClient
 from agentguard.money import fmt_usd
 from agentguard.synth import best, generate, ranked, score
@@ -26,6 +27,7 @@ PUBLIC = ROOT / "web" / "public"
 app = Flask(__name__, static_folder=None)
 MAX_DOC = 2000
 SHIFT_BUDGET, SHIFT_SECONDS = 15, 180
+MAX_ROWS = 200  # every payment in an alert is shown (largest alert in the shift data is well under this)
 
 
 def _load_env():
@@ -247,21 +249,24 @@ def shift_open():
     if a is None:
         return respond({"error": "unknown alert"}, vid, 404)
     rows = []
-    for t in [sh.by_id[i] for i in a.txn_ids][:25]:
+    for t in sorted((sh.by_id[i] for i in a.txn_ids), key=lambda t: (t.timestamp, t.txn_id))[:MAX_ROWS]:
         m = sh.registry.merchants[t.merchant_id]
         rows.append({"id": t.txn_id, "at": t.timestamp.isoformat(), "agent": t.agent_id, "merchant": m.name,
                      "category": m.category, "trusted": m.trusted, "amount": t.amount})
     hist = None
     if a.subject_type == "agent":
         hist = [t for t in sh.txns if t.agent_id == a.subject_id and t.timestamp < a.raised_at - timedelta(hours=1)][-60:]
+    queue = frozenset(x.alert_id for x in sh.alerts)
+    pack = build_pack(a, sh.by_id, sh.registry, pool=sh.pool, queue=queue, history=hist)
     note = None
     client = llm()
     if client is not None and not store.take([("visitor_notes", vid[0], store.CAPS["visitor_notes"]),
                                               ("site_notes", "all", store.CAPS["site_notes"])]):
-        n = Investigator(client, model=CHECK_MODEL, store=store.KV("inv:"), max_retries=2).draft(a, sh.by_id, sh.registry, hist)
+        n = Investigator(client, model=CHECK_MODEL, store=store.KV("inv:"), max_retries=2).draft(
+            a, sh.by_id, sh.registry, hist, pool=sh.pool, queue=queue)
         note = n.as_dict()
     return respond({"alert": alert_row(sh, a), "transactions": rows, "case_note": note,
-                    "usual_merchants": sorted({sh.registry.merchants[t.merchant_id].name for t in (hist or [])})[:6]}, vid)
+                    "pack": [{"id": f.id, "kind": f.kind, "text": f.text, "txns": list(f.txns)} for f in pack.facts]}, vid)
 
 
 @app.post("/api/shift/score")

@@ -1,39 +1,49 @@
-"""E3: investigator case-note citation accuracy on 30 alerts (synthetic data, SIMULATED money).
+"""E3 v4: investigator v4 case notes on 31 alerts (synth-v2 data) plus the frozen reference case. SIMULATED money.
 
-- Code checks: every cited ID exists in the ledger and was in the evidence; sentences with numbers or
-  without citations are dropped before display. Reported before and after the filter.
-- LLM judge (a different model family from the investigator) rates each kept sentence against the rows
-  it cites: supported / partly / unsupported.
-- 10 notes are exported for Nakul to hand-score (eval/e3/handscore.md + handscore.csv).
+- Code checks (agentguard.investigator.verify): cited evidence IDs exist; no model-written numbers; claim checks
+  (just under >= 80% of threshold, burst <= 10 min, short period <= 24 h); doubts only as questions; no excuses.
+- LLM judge (a different model family) rates each kept claim line (summary, evidence, reason) against the pack
+  lines it cites: supported / partly / unsupported, and whether it contradicts the rule.
+- Automatic usefulness checklist per note (code, not a human score): limit proximity, time window, merchant
+  concentration, cross-alert links, recommendation with a reason, next steps. Counted only where applicable.
+- Hand-score pack v4: eval/e3/handscore_v4.md + .csv (note 1 = frozen reference case A6c2d42955a).
+Earlier results are kept unchanged: eval/results/e3_v1.json, e3_v2.json, e3_v3_prompt_only.json, e3_v3.json.
 """
 from __future__ import annotations
 
 import csv
+import hashlib
 import json
+import re
+import time
 from collections import Counter
 from datetime import timedelta
 
-from agentguard.investigator import Investigator, evidence
+from agentguard import evidence as ev_mod
+from agentguard import investigator as inv_mod
+from agentguard.evidence import build
+from agentguard.investigator import Investigator
 from agentguard.llm import GroqClient
-from agentguard.money import fmt_usd
-from agentguard.synth import generate
+from agentguard.llm.client import LlmRateLimited
+from agentguard.synth import DATA_VERSION, generate
 from eval.common import CACHE, MODEL, ROOT, load_env
+from eval.e3 import reference
 
 JUDGE_MODEL = "qwen/qwen3.8-27b"
-JUDGE_V = "v3: same row fields as the investigator; also asks whether the sentence argues against the rule's computed facts"
-JUDGE_PROMPT = """You check one sentence from an AML case note against the transaction rows it cites.
+JUDGE_V = "v4: judges one note line against the evidence-pack lines it cites (pack figures computed by code)"
+JUDGE_PROMPT = """You check one line from an AML case note against the evidence lines it cites. The evidence lines were
+computed by code from the ledger and are true.
 Reply with JSON only: {"verdict": "supported" | "partly" | "unsupported", "contradicts_rule": true | false, "reason": "short reason"}.
-"contradicts_rule" is true if the sentence disputes the rule explanation, or calls the very pattern the rule detected
-routine, normal or legitimate (for example calling payments kept just under an approval threshold routine).
-"supported": everything the sentence claims is shown by the cited rows (or the alert's rule explanation).
+"contradicts_rule" is true if the line disputes the rule explanation, or calls the very pattern the rule detected routine,
+normal or legitimate.
+"supported": everything the line claims is shown by the cited evidence lines (or the rule explanation).
 "partly": the main claim is shown but a detail is not. "unsupported": the main claim is not shown or is contradicted."""
+CHECKS = ("limit_proximity", "time_window", "merchant_concentration", "cross_alert_links", "recommendation_with_reason", "next_steps")
+CLAIM_SECTIONS = ("summary", "evidence", "reason")
 
 
 def judge(client, content: str) -> dict:
     """Qwen's thinking text breaks Groq's JSON mode, so ask for JSON and take the last object in the reply."""
-    import re
-    import time
-    from agentguard.llm.client import LlmRateLimited
     for attempt in range(5):
         time.sleep(2)
         try:
@@ -54,12 +64,24 @@ def judge(client, content: str) -> dict:
     return {"verdict": "unparseable", "reason": "rate limited"}
 
 
-REPORTED = (20261114, "AML_TEAM_STRUCTURING")  # the case Nakul flagged in hand review (2026-11-14 daily shift)
+def checklist(note, pack) -> dict[str, bool | None]:
+    """True/False where the item applies to this alert, None where it does not."""
+    kind = {f.id: f.kind for f in pack.facts}
+    cited = {kind[c] for sec in ("summary", "evidence", "reason", "actions") for x in note.sections[sec] for c in x["cites"] if c in kind}
+    near = any(f.kind == "agent" and (f.data.get("max_pct") or 0) >= 80 for f in pack.facts)
+    return {"limit_proximity": ("agent" in cited) if near else None,
+            "time_window": bool(cited & {"span", "burst"}),
+            "merchant_concentration": "merchant" in cited,
+            "cross_alert_links": ("link" in cited) if any(f.kind == "link" for f in pack.facts) else None,
+            "recommendation_with_reason": bool(note.recommendation and note.sections["reason"]),
+            "next_steps": bool(note.sections["actions"])}
 
 
 def pick(seeds=(301, 302, 303), per_seed=10):
-    sh = generate(REPORTED[0])
-    out = [(sh, next(a for a in sh.alerts if str(a.rule) == REPORTED[1]))]
+    """Same selection method as v3: the reported case's counterpart (same seed and rule, regenerated data), then 10
+    alerts per seed, round-robin over rules."""
+    sh = generate(reference.SEED)
+    out = [("reported (synth-v2)", sh, next(a for a in sh.alerts if str(a.rule) == "AML_TEAM_STRUCTURING"))]
     for s in seeds:
         sh = generate(s)
         by_rule: dict = {}
@@ -71,43 +93,20 @@ def pick(seeds=(301, 302, 303), per_seed=10):
                 if i < len(by_rule[r]) and len(chosen) < per_seed:
                     chosen.append(by_rule[r][i])
             i += 1
-        out += [(sh, a) for a in chosen]
+        out += [(f"seed {s}", sh, a) for a in chosen]
     return out
 
 
-def main() -> None:
-    load_env()
-    client = GroqClient(default_model=MODEL)
-    inv = Investigator(client, model=MODEL, cache_dir=CACHE / "investigator", min_interval_s=2.0)
-    judge_cache = CACHE / "e3_judge"
-    judge_cache.mkdir(parents=True, exist_ok=True)
-    tot = Counter(); verdicts = Counter(); rec = Counter(); notes_out = []
-    for sh, a in pick():
-        hist = None
-        if a.subject_type == "agent":
-            hist = [t for t in sh.txns if t.agent_id == a.subject_id and t.timestamp < a.raised_at - timedelta(hours=1)][-60:]
-        note = inv.draft(a, sh.by_id, sh.registry, hist)
-        truth = sh.alert_truth(a)
-        tot["alerts"] += 1
-        tot["notes_with_error"] += bool(note.error)
-        tot["raw_sentences"] += note.raw_sentences
-        tot["kept_sentences"] += len(note.sentences)
-        tot["cited_total"] += note.cited_total
-        tot["cited_unknown"] += note.cited_unknown
-        tot["notes_shown"] += bool(note.sentences)
-        for k, v in note.dropped.items():
-            tot["dropped: " + k] += v
-        r = note.recommendation or "none"
-        rec[f"{'laundering' if truth['laundering'] else 'benign'} -> {r}"] += 1
-        judged = []
-        tot["notes_contradicting_rule"] += 0
-        for s in note.sentences:
-            # Same evidence lines the investigator saw (judge run 1 had stripped rows; see JUDGE_V).
-            ev_lines = evidence(a, sh.by_id, sh.registry, hist)[0].split("\n")
-            head = [l for l in ev_lines if not l[:1] == "T" or not l[1:8].isdigit()]
-            rows = "\n".join(l for l in ev_lines if l.split(" | ")[0] in s["cites"])
-            content = ("\n".join(head) + f"\n\nCited rows:\n{rows}\n\nSentence: {s['text']}")
-            import hashlib
+def run_one(inv, client, judge_cache, label, a, by_id, reg, pool, queue, hist, truth):
+    pack = build(a, by_id, reg, pool=pool, queue=queue, history=hist)
+    note = inv.draft(a, by_id, reg, hist, pool=pool, queue=queue)
+    facts = pack.by_id()
+    head = f"Alert {a.alert_id}: rule {a.rule}, severity {a.severity}.\n[E1] {facts['E1'].text}"
+    judged = []
+    for sec in CLAIM_SECTIONS:
+        for x in note.sections[sec]:
+            cited = "\n".join(f"[{c}] {facts[c].text}" for c in x["cites"] if c in facts)
+            content = f"{head}\n\nCited evidence lines:\n{cited}\n\nNote line ({sec}): {x['text']}"
             key = hashlib.sha256(json.dumps([JUDGE_MODEL, JUDGE_PROMPT, JUDGE_V, content]).encode()).hexdigest()
             p = judge_cache / f"{key}.json"
             if p.exists():
@@ -116,48 +115,99 @@ def main() -> None:
                 v = judge(client, content)
                 if v.get("verdict") != "unparseable":
                     p.write_text(json.dumps(v))
-            verdicts[v.get("verdict", "unparseable")] += 1
-            if v.get("contradicts_rule") is True:
-                verdicts["contradicts_rule"] += 1
-            judged.append({**s, "judge": v.get("verdict"), "judge_reason": v.get("reason"), "contradicts": v.get("contradicts_rule") is True})
-        tot["notes_contradicting_rule"] += any(j.get("contradicts") for j in judged)
-        notes_out.append({"alert": a, "sh": sh, "note": note, "judged": judged, "truth": truth})
-    res = {"alerts": tot["alerts"], "includes_reported_case": f"seed {REPORTED[0]}, {REPORTED[1]} (from hand review)",
-           "investigator_prompt": __import__("agentguard.investigator", fromlist=["x"]).PROMPT_VERSION, "investigator_model": MODEL, "judge_model": JUDGE_MODEL, "totals": dict(tot),
-           "citation_existence_rate": round(1 - tot["cited_unknown"] / tot["cited_total"], 4) if tot["cited_total"] else None,
-           "judge_verdicts_on_kept_sentences": dict(verdicts), "judge_version": JUDGE_V,
-           "judge_v1_verdicts_stripped_rows": {"supported": 32, "partly": 23, "unsupported": 34},
-           "filter_v1_with_judge_v2": {"kept_sentences": 89, "supported": 69, "partly": 11, "unsupported": 9},
-           "investigator_v1_results": "eval/results/e3_v1.json (30 alerts, prompt v1)",
-           "investigator_v2_results": "eval/results/e3_v2.json (31 alerts, prompt v2)",
-           "filter_version": __import__("agentguard.investigator", fromlist=["x"]).FILTER_VERSION, "recommendation_vs_truth": dict(rec),
-           "numbers_in_shown_text": 0,
-           "note": "Numbers shown with a note come from code; the filter guarantees no model-written digits are displayed."}
-    (ROOT / "eval/results/e3.json").write_text(json.dumps(res, indent=1))
-    print(json.dumps(res, indent=1))
+            judged.append({"section": sec, **x, "judge": v.get("verdict"), "judge_reason": v.get("reason"),
+                           "contradicts": v.get("contradicts_rule") is True})
+    return {"label": label, "alert": a, "pack": pack, "note": note, "judged": judged, "truth": truth, "checks": checklist(note, pack)}
 
-    # Hand-score pack: 10 notes (first 10 with at least one kept sentence).
-    # The reported case is always note 1, even if the checker removed its draft; then nine notes with sentences.
-    pack = [notes_out[0]] + [n for n in notes_out[1:] if n["note"].sentences][:9]
-    md = ["# E3 hand-score pack (10 notes)", "", "For each sentence, mark Supported (Y/N) and Useful (Y/N) in handscore.csv. "
-          "Evidence rows are the same ones the investigator saw. SIMULATED money, synthetic data.", ""]
-    with (ROOT / "eval/e3/handscore.csv").open("w", newline="") as f:
+
+def summarise(rows) -> dict:
+    tot, verdicts, rec, chk = Counter(), Counter(), Counter(), {c: Counter() for c in CHECKS}
+    for r in rows:
+        n = r["note"]
+        tot["alerts"] += 1
+        tot["notes_with_error"] += bool(n.error)
+        tot["raw_lines"] += n.raw_lines
+        tot["kept_lines"] += n.kept_lines
+        tot["kept_claim_lines"] += sum(len(n.sections[s]) for s in CLAIM_SECTIONS)
+        tot["cited_total"] += n.cited_total
+        tot["cited_unknown"] += n.cited_unknown
+        tot["notes_shown"] += bool(n.kept_lines)
+        tot["notes_with_summary"] += bool(n.sections["summary"])
+        for k, v in n.dropped.items():
+            tot["dropped: " + k] += v
+        for s in inv_mod.SECTIONS:
+            tot[f"kept: {s}"] += len(n.sections[s])
+        if r["truth"] is not None:
+            rec[f"{'laundering' if r['truth']['laundering'] else 'benign'} -> {n.recommendation or 'none'}"] += 1
+        for j in r["judged"]:
+            verdicts[j["judge"] or "unparseable"] += 1
+            verdicts["contradicts_rule"] += j["contradicts"]
+        tot["notes_contradicting_rule"] += any(j["contradicts"] for j in r["judged"])
+        for c, v in r["checks"].items():
+            chk[c]["n/a" if v is None else ("pass" if v else "fail")] += 1
+    judged = sum(verdicts[k] for k in ("supported", "partly", "unsupported", "unparseable"))
+    return {"totals": dict(tot), "judge_verdicts_on_kept_claim_lines": dict(verdicts),
+            "supported_rate": round(verdicts["supported"] / judged, 4) if judged else None,
+            "citation_existence_rate": round(1 - tot["cited_unknown"] / tot["cited_total"], 4) if tot["cited_total"] else None,
+            "usefulness_checklist": {c: dict(v) for c, v in chk.items()},
+            "usefulness_pass_rate": {c: (round(v["pass"] / (v["pass"] + v["fail"]), 4) if v["pass"] + v["fail"] else None) for c, v in chk.items()},
+            "recommendation_vs_truth": dict(rec)}
+
+
+def main() -> None:
+    load_env()
+    client = GroqClient(default_model=MODEL)
+    inv = Investigator(client, model=MODEL, cache_dir=CACHE / "investigator", min_interval_s=2.0)
+    judge_cache = CACHE / "e3_judge"
+    judge_cache.mkdir(parents=True, exist_ok=True)
+    rows = []
+    for label, sh, a in pick():
+        hist = None
+        if a.subject_type == "agent":
+            hist = [t for t in sh.txns if t.agent_id == a.subject_id and t.timestamp < a.raised_at - timedelta(hours=1)][-60:]
+        rows.append(run_one(inv, client, judge_cache, label, a, sh.by_id, sh.registry, sh.pool,
+                            frozenset(x.alert_id for x in sh.alerts), hist, sh.alert_truth(a)))
+    fa, fby, freg, fpool, fq = reference.load()
+    ref = run_one(inv, client, judge_cache, "reference (frozen, pre-fix data)", fa, fby, freg, fpool, fq, None, None)
+    res = {"version": "E3 v4", "investigator_prompt": inv_mod.PROMPT_VERSION, "filter_version": inv_mod.FILTER_VERSION,
+           "pack_version": ev_mod.PACK_VERSION, "data_version": DATA_VERSION, "investigator_model": MODEL, "judge_model": JUDGE_MODEL,
+           "judge_version": JUDGE_V, "alerts": len(rows),
+           "selection": "reported case's counterpart (seed 20261114, team structuring, regenerated data) + 10 alerts per seed 301-303",
+           "main": summarise(rows), "reference_frozen": {**summarise([ref]), "alert_id": fa.alert_id, "note": ref["note"].as_dict(),
+                                                        "judged": ref["judged"], "checks": ref["checks"]},
+           "claim_check_thresholds": {"just_under_min_pct": inv_mod.NEAR_PCT, "burst_max_s": inv_mod.BURST_S, "short_period_max_s": inv_mod.SHORT_S},
+           "earlier_results_unchanged": ["eval/results/e3_v1.json", "eval/results/e3_v2.json", "eval/results/e3_v3_prompt_only.json",
+                                         "eval/results/e3_v3.json"],
+           "note": "Figures shown with a note come from the evidence pack (code); the checker guarantees no model-written digits."}
+    (ROOT / "eval/results/e3_v4.json").write_text(json.dumps(res, indent=1, default=str))
+    print(json.dumps({k: res[k] for k in ("main",)}, indent=1))
+    print(json.dumps({k: v for k, v in res["reference_frozen"].items() if k not in ("judged",)}, indent=1, default=str))
+    write_pack([ref] + [r for r in rows if r["note"].kept_lines][:9])
+
+
+def write_pack(pack_rows) -> None:
+    md = ["# E3 v4 hand-score pack (10 notes)", "",
+          "Note 1 is the frozen reference case (A6c2d42955a, data before the whole-cent / ID-order fix). Notes 2–10 are the "
+          "first nine v4 notes with kept lines (synth-v2 data). For each line mark Supported (Y/N) and Useful (Y/N/Partly) in "
+          "handscore_v4.csv. SIMULATED money, synthetic data.", ""]
+    with (ROOT / "eval/e3/handscore_v4.csv").open("w", newline="") as f:
         w = csv.writer(f)
-        w.writerow(["note", "alert_id", "sentence_no", "sentence", "cites", "supported_Y_N", "useful_Y_N", "comment"])
-        for i, n in enumerate(pack, 1):
-            a, sh = n["alert"], n["sh"]
-            ev, _, _ = evidence(a, sh.by_id, sh.registry)
-            md += [f"## Note {i}: {a.rule} (severity {a.severity})" + (" — the case you flagged in hand review" if i == 1 else ""), "", "```", ev, "```", "",
-                   f"Recommendation: **{n['note'].recommendation}**", ""]
-            if not n["note"].sentences:
-                md.append(f"_Every sentence of this draft was removed by the checker ({', '.join(n['note'].dropped) or 'no usable sentences'})._")
-                w.writerow([i, a.alert_id, 0, "(draft removed by the checker)", "", "", "", ""])
-            for j, s in enumerate(n["note"].sentences, 1):
-                md.append(f"{j}. {s['text']}")
-                w.writerow([i, a.alert_id, j, s["text"], " ".join(s["cites"]), "", "", ""])
-            md.append("")
-    (ROOT / "eval/e3/handscore.md").write_text("\n".join(md))
-    (ROOT / "eval/e3/truth.json").write_text(json.dumps({n["alert"].alert_id: n["truth"] for n in pack}, indent=1))
+        w.writerow(["note", "alert_id", "line_no", "section", "line", "cites", "supported_Y_N", "useful_Y_N_Partly", "comment", "verdict_source"])
+        for i, r in enumerate(pack_rows, 1):
+            a, p, n = r["alert"], r["pack"], r["note"]
+            md += [f"## Note {i}: {a.rule} (severity {a.severity}) · {r['label']}", "", "```",
+                   "\n".join(f"[{x.id}] {x.text}" for x in p.facts), "```", ""]
+            k = 0
+            for sec in inv_mod.SECTIONS:
+                for x in n.sections[sec]:
+                    k += 1
+                    facts = " | ".join(x["facts"])
+                    md.append(f"{k}. **{sec}** — {x['text']}" + (f"  \n   _cites {', '.join(x['cites'])}: {facts}_" if x["cites"] else ""))
+                    w.writerow([i, a.alert_id, k, sec, x["text"], " ".join(x["cites"]), "", "", "", ""])
+            md += ["", f"Recommendation: **{n.recommendation}** · checklist: " +
+                   ", ".join(f"{c} {'✓' if v else '✗'}" for c, v in r["checks"].items() if v is not None),
+                   f"Dropped by the checker: {dict(n.dropped) or 'nothing'}", ""]
+    (ROOT / "eval/e3/handscore_v4.md").write_text("\n".join(md))
 
 
 if __name__ == "__main__":

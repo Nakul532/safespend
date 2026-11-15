@@ -29,7 +29,7 @@ Out of scope: real payment rails, real customer data, card networks, and charges
 - Intent-mismatch set: 26 cases (16 mismatch, 10 match), written by a fresh agent, locked before the intent check existed.
 - IBM AML HI-Small (synthetic, CDLA-Sharing-1.0), first 7 days: 3.73M transactions, 3,027 laundering.
 - SEC company tickers (public) for look-alike false positives.
-- Synthetic agent payments (seeded generator) for Analyst shift and E3.
+- Synthetic agent payments (seeded generator, synth-v2: whole-cent amounts, IDs in time order) for Analyst shift and E3. E3 v4 also runs one alert frozen from the pre-fix data as a reference case.
 
 ## 5. Outcomes analysis
 See the results tabs. Headlines, all MEASURED:
@@ -38,7 +38,8 @@ See the results tabs. Headlines, all MEASURED:
 - Legitimate tasks blocked: 0/55 in every configuration. Held for a human: 1/55 under C4, 6/55 under C5 (the commitment hold catches subscription renewals).
 - Intent set: 26/26 correct in three runs (16/16 mismatches held, 10/10 matches allowed); fields alone catch 4/16.
 - IBM, first 7 days, all alerts: precision 0.15% vs 0.13% for a $10,000 threshold. At 50 reviews a day: recall 3.1% vs 0.3%.
-- E3 (31 alerts, including a case flagged in hand review): 100% of cited IDs exist and were in the evidence. Code removes sentences with numbers or that excuse the flagged pattern; of the 30 kept sentences, 90% are supported and none argue against the rule (independent judge, qwen3.8-27b). Only 21 of 31 alerts keep a note. No laundering alert was recommended "clear"; 6 benign alerts were recommended "escalate".
+- E3 v4 (31 alerts, investigator v4: code-computed evidence pack, fixed template, claim checks; synthetic data synth-v2): 100% of cited evidence IDs exist; 287 of 381 drafted lines kept, every alert keeps a note, but only 15 of 31 keep a summary. Judge (qwen3.8-27b) on the 134 kept claim lines: 77% supported, 22 partly, 9 unsupported, 2 arguing against the rule. Automatic usefulness checklist: next steps 100%, merchant concentration 87%, time window 81%, limit proximity 80% (where applicable), recommendation with a reason 68%, cross-alert links 61%. No laundering alert was recommended "clear"; 5 benign alerts were recommended "escalate". Earlier versions are kept as reported (v3: 31 alerts, 30 kept sentences, 90% supported).
+- E3 hand review of v3 notes, reported by source: owner hand-scored 1 note (1 line: supported, partly useful); AI-drafted verdicts approved by the owner, not human-verified, 9 notes (13 lines): 5 supported, 2 useful, 8 partly useful; recommendation agreed on 7 of 9.
 - Latency: deterministic path p50 0.26 ms, p95 0.44 ms; LLM call p50 472 ms, p95 1,022 ms.
 
 ## 6. Sensitivity
@@ -51,7 +52,7 @@ See the results tabs. Headlines, all MEASURED:
 - Small evaluation sets; perfect scores on 26 intent cases written by the builder's model family are not strong evidence.
 - Commitment detection is keyword-based; stored-card charges outside AgentGuard are invisible; no subscription ledger.
 - AML rules miss chain patterns (stack, cycle, bipartite) that need graph analysis.
-- The investigator sometimes claims context it was not shown, and its drafts often fail the number and no-excuse checks, so about a third of alerts show facts without a note.
+- The investigator's claims are checked against the evidence pack, but the excuse filter is word-based and over-removes: it drops open questions such as "Is there a legitimate business need…?" and reasons such as "without an evident legitimate purpose". Half of v4 notes lose their summary, mostly to claim checks. The judge still finds 9 unsupported lines (for example "bulk of the payments" from a single merchant line).
 
 ## 8. Ongoing monitoring plan
 - Re-run every locked set on each release; block release if any held-out result falls.

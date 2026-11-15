@@ -68,15 +68,26 @@ function detail() {
   const d = S.detail && S.detail.alert.id === a.id ? S.detail : null;
   if (!d) return `<div class="card"><p class="muted"><span class="spinner" aria-hidden="true"></span> Loading evidence and case note…</p></div>`;
   const note = d.case_note;
-  const noteHtml = !note ? '<p class="muted">The investigator is unavailable right now; decide from the evidence.</p>'
-    : !note.sentences.length ? `<p class="muted">Every sentence of the investigator's draft was removed by the checker (${esc(Object.keys(note.dropped || {}).join(", ") || "no usable sentences")}), so only its recommendation is shown: <strong>${esc(note.recommendation || "none")}</strong>.</p>`
-    : `<ol class="note">${note.sentences.map((s) => `<li>${esc(s.text.replace(/\s*\[T\d{7}\]/g, ""))} ${s.cites.map((c) => `<button class="cite" data-c="${c}">${c}</button>`).join("")}</li>`).join("")}</ol>
-       <p class="small">Investigator recommends: <strong>${esc(note.recommendation || "no recommendation")}</strong>${Object.keys(note.dropped || {}).length ? ` · ${Object.values(note.dropped).reduce((x, y) => x + y, 0)} sentence(s) dropped by the checker` : ""}</p>`;
+  const cite = (c) => `<button class="cite" data-e="${esc(c)}">${esc(c)}</button>`;
+  const line = (x) => `${esc(x.text)} ${x.cites.map(cite).join("")}`;
+  const sec = (title, items, fn) => items && items.length ? `<h4 class="note-h">${title}</h4><ul class="note">${items.map((x) => `<li>${fn(x)}</li>`).join("")}</ul>` : "";
+  const ns = note && note.sections;
+  const kept = ns ? Object.values(ns).reduce((n, v) => n + v.length, 0) : 0;
+  const nDropped = note ? Object.values(note.dropped || {}).reduce((x, y) => x + y, 0) : 0;
+  const noteHtml = !note ? '<p class="muted">The investigator is unavailable right now; decide from the evidence pack.</p>'
+    : note.error ? '<p class="muted">The investigator could not draft a note for this alert; decide from the evidence pack.</p>'
+    : `${!kept ? `<p class="muted">Every line of the investigator's draft was removed by the checker (${esc(Object.keys(note.dropped || {}).join(", ") || "no usable lines")}).</p>` : ""}
+      ${sec("Summary", ns.summary, line)}
+      ${sec("Evidence", ns.evidence, (x) => `${x.cites.map(cite).join("")} <span class="fact">${esc(x.facts.join(" "))}</span> — ${esc(x.text)}`)}
+      ${sec("Open questions", ns.open_questions, line)}
+      ${sec("Recommended actions", ns.actions, line)}
+      <p class="small">Investigator recommends: <strong>${esc(note.recommendation || "no recommendation")}</strong>${ns.reason.length ? ` — ${line(ns.reason[0])}` : ""}</p>
+      ${nDropped ? `<p class="small muted">${nDropped} line${nDropped === 1 ? "" : "s"} removed by the checker: ${esc(Object.entries(note.dropped).map(([k, v]) => `${k} (${v})`).join("; "))}.</p>` : ""}`;
   const dec = S.decided[a.id];
   return `<div class="card"><p class="eyebrow">Alert · ${esc(a.code)}</p><h2 style="font-size:20px">${esc(a.rule)} · severity ${a.severity}</h2>
-    <p><strong>Facts (computed by code):</strong> ${esc(a.explanation)}</p>
-    ${d.usual_merchants.length ? `<p class="small muted">This agent usually pays: ${esc(d.usual_merchants.join(", "))}</p>` : ""}
-    <h3 style="font-size:16px;margin-top:12px">AI investigator's case note</h3>${noteHtml}
+    <h3 style="font-size:16px;margin-top:12px">Evidence pack <span class="small muted">(computed by code from the ledger)</span></h3>
+    <ol class="pack" id="pack">${d.pack.map((f) => `<li data-e="${esc(f.id)}"><span class="mono small">${esc(f.id)}</span> ${esc(f.text)}</li>`).join("")}</ol>
+    <h3 style="font-size:16px;margin-top:12px">AI investigator's case note <span class="small muted">(figures shown are from the pack, not the model)</span></h3>${noteHtml}
     <div class="tablewrap"><table class="t stack" id="txns"><thead><tr><th>ID</th><th>Time (UTC)</th><th>Agent</th><th>Merchant</th><th class="n">Amount</th></tr></thead><tbody>
       ${d.transactions.map((t) => `<tr data-id="${t.id}"><td class="mono small" data-label="ID">${t.id}</td><td class="mono small" data-label="Time (UTC)">${t.at.slice(5, 16).replace("T", " ")}</td><td class="mono small" data-label="Agent">${esc(t.agent)}</td>
         <td data-label="Merchant"><span>${esc(t.merchant)} <span class="small muted">${esc(t.category)}${t.trusted ? "" : " · untrusted"}</span></span></td><td class="n" data-label="Amount">${fmt(t.amount)}</td></tr>`).join("")}</tbody></table></div>
@@ -93,8 +104,11 @@ function render() {
   document.getElementById("clr")?.addEventListener("click", () => decide("clear"));
   document.getElementById("end").onclick = finish;
   main.querySelectorAll(".cite").forEach((b) => b.onclick = () => {
-    main.querySelectorAll("#txns tr").forEach((r) => r.classList.toggle("hl", r.dataset.id === b.dataset.c));
-    main.querySelector(`#txns tr[data-id="${b.dataset.c}"]`)?.scrollIntoView({ block: "nearest" });
+    const f = (S.detail?.pack || []).find((x) => x.id === b.dataset.e);
+    const ids = new Set(f ? f.txns : []);
+    main.querySelectorAll("#pack li").forEach((li) => li.classList.toggle("hl", li.dataset.e === b.dataset.e));
+    main.querySelectorAll("#txns tr").forEach((r) => r.classList.toggle("hl", ids.has(r.dataset.id)));
+    main.querySelector(`#pack li[data-e="${b.dataset.e}"]`)?.scrollIntoView({ block: "nearest" });
   });
 }
 

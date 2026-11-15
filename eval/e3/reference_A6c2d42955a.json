@@ -1,0 +1,4982 @@
+{
+ "frozen_at": "2026-11-15",
+ "seed": 20261114,
+ "alert_id": "A6c2d42955a",
+ "data": "synth before the whole-cent / ID-order fix",
+ "agents": [
+  {
+   "agent_id": "agent_00",
+   "name": "agent_00",
+   "role": "purchasing",
+   "owner_id": "growth",
+   "per_txn_limit": 100000000,
+   "daily_budget": 1000000000,
+   "approval_threshold": 50000000,
+   "allowed_merchants": [],
+   "default_merchant_daily_limit": null,
+   "max_payments_per_window": 20,
+   "status": "active"
+  },
+  {
+   "agent_id": "agent_01",
+   "name": "agent_01",
+   "role": "purchasing",
+   "owner_id": "research",
+   "per_txn_limit": 200000000,
+   "daily_budget": 2000000000,
+   "approval_threshold": 100000000,
+   "allowed_merchants": [],
+   "default_merchant_daily_limit": null,
+   "max_payments_per_window": 20,
+   "status": "active"
+  },
+  {
+   "agent_id": "agent_02",
+   "name": "agent_02",
+   "role": "purchasing",
+   "owner_id": "finance",
+   "per_txn_limit": 1000000000,
+   "daily_budget": 10000000000,
+   "approval_threshold": 500000000,
+   "allowed_merchants": [],
+   "default_merchant_daily_limit": null,
+   "max_payments_per_window": 20,
+   "status": "active"
+  },
+  {
+   "agent_id": "agent_03",
+   "name": "agent_03",
+   "role": "purchasing",
+   "owner_id": "ops",
+   "per_txn_limit": 200000000,
+   "daily_budget": 2000000000,
+   "approval_threshold": 100000000,
+   "allowed_merchants": [],
+   "default_merchant_daily_limit": null,
+   "max_payments_per_window": 20,
+   "status": "active"
+  },
+  {
+   "agent_id": "agent_04",
+   "name": "agent_04",
+   "role": "purchasing",
+   "owner_id": "platform",
+   "per_txn_limit": 1000000000,
+   "daily_budget": 10000000000,
+   "approval_threshold": 500000000,
+   "allowed_merchants": [],
+   "default_merchant_daily_limit": null,
+   "max_payments_per_window": 20,
+   "status": "active"
+  },
+  {
+   "agent_id": "agent_05",
+   "name": "agent_05",
+   "role": "purchasing",
+   "owner_id": "growth",
+   "per_txn_limit": 100000000,
+   "daily_budget": 1000000000,
+   "approval_threshold": 50000000,
+   "allowed_merchants": [],
+   "default_merchant_daily_limit": null,
+   "max_payments_per_window": 20,
+   "status": "active"
+  },
+  {
+   "agent_id": "agent_06",
+   "name": "agent_06",
+   "role": "purchasing",
+   "owner_id": "research",
+   "per_txn_limit": 1000000000,
+   "daily_budget": 10000000000,
+   "approval_threshold": 500000000,
+   "allowed_merchants": [],
+   "default_merchant_daily_limit": null,
+   "max_payments_per_window": 20,
+   "status": "active"
+  },
+  {
+   "agent_id": "agent_07",
+   "name": "agent_07",
+   "role": "purchasing",
+   "owner_id": "finance",
+   "per_txn_limit": 200000000,
+   "daily_budget": 2000000000,
+   "approval_threshold": 100000000,
+   "allowed_merchants": [],
+   "default_merchant_daily_limit": null,
+   "max_payments_per_window": 20,
+   "status": "active"
+  },
+  {
+   "agent_id": "agent_08",
+   "name": "agent_08",
+   "role": "purchasing",
+   "owner_id": "ops",
+   "per_txn_limit": 1000000000,
+   "daily_budget": 10000000000,
+   "approval_threshold": 500000000,
+   "allowed_merchants": [],
+   "default_merchant_daily_limit": null,
+   "max_payments_per_window": 20,
+   "status": "active"
+  },
+  {
+   "agent_id": "agent_09",
+   "name": "agent_09",
+   "role": "purchasing",
+   "owner_id": "platform",
+   "per_txn_limit": 200000000,
+   "daily_budget": 2000000000,
+   "approval_threshold": 100000000,
+   "allowed_merchants": [],
+   "default_merchant_daily_limit": null,
+   "max_payments_per_window": 20,
+   "status": "active"
+  },
+  {
+   "agent_id": "agent_10",
+   "name": "agent_10",
+   "role": "purchasing",
+   "owner_id": "growth",
+   "per_txn_limit": 100000000,
+   "daily_budget": 1000000000,
+   "approval_threshold": 50000000,
+   "allowed_merchants": [],
+   "default_merchant_daily_limit": null,
+   "max_payments_per_window": 20,
+   "status": "active"
+  },
+  {
+   "agent_id": "agent_11",
+   "name": "agent_11",
+   "role": "purchasing",
+   "owner_id": "research",
+   "per_txn_limit": 1000000000,
+   "daily_budget": 10000000000,
+   "approval_threshold": 500000000,
+   "allowed_merchants": [],
+   "default_merchant_daily_limit": null,
+   "max_payments_per_window": 20,
+   "status": "active"
+  },
+  {
+   "agent_id": "agent_12",
+   "name": "agent_12",
+   "role": "purchasing",
+   "owner_id": "finance",
+   "per_txn_limit": 1000000000,
+   "daily_budget": 10000000000,
+   "approval_threshold": 500000000,
+   "allowed_merchants": [],
+   "default_merchant_daily_limit": null,
+   "max_payments_per_window": 20,
+   "status": "active"
+  },
+  {
+   "agent_id": "agent_13",
+   "name": "agent_13",
+   "role": "purchasing",
+   "owner_id": "ops",
+   "per_txn_limit": 1000000000,
+   "daily_budget": 10000000000,
+   "approval_threshold": 500000000,
+   "allowed_merchants": [],
+   "default_merchant_daily_limit": null,
+   "max_payments_per_window": 20,
+   "status": "active"
+  },
+  {
+   "agent_id": "agent_14",
+   "name": "agent_14",
+   "role": "purchasing",
+   "owner_id": "platform",
+   "per_txn_limit": 500000000,
+   "daily_budget": 5000000000,
+   "approval_threshold": 250000000,
+   "allowed_merchants": [],
+   "default_merchant_daily_limit": null,
+   "max_payments_per_window": 20,
+   "status": "active"
+  },
+  {
+   "agent_id": "agent_15",
+   "name": "agent_15",
+   "role": "purchasing",
+   "owner_id": "growth",
+   "per_txn_limit": 200000000,
+   "daily_budget": 2000000000,
+   "approval_threshold": 100000000,
+   "allowed_merchants": [],
+   "default_merchant_daily_limit": null,
+   "max_payments_per_window": 20,
+   "status": "active"
+  },
+  {
+   "agent_id": "agent_16",
+   "name": "agent_16",
+   "role": "purchasing",
+   "owner_id": "research",
+   "per_txn_limit": 200000000,
+   "daily_budget": 2000000000,
+   "approval_threshold": 100000000,
+   "allowed_merchants": [],
+   "default_merchant_daily_limit": null,
+   "max_payments_per_window": 20,
+   "status": "active"
+  },
+  {
+   "agent_id": "agent_17",
+   "name": "agent_17",
+   "role": "purchasing",
+   "owner_id": "finance",
+   "per_txn_limit": 1000000000,
+   "daily_budget": 10000000000,
+   "approval_threshold": 500000000,
+   "allowed_merchants": [],
+   "default_merchant_daily_limit": null,
+   "max_payments_per_window": 20,
+   "status": "active"
+  },
+  {
+   "agent_id": "agent_18",
+   "name": "agent_18",
+   "role": "purchasing",
+   "owner_id": "ops",
+   "per_txn_limit": 200000000,
+   "daily_budget": 2000000000,
+   "approval_threshold": 100000000,
+   "allowed_merchants": [],
+   "default_merchant_daily_limit": null,
+   "max_payments_per_window": 20,
+   "status": "active"
+  },
+  {
+   "agent_id": "agent_19",
+   "name": "agent_19",
+   "role": "purchasing",
+   "owner_id": "platform",
+   "per_txn_limit": 200000000,
+   "daily_budget": 2000000000,
+   "approval_threshold": 100000000,
+   "allowed_merchants": [],
+   "default_merchant_daily_limit": null,
+   "max_payments_per_window": 20,
+   "status": "active"
+  },
+  {
+   "agent_id": "agent_20",
+   "name": "agent_20",
+   "role": "purchasing",
+   "owner_id": "growth",
+   "per_txn_limit": 500000000,
+   "daily_budget": 5000000000,
+   "approval_threshold": 250000000,
+   "allowed_merchants": [],
+   "default_merchant_daily_limit": null,
+   "max_payments_per_window": 20,
+   "status": "active"
+  },
+  {
+   "agent_id": "agent_21",
+   "name": "agent_21",
+   "role": "purchasing",
+   "owner_id": "research",
+   "per_txn_limit": 200000000,
+   "daily_budget": 2000000000,
+   "approval_threshold": 100000000,
+   "allowed_merchants": [],
+   "default_merchant_daily_limit": null,
+   "max_payments_per_window": 20,
+   "status": "active"
+  },
+  {
+   "agent_id": "agent_22",
+   "name": "agent_22",
+   "role": "purchasing",
+   "owner_id": "finance",
+   "per_txn_limit": 1000000000,
+   "daily_budget": 10000000000,
+   "approval_threshold": 500000000,
+   "allowed_merchants": [],
+   "default_merchant_daily_limit": null,
+   "max_payments_per_window": 20,
+   "status": "active"
+  },
+  {
+   "agent_id": "agent_23",
+   "name": "agent_23",
+   "role": "purchasing",
+   "owner_id": "ops",
+   "per_txn_limit": 1000000000,
+   "daily_budget": 10000000000,
+   "approval_threshold": 500000000,
+   "allowed_merchants": [],
+   "default_merchant_daily_limit": null,
+   "max_payments_per_window": 20,
+   "status": "active"
+  },
+  {
+   "agent_id": "agent_24",
+   "name": "agent_24",
+   "role": "purchasing",
+   "owner_id": "platform",
+   "per_txn_limit": 500000000,
+   "daily_budget": 5000000000,
+   "approval_threshold": 250000000,
+   "allowed_merchants": [],
+   "default_merchant_daily_limit": null,
+   "max_payments_per_window": 20,
+   "status": "active"
+  },
+  {
+   "agent_id": "agent_25",
+   "name": "agent_25",
+   "role": "purchasing",
+   "owner_id": "growth",
+   "per_txn_limit": 100000000,
+   "daily_budget": 1000000000,
+   "approval_threshold": 50000000,
+   "allowed_merchants": [],
+   "default_merchant_daily_limit": null,
+   "max_payments_per_window": 20,
+   "status": "active"
+  },
+  {
+   "agent_id": "agent_26",
+   "name": "agent_26",
+   "role": "purchasing",
+   "owner_id": "research",
+   "per_txn_limit": 200000000,
+   "daily_budget": 2000000000,
+   "approval_threshold": 100000000,
+   "allowed_merchants": [],
+   "default_merchant_daily_limit": null,
+   "max_payments_per_window": 20,
+   "status": "active"
+  },
+  {
+   "agent_id": "agent_27",
+   "name": "agent_27",
+   "role": "purchasing",
+   "owner_id": "finance",
+   "per_txn_limit": 500000000,
+   "daily_budget": 5000000000,
+   "approval_threshold": 250000000,
+   "allowed_merchants": [],
+   "default_merchant_daily_limit": null,
+   "max_payments_per_window": 20,
+   "status": "active"
+  },
+  {
+   "agent_id": "agent_28",
+   "name": "agent_28",
+   "role": "purchasing",
+   "owner_id": "ops",
+   "per_txn_limit": 200000000,
+   "daily_budget": 2000000000,
+   "approval_threshold": 100000000,
+   "allowed_merchants": [],
+   "default_merchant_daily_limit": null,
+   "max_payments_per_window": 20,
+   "status": "active"
+  },
+  {
+   "agent_id": "agent_29",
+   "name": "agent_29",
+   "role": "purchasing",
+   "owner_id": "platform",
+   "per_txn_limit": 1000000000,
+   "daily_budget": 10000000000,
+   "approval_threshold": 500000000,
+   "allowed_merchants": [],
+   "default_merchant_daily_limit": null,
+   "max_payments_per_window": 20,
+   "status": "active"
+  },
+  {
+   "agent_id": "agent_30",
+   "name": "agent_30",
+   "role": "purchasing",
+   "owner_id": "growth",
+   "per_txn_limit": 1000000000,
+   "daily_budget": 10000000000,
+   "approval_threshold": 500000000,
+   "allowed_merchants": [],
+   "default_merchant_daily_limit": null,
+   "max_payments_per_window": 20,
+   "status": "active"
+  },
+  {
+   "agent_id": "agent_31",
+   "name": "agent_31",
+   "role": "purchasing",
+   "owner_id": "research",
+   "per_txn_limit": 200000000,
+   "daily_budget": 2000000000,
+   "approval_threshold": 100000000,
+   "allowed_merchants": [],
+   "default_merchant_daily_limit": null,
+   "max_payments_per_window": 20,
+   "status": "active"
+  },
+  {
+   "agent_id": "agent_32",
+   "name": "agent_32",
+   "role": "purchasing",
+   "owner_id": "finance",
+   "per_txn_limit": 100000000,
+   "daily_budget": 1000000000,
+   "approval_threshold": 50000000,
+   "allowed_merchants": [],
+   "default_merchant_daily_limit": null,
+   "max_payments_per_window": 20,
+   "status": "active"
+  },
+  {
+   "agent_id": "agent_33",
+   "name": "agent_33",
+   "role": "purchasing",
+   "owner_id": "ops",
+   "per_txn_limit": 200000000,
+   "daily_budget": 2000000000,
+   "approval_threshold": 100000000,
+   "allowed_merchants": [],
+   "default_merchant_daily_limit": null,
+   "max_payments_per_window": 20,
+   "status": "active"
+  },
+  {
+   "agent_id": "agent_34",
+   "name": "agent_34",
+   "role": "purchasing",
+   "owner_id": "platform",
+   "per_txn_limit": 200000000,
+   "daily_budget": 2000000000,
+   "approval_threshold": 100000000,
+   "allowed_merchants": [],
+   "default_merchant_daily_limit": null,
+   "max_payments_per_window": 20,
+   "status": "active"
+  },
+  {
+   "agent_id": "agent_35",
+   "name": "agent_35",
+   "role": "purchasing",
+   "owner_id": "growth",
+   "per_txn_limit": 100000000,
+   "daily_budget": 1000000000,
+   "approval_threshold": 50000000,
+   "allowed_merchants": [],
+   "default_merchant_daily_limit": null,
+   "max_payments_per_window": 20,
+   "status": "active"
+  },
+  {
+   "agent_id": "agent_36",
+   "name": "agent_36",
+   "role": "purchasing",
+   "owner_id": "research",
+   "per_txn_limit": 500000000,
+   "daily_budget": 5000000000,
+   "approval_threshold": 250000000,
+   "allowed_merchants": [],
+   "default_merchant_daily_limit": null,
+   "max_payments_per_window": 20,
+   "status": "active"
+  },
+  {
+   "agent_id": "agent_37",
+   "name": "agent_37",
+   "role": "purchasing",
+   "owner_id": "finance",
+   "per_txn_limit": 200000000,
+   "daily_budget": 2000000000,
+   "approval_threshold": 100000000,
+   "allowed_merchants": [],
+   "default_merchant_daily_limit": null,
+   "max_payments_per_window": 20,
+   "status": "active"
+  },
+  {
+   "agent_id": "agent_38",
+   "name": "agent_38",
+   "role": "purchasing",
+   "owner_id": "ops",
+   "per_txn_limit": 500000000,
+   "daily_budget": 5000000000,
+   "approval_threshold": 250000000,
+   "allowed_merchants": [],
+   "default_merchant_daily_limit": null,
+   "max_payments_per_window": 20,
+   "status": "active"
+  },
+  {
+   "agent_id": "agent_39",
+   "name": "agent_39",
+   "role": "purchasing",
+   "owner_id": "platform",
+   "per_txn_limit": 200000000,
+   "daily_budget": 2000000000,
+   "approval_threshold": 100000000,
+   "allowed_merchants": [],
+   "default_merchant_daily_limit": null,
+   "max_payments_per_window": 20,
+   "status": "active"
+  }
+ ],
+ "merchants": [
+  {
+   "merchant_id": "m_t00",
+   "name": "DataLoom",
+   "category": "data",
+   "trusted": true
+  },
+  {
+   "merchant_id": "m_t01",
+   "name": "SkyFeed Data",
+   "category": "data",
+   "trusted": true
+  },
+  {
+   "merchant_id": "m_t02",
+   "name": "CoreCloud",
+   "category": "compute",
+   "trusted": true
+  },
+  {
+   "merchant_id": "m_t03",
+   "name": "Gridline Compute",
+   "category": "compute",
+   "trusted": true
+  },
+  {
+   "merchant_id": "m_t04",
+   "name": "Lexa AI",
+   "category": "ai_api",
+   "trusted": true
+  },
+  {
+   "merchant_id": "m_t05",
+   "name": "Promptworks",
+   "category": "ai_api",
+   "trusted": true
+  },
+  {
+   "merchant_id": "m_t06",
+   "name": "Deskline Supplies",
+   "category": "office_supplies",
+   "trusted": true
+  },
+  {
+   "merchant_id": "m_t07",
+   "name": "Brightline Print Co.",
+   "category": "print",
+   "trusted": true
+  },
+  {
+   "merchant_id": "m_t08",
+   "name": "Pageturn Books",
+   "category": "books",
+   "trusted": true
+  },
+  {
+   "merchant_id": "m_t09",
+   "name": "CityCab",
+   "category": "rides",
+   "trusted": true
+  },
+  {
+   "merchant_id": "m_t10",
+   "name": "Harborview Inn",
+   "category": "lodging",
+   "trusted": true
+  },
+  {
+   "merchant_id": "m_t11",
+   "name": "Northwind Air",
+   "category": "flights",
+   "trusted": true
+  },
+  {
+   "merchant_id": "m_t12",
+   "name": "Tallyhouse Software",
+   "category": "software",
+   "trusted": true
+  },
+  {
+   "merchant_id": "m_t13",
+   "name": "Ledgerly",
+   "category": "software",
+   "trusted": true
+  },
+  {
+   "merchant_id": "m_t14",
+   "name": "Mapwise",
+   "category": "data",
+   "trusted": true
+  },
+  {
+   "merchant_id": "m_t15",
+   "name": "Vectorly",
+   "category": "ai_api",
+   "trusted": true
+  },
+  {
+   "merchant_id": "m_t16",
+   "name": "Quillbase",
+   "category": "software",
+   "trusted": true
+  },
+  {
+   "merchant_id": "m_t17",
+   "name": "Fernway Foods",
+   "category": "food",
+   "trusted": true
+  },
+  {
+   "merchant_id": "m_u00",
+   "name": "QuickData Hub",
+   "category": "data",
+   "trusted": false
+  },
+  {
+   "merchant_id": "m_u01",
+   "name": "Nimbus Resell",
+   "category": "compute",
+   "trusted": false
+  },
+  {
+   "merchant_id": "m_u02",
+   "name": "Apex Vouchers",
+   "category": "gift_cards",
+   "trusted": false
+  },
+  {
+   "merchant_id": "m_u03",
+   "name": "CoinRelay",
+   "category": "crypto_exchange",
+   "trusted": false
+  },
+  {
+   "merchant_id": "m_u04",
+   "name": "Swiftpay Transfer",
+   "category": "money_transfer",
+   "trusted": false
+  },
+  {
+   "merchant_id": "m_u05",
+   "name": "Orbit Tools",
+   "category": "software",
+   "trusted": false
+  },
+  {
+   "merchant_id": "m_u06",
+   "name": "Pixel Forge Studio",
+   "category": "software",
+   "trusted": false
+  },
+  {
+   "merchant_id": "m_u07",
+   "name": "Halcyon Consulting",
+   "category": "other",
+   "trusted": false
+  },
+  {
+   "merchant_id": "m_u08",
+   "name": "Meridian Services",
+   "category": "other",
+   "trusted": false
+  },
+  {
+   "merchant_id": "m_u09",
+   "name": "Kestrel Analytics",
+   "category": "data",
+   "trusted": false
+  },
+  {
+   "merchant_id": "m_u10",
+   "name": "DataLoorn",
+   "category": "data",
+   "trusted": false
+  },
+  {
+   "merchant_id": "m_u11",
+   "name": "C0reCloud",
+   "category": "compute",
+   "trusted": false
+  },
+  {
+   "merchant_id": "m_u12",
+   "name": "Lexa-AI Billing",
+   "category": "ai_api",
+   "trusted": false
+  }
+ ],
+ "txns": [
+  {
+   "txn_id": "T0000514",
+   "timestamp": "2026-11-13T11:18:53.692850+00:00",
+   "amount": 12411169,
+   "agent_id": "agent_10",
+   "owner_id": "growth",
+   "merchant_id": "m_t15"
+  },
+  {
+   "txn_id": "T0001148",
+   "timestamp": "2026-11-15T12:53:33.785064+00:00",
+   "amount": 5936552,
+   "agent_id": "agent_25",
+   "owner_id": "growth",
+   "merchant_id": "m_t08"
+  },
+  {
+   "txn_id": "T0001179",
+   "timestamp": "2026-11-15T17:06:58.012713+00:00",
+   "amount": 5649405,
+   "agent_id": "agent_26",
+   "owner_id": "research",
+   "merchant_id": "m_t16"
+  },
+  {
+   "txn_id": "T0001731",
+   "timestamp": "2026-11-13T14:31:17.327274+00:00",
+   "amount": 9043901,
+   "agent_id": "agent_39",
+   "owner_id": "platform",
+   "merchant_id": "m_t07"
+  },
+  {
+   "txn_id": "T0001735",
+   "timestamp": "2026-11-13T15:02:41.274473+00:00",
+   "amount": 4345415,
+   "agent_id": "agent_39",
+   "owner_id": "platform",
+   "merchant_id": "m_t07"
+  },
+  {
+   "txn_id": "T0001743",
+   "timestamp": "2026-11-15T13:18:19.950089+00:00",
+   "amount": 1000000,
+   "agent_id": "agent_25",
+   "owner_id": "growth",
+   "merchant_id": "m_t04"
+  },
+  {
+   "txn_id": "T0001744",
+   "timestamp": "2026-11-15T13:18:21.950089+00:00",
+   "amount": 1000000,
+   "agent_id": "agent_25",
+   "owner_id": "growth",
+   "merchant_id": "m_t00"
+  },
+  {
+   "txn_id": "T0001745",
+   "timestamp": "2026-11-15T13:18:23.950089+00:00",
+   "amount": 1000000,
+   "agent_id": "agent_25",
+   "owner_id": "growth",
+   "merchant_id": "m_t11"
+  },
+  {
+   "txn_id": "T0001746",
+   "timestamp": "2026-11-15T13:18:25.950089+00:00",
+   "amount": 1000000,
+   "agent_id": "agent_25",
+   "owner_id": "growth",
+   "merchant_id": "m_t03"
+  },
+  {
+   "txn_id": "T0001747",
+   "timestamp": "2026-11-15T13:18:27.950089+00:00",
+   "amount": 1000000,
+   "agent_id": "agent_25",
+   "owner_id": "growth",
+   "merchant_id": "m_t06"
+  },
+  {
+   "txn_id": "T0001748",
+   "timestamp": "2026-11-15T13:18:29.950089+00:00",
+   "amount": 1000000,
+   "agent_id": "agent_25",
+   "owner_id": "growth",
+   "merchant_id": "m_t15"
+  },
+  {
+   "txn_id": "T0001749",
+   "timestamp": "2026-11-15T13:18:31.950089+00:00",
+   "amount": 1000000,
+   "agent_id": "agent_25",
+   "owner_id": "growth",
+   "merchant_id": "m_t02"
+  },
+  {
+   "txn_id": "T0001750",
+   "timestamp": "2026-11-15T13:18:33.950089+00:00",
+   "amount": 1000000,
+   "agent_id": "agent_25",
+   "owner_id": "growth",
+   "merchant_id": "m_t12"
+  },
+  {
+   "txn_id": "T0001751",
+   "timestamp": "2026-11-15T13:18:35.950089+00:00",
+   "amount": 1000000,
+   "agent_id": "agent_25",
+   "owner_id": "growth",
+   "merchant_id": "m_t11"
+  },
+  {
+   "txn_id": "T0001752",
+   "timestamp": "2026-11-15T13:18:37.950089+00:00",
+   "amount": 1000000,
+   "agent_id": "agent_25",
+   "owner_id": "growth",
+   "merchant_id": "m_t09"
+  },
+  {
+   "txn_id": "T0001753",
+   "timestamp": "2026-11-15T13:18:39.950089+00:00",
+   "amount": 1000000,
+   "agent_id": "agent_25",
+   "owner_id": "growth",
+   "merchant_id": "m_t03"
+  },
+  {
+   "txn_id": "T0001754",
+   "timestamp": "2026-11-15T13:18:41.950089+00:00",
+   "amount": 1000000,
+   "agent_id": "agent_25",
+   "owner_id": "growth",
+   "merchant_id": "m_t16"
+  },
+  {
+   "txn_id": "T0001755",
+   "timestamp": "2026-11-15T13:18:43.950089+00:00",
+   "amount": 1000000,
+   "agent_id": "agent_25",
+   "owner_id": "growth",
+   "merchant_id": "m_t12"
+  },
+  {
+   "txn_id": "T0001756",
+   "timestamp": "2026-11-15T13:18:45.950089+00:00",
+   "amount": 1000000,
+   "agent_id": "agent_25",
+   "owner_id": "growth",
+   "merchant_id": "m_t01"
+  },
+  {
+   "txn_id": "T0001757",
+   "timestamp": "2026-11-15T13:18:47.950089+00:00",
+   "amount": 1000000,
+   "agent_id": "agent_25",
+   "owner_id": "growth",
+   "merchant_id": "m_t02"
+  },
+  {
+   "txn_id": "T0001758",
+   "timestamp": "2026-11-15T13:18:49.950089+00:00",
+   "amount": 1000000,
+   "agent_id": "agent_25",
+   "owner_id": "growth",
+   "merchant_id": "m_t15"
+  },
+  {
+   "txn_id": "T0001759",
+   "timestamp": "2026-11-15T13:18:51.950089+00:00",
+   "amount": 1000000,
+   "agent_id": "agent_25",
+   "owner_id": "growth",
+   "merchant_id": "m_t00"
+  },
+  {
+   "txn_id": "T0001760",
+   "timestamp": "2026-11-15T13:18:53.950089+00:00",
+   "amount": 1000000,
+   "agent_id": "agent_25",
+   "owner_id": "growth",
+   "merchant_id": "m_t04"
+  },
+  {
+   "txn_id": "T0001761",
+   "timestamp": "2026-11-15T13:18:55.950089+00:00",
+   "amount": 1000000,
+   "agent_id": "agent_25",
+   "owner_id": "growth",
+   "merchant_id": "m_t11"
+  },
+  {
+   "txn_id": "T0001762",
+   "timestamp": "2026-11-15T13:18:57.950089+00:00",
+   "amount": 1000000,
+   "agent_id": "agent_25",
+   "owner_id": "growth",
+   "merchant_id": "m_t16"
+  },
+  {
+   "txn_id": "T0001763",
+   "timestamp": "2026-11-15T13:18:59.950089+00:00",
+   "amount": 1000000,
+   "agent_id": "agent_25",
+   "owner_id": "growth",
+   "merchant_id": "m_t00"
+  },
+  {
+   "txn_id": "T0001764",
+   "timestamp": "2026-11-15T13:19:01.950089+00:00",
+   "amount": 1000000,
+   "agent_id": "agent_25",
+   "owner_id": "growth",
+   "merchant_id": "m_t07"
+  },
+  {
+   "txn_id": "T0001765",
+   "timestamp": "2026-11-12T18:51:25.578393+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_07",
+   "owner_id": "finance",
+   "merchant_id": "m_t09"
+  },
+  {
+   "txn_id": "T0001766",
+   "timestamp": "2026-11-12T18:51:27.578393+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_07",
+   "owner_id": "finance",
+   "merchant_id": "m_t04"
+  },
+  {
+   "txn_id": "T0001767",
+   "timestamp": "2026-11-12T18:51:29.578393+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_07",
+   "owner_id": "finance",
+   "merchant_id": "m_t06"
+  },
+  {
+   "txn_id": "T0001768",
+   "timestamp": "2026-11-12T18:51:31.578393+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_07",
+   "owner_id": "finance",
+   "merchant_id": "m_t07"
+  },
+  {
+   "txn_id": "T0001769",
+   "timestamp": "2026-11-12T18:51:33.578393+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_07",
+   "owner_id": "finance",
+   "merchant_id": "m_t03"
+  },
+  {
+   "txn_id": "T0001770",
+   "timestamp": "2026-11-12T18:51:35.578393+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_07",
+   "owner_id": "finance",
+   "merchant_id": "m_t08"
+  },
+  {
+   "txn_id": "T0001771",
+   "timestamp": "2026-11-12T18:51:37.578393+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_07",
+   "owner_id": "finance",
+   "merchant_id": "m_t09"
+  },
+  {
+   "txn_id": "T0001772",
+   "timestamp": "2026-11-12T18:51:39.578393+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_07",
+   "owner_id": "finance",
+   "merchant_id": "m_t09"
+  },
+  {
+   "txn_id": "T0001773",
+   "timestamp": "2026-11-12T18:51:41.578393+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_07",
+   "owner_id": "finance",
+   "merchant_id": "m_t01"
+  },
+  {
+   "txn_id": "T0001774",
+   "timestamp": "2026-11-12T18:51:43.578393+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_07",
+   "owner_id": "finance",
+   "merchant_id": "m_t05"
+  },
+  {
+   "txn_id": "T0001775",
+   "timestamp": "2026-11-12T18:51:45.578393+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_07",
+   "owner_id": "finance",
+   "merchant_id": "m_t15"
+  },
+  {
+   "txn_id": "T0001776",
+   "timestamp": "2026-11-12T18:51:47.578393+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_07",
+   "owner_id": "finance",
+   "merchant_id": "m_t14"
+  },
+  {
+   "txn_id": "T0001777",
+   "timestamp": "2026-11-12T18:51:49.578393+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_07",
+   "owner_id": "finance",
+   "merchant_id": "m_t09"
+  },
+  {
+   "txn_id": "T0001778",
+   "timestamp": "2026-11-12T18:51:51.578393+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_07",
+   "owner_id": "finance",
+   "merchant_id": "m_t04"
+  },
+  {
+   "txn_id": "T0001779",
+   "timestamp": "2026-11-12T18:51:53.578393+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_07",
+   "owner_id": "finance",
+   "merchant_id": "m_t10"
+  },
+  {
+   "txn_id": "T0001780",
+   "timestamp": "2026-11-15T17:22:54.720628+00:00",
+   "amount": 10000000,
+   "agent_id": "agent_23",
+   "owner_id": "ops",
+   "merchant_id": "m_t15"
+  },
+  {
+   "txn_id": "T0001781",
+   "timestamp": "2026-11-15T17:22:56.720628+00:00",
+   "amount": 10000000,
+   "agent_id": "agent_23",
+   "owner_id": "ops",
+   "merchant_id": "m_t05"
+  },
+  {
+   "txn_id": "T0001782",
+   "timestamp": "2026-11-15T17:22:58.720628+00:00",
+   "amount": 10000000,
+   "agent_id": "agent_23",
+   "owner_id": "ops",
+   "merchant_id": "m_t11"
+  },
+  {
+   "txn_id": "T0001783",
+   "timestamp": "2026-11-15T17:23:00.720628+00:00",
+   "amount": 10000000,
+   "agent_id": "agent_23",
+   "owner_id": "ops",
+   "merchant_id": "m_t02"
+  },
+  {
+   "txn_id": "T0001784",
+   "timestamp": "2026-11-15T17:23:02.720628+00:00",
+   "amount": 10000000,
+   "agent_id": "agent_23",
+   "owner_id": "ops",
+   "merchant_id": "m_t11"
+  },
+  {
+   "txn_id": "T0001785",
+   "timestamp": "2026-11-15T17:23:04.720628+00:00",
+   "amount": 10000000,
+   "agent_id": "agent_23",
+   "owner_id": "ops",
+   "merchant_id": "m_t00"
+  },
+  {
+   "txn_id": "T0001786",
+   "timestamp": "2026-11-15T17:23:06.720628+00:00",
+   "amount": 10000000,
+   "agent_id": "agent_23",
+   "owner_id": "ops",
+   "merchant_id": "m_t13"
+  },
+  {
+   "txn_id": "T0001787",
+   "timestamp": "2026-11-15T17:23:08.720628+00:00",
+   "amount": 10000000,
+   "agent_id": "agent_23",
+   "owner_id": "ops",
+   "merchant_id": "m_t03"
+  },
+  {
+   "txn_id": "T0001788",
+   "timestamp": "2026-11-15T17:23:10.720628+00:00",
+   "amount": 10000000,
+   "agent_id": "agent_23",
+   "owner_id": "ops",
+   "merchant_id": "m_t02"
+  },
+  {
+   "txn_id": "T0001789",
+   "timestamp": "2026-11-15T17:23:12.720628+00:00",
+   "amount": 10000000,
+   "agent_id": "agent_23",
+   "owner_id": "ops",
+   "merchant_id": "m_t03"
+  },
+  {
+   "txn_id": "T0001790",
+   "timestamp": "2026-11-15T17:23:14.720628+00:00",
+   "amount": 10000000,
+   "agent_id": "agent_23",
+   "owner_id": "ops",
+   "merchant_id": "m_t03"
+  },
+  {
+   "txn_id": "T0001791",
+   "timestamp": "2026-11-15T17:23:16.720628+00:00",
+   "amount": 10000000,
+   "agent_id": "agent_23",
+   "owner_id": "ops",
+   "merchant_id": "m_t17"
+  },
+  {
+   "txn_id": "T0001792",
+   "timestamp": "2026-11-15T17:23:18.720628+00:00",
+   "amount": 10000000,
+   "agent_id": "agent_23",
+   "owner_id": "ops",
+   "merchant_id": "m_t10"
+  },
+  {
+   "txn_id": "T0001793",
+   "timestamp": "2026-11-15T17:23:20.720628+00:00",
+   "amount": 10000000,
+   "agent_id": "agent_23",
+   "owner_id": "ops",
+   "merchant_id": "m_t13"
+  },
+  {
+   "txn_id": "T0001794",
+   "timestamp": "2026-11-15T17:23:22.720628+00:00",
+   "amount": 10000000,
+   "agent_id": "agent_23",
+   "owner_id": "ops",
+   "merchant_id": "m_t14"
+  },
+  {
+   "txn_id": "T0001795",
+   "timestamp": "2026-11-15T17:23:24.720628+00:00",
+   "amount": 10000000,
+   "agent_id": "agent_23",
+   "owner_id": "ops",
+   "merchant_id": "m_t03"
+  },
+  {
+   "txn_id": "T0001796",
+   "timestamp": "2026-11-15T17:23:26.720628+00:00",
+   "amount": 10000000,
+   "agent_id": "agent_23",
+   "owner_id": "ops",
+   "merchant_id": "m_t00"
+  },
+  {
+   "txn_id": "T0001797",
+   "timestamp": "2026-11-15T17:23:28.720628+00:00",
+   "amount": 10000000,
+   "agent_id": "agent_23",
+   "owner_id": "ops",
+   "merchant_id": "m_t05"
+  },
+  {
+   "txn_id": "T0001798",
+   "timestamp": "2026-11-14T14:37:19.576670+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_33",
+   "owner_id": "ops",
+   "merchant_id": "m_t07"
+  },
+  {
+   "txn_id": "T0001799",
+   "timestamp": "2026-11-14T14:37:21.576670+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_33",
+   "owner_id": "ops",
+   "merchant_id": "m_t02"
+  },
+  {
+   "txn_id": "T0001800",
+   "timestamp": "2026-11-14T14:37:23.576670+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_33",
+   "owner_id": "ops",
+   "merchant_id": "m_t15"
+  },
+  {
+   "txn_id": "T0001801",
+   "timestamp": "2026-11-14T14:37:25.576670+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_33",
+   "owner_id": "ops",
+   "merchant_id": "m_t10"
+  },
+  {
+   "txn_id": "T0001802",
+   "timestamp": "2026-11-14T14:37:27.576670+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_33",
+   "owner_id": "ops",
+   "merchant_id": "m_t11"
+  },
+  {
+   "txn_id": "T0001803",
+   "timestamp": "2026-11-14T14:37:29.576670+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_33",
+   "owner_id": "ops",
+   "merchant_id": "m_t04"
+  },
+  {
+   "txn_id": "T0001804",
+   "timestamp": "2026-11-14T14:37:31.576670+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_33",
+   "owner_id": "ops",
+   "merchant_id": "m_t05"
+  },
+  {
+   "txn_id": "T0001805",
+   "timestamp": "2026-11-14T14:37:33.576670+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_33",
+   "owner_id": "ops",
+   "merchant_id": "m_t02"
+  },
+  {
+   "txn_id": "T0001806",
+   "timestamp": "2026-11-14T14:37:35.576670+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_33",
+   "owner_id": "ops",
+   "merchant_id": "m_t10"
+  },
+  {
+   "txn_id": "T0001807",
+   "timestamp": "2026-11-14T14:37:37.576670+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_33",
+   "owner_id": "ops",
+   "merchant_id": "m_t08"
+  },
+  {
+   "txn_id": "T0001808",
+   "timestamp": "2026-11-14T14:37:39.576670+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_33",
+   "owner_id": "ops",
+   "merchant_id": "m_t11"
+  },
+  {
+   "txn_id": "T0001809",
+   "timestamp": "2026-11-14T14:37:41.576670+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_33",
+   "owner_id": "ops",
+   "merchant_id": "m_t02"
+  },
+  {
+   "txn_id": "T0001810",
+   "timestamp": "2026-11-14T14:37:43.576670+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_33",
+   "owner_id": "ops",
+   "merchant_id": "m_t09"
+  },
+  {
+   "txn_id": "T0001811",
+   "timestamp": "2026-11-14T14:37:45.576670+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_33",
+   "owner_id": "ops",
+   "merchant_id": "m_t00"
+  },
+  {
+   "txn_id": "T0001812",
+   "timestamp": "2026-11-14T14:37:47.576670+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_33",
+   "owner_id": "ops",
+   "merchant_id": "m_t15"
+  },
+  {
+   "txn_id": "T0001813",
+   "timestamp": "2026-11-14T14:37:49.576670+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_33",
+   "owner_id": "ops",
+   "merchant_id": "m_t05"
+  },
+  {
+   "txn_id": "T0001814",
+   "timestamp": "2026-11-10T13:13:41.589269+00:00",
+   "amount": 5000000,
+   "agent_id": "agent_36",
+   "owner_id": "research",
+   "merchant_id": "m_t00"
+  },
+  {
+   "txn_id": "T0001815",
+   "timestamp": "2026-11-10T13:13:43.589269+00:00",
+   "amount": 5000000,
+   "agent_id": "agent_36",
+   "owner_id": "research",
+   "merchant_id": "m_t13"
+  },
+  {
+   "txn_id": "T0001816",
+   "timestamp": "2026-11-10T13:13:45.589269+00:00",
+   "amount": 5000000,
+   "agent_id": "agent_36",
+   "owner_id": "research",
+   "merchant_id": "m_t03"
+  },
+  {
+   "txn_id": "T0001817",
+   "timestamp": "2026-11-10T13:13:47.589269+00:00",
+   "amount": 5000000,
+   "agent_id": "agent_36",
+   "owner_id": "research",
+   "merchant_id": "m_t03"
+  },
+  {
+   "txn_id": "T0001818",
+   "timestamp": "2026-11-10T13:13:49.589269+00:00",
+   "amount": 5000000,
+   "agent_id": "agent_36",
+   "owner_id": "research",
+   "merchant_id": "m_t07"
+  },
+  {
+   "txn_id": "T0001819",
+   "timestamp": "2026-11-10T13:13:51.589269+00:00",
+   "amount": 5000000,
+   "agent_id": "agent_36",
+   "owner_id": "research",
+   "merchant_id": "m_t03"
+  },
+  {
+   "txn_id": "T0001820",
+   "timestamp": "2026-11-10T13:13:53.589269+00:00",
+   "amount": 5000000,
+   "agent_id": "agent_36",
+   "owner_id": "research",
+   "merchant_id": "m_t04"
+  },
+  {
+   "txn_id": "T0001821",
+   "timestamp": "2026-11-10T13:13:55.589269+00:00",
+   "amount": 5000000,
+   "agent_id": "agent_36",
+   "owner_id": "research",
+   "merchant_id": "m_t07"
+  },
+  {
+   "txn_id": "T0001822",
+   "timestamp": "2026-11-10T13:13:57.589269+00:00",
+   "amount": 5000000,
+   "agent_id": "agent_36",
+   "owner_id": "research",
+   "merchant_id": "m_t09"
+  },
+  {
+   "txn_id": "T0001823",
+   "timestamp": "2026-11-10T13:13:59.589269+00:00",
+   "amount": 5000000,
+   "agent_id": "agent_36",
+   "owner_id": "research",
+   "merchant_id": "m_t16"
+  },
+  {
+   "txn_id": "T0001824",
+   "timestamp": "2026-11-10T13:14:01.589269+00:00",
+   "amount": 5000000,
+   "agent_id": "agent_36",
+   "owner_id": "research",
+   "merchant_id": "m_t12"
+  },
+  {
+   "txn_id": "T0001825",
+   "timestamp": "2026-11-10T13:14:03.589269+00:00",
+   "amount": 5000000,
+   "agent_id": "agent_36",
+   "owner_id": "research",
+   "merchant_id": "m_t06"
+  },
+  {
+   "txn_id": "T0001826",
+   "timestamp": "2026-11-10T13:14:05.589269+00:00",
+   "amount": 5000000,
+   "agent_id": "agent_36",
+   "owner_id": "research",
+   "merchant_id": "m_t09"
+  },
+  {
+   "txn_id": "T0001827",
+   "timestamp": "2026-11-10T13:14:07.589269+00:00",
+   "amount": 5000000,
+   "agent_id": "agent_36",
+   "owner_id": "research",
+   "merchant_id": "m_t08"
+  },
+  {
+   "txn_id": "T0001828",
+   "timestamp": "2026-11-10T13:14:09.589269+00:00",
+   "amount": 5000000,
+   "agent_id": "agent_36",
+   "owner_id": "research",
+   "merchant_id": "m_t01"
+  },
+  {
+   "txn_id": "T0001829",
+   "timestamp": "2026-11-10T13:14:11.589269+00:00",
+   "amount": 5000000,
+   "agent_id": "agent_36",
+   "owner_id": "research",
+   "merchant_id": "m_t01"
+  },
+  {
+   "txn_id": "T0001830",
+   "timestamp": "2026-11-10T13:14:13.589269+00:00",
+   "amount": 5000000,
+   "agent_id": "agent_36",
+   "owner_id": "research",
+   "merchant_id": "m_t15"
+  },
+  {
+   "txn_id": "T0001831",
+   "timestamp": "2026-11-10T13:14:15.589269+00:00",
+   "amount": 5000000,
+   "agent_id": "agent_36",
+   "owner_id": "research",
+   "merchant_id": "m_t00"
+  },
+  {
+   "txn_id": "T0001832",
+   "timestamp": "2026-11-11T16:15:19.452447+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_28",
+   "owner_id": "ops",
+   "merchant_id": "m_t06"
+  },
+  {
+   "txn_id": "T0001833",
+   "timestamp": "2026-11-11T16:15:21.452447+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_28",
+   "owner_id": "ops",
+   "merchant_id": "m_t03"
+  },
+  {
+   "txn_id": "T0001834",
+   "timestamp": "2026-11-11T16:15:23.452447+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_28",
+   "owner_id": "ops",
+   "merchant_id": "m_t05"
+  },
+  {
+   "txn_id": "T0001835",
+   "timestamp": "2026-11-11T16:15:25.452447+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_28",
+   "owner_id": "ops",
+   "merchant_id": "m_t00"
+  },
+  {
+   "txn_id": "T0001836",
+   "timestamp": "2026-11-11T16:15:27.452447+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_28",
+   "owner_id": "ops",
+   "merchant_id": "m_t06"
+  },
+  {
+   "txn_id": "T0001837",
+   "timestamp": "2026-11-11T16:15:29.452447+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_28",
+   "owner_id": "ops",
+   "merchant_id": "m_t12"
+  },
+  {
+   "txn_id": "T0001838",
+   "timestamp": "2026-11-11T16:15:31.452447+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_28",
+   "owner_id": "ops",
+   "merchant_id": "m_t03"
+  },
+  {
+   "txn_id": "T0001839",
+   "timestamp": "2026-11-11T16:15:33.452447+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_28",
+   "owner_id": "ops",
+   "merchant_id": "m_t13"
+  },
+  {
+   "txn_id": "T0001840",
+   "timestamp": "2026-11-11T16:15:35.452447+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_28",
+   "owner_id": "ops",
+   "merchant_id": "m_t13"
+  },
+  {
+   "txn_id": "T0001841",
+   "timestamp": "2026-11-11T16:15:37.452447+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_28",
+   "owner_id": "ops",
+   "merchant_id": "m_t09"
+  },
+  {
+   "txn_id": "T0001842",
+   "timestamp": "2026-11-11T16:15:39.452447+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_28",
+   "owner_id": "ops",
+   "merchant_id": "m_t07"
+  },
+  {
+   "txn_id": "T0001843",
+   "timestamp": "2026-11-11T16:15:41.452447+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_28",
+   "owner_id": "ops",
+   "merchant_id": "m_t17"
+  },
+  {
+   "txn_id": "T0001844",
+   "timestamp": "2026-11-11T16:15:43.452447+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_28",
+   "owner_id": "ops",
+   "merchant_id": "m_t10"
+  },
+  {
+   "txn_id": "T0001845",
+   "timestamp": "2026-11-11T16:15:45.452447+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_28",
+   "owner_id": "ops",
+   "merchant_id": "m_t09"
+  },
+  {
+   "txn_id": "T0001846",
+   "timestamp": "2026-11-11T16:15:47.452447+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_28",
+   "owner_id": "ops",
+   "merchant_id": "m_t01"
+  },
+  {
+   "txn_id": "T0001847",
+   "timestamp": "2026-11-13T15:25:22.114178+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_39",
+   "owner_id": "platform",
+   "merchant_id": "m_t06"
+  },
+  {
+   "txn_id": "T0001848",
+   "timestamp": "2026-11-13T15:25:24.114178+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_39",
+   "owner_id": "platform",
+   "merchant_id": "m_t10"
+  },
+  {
+   "txn_id": "T0001849",
+   "timestamp": "2026-11-13T15:25:26.114178+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_39",
+   "owner_id": "platform",
+   "merchant_id": "m_t13"
+  },
+  {
+   "txn_id": "T0001850",
+   "timestamp": "2026-11-13T15:25:28.114178+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_39",
+   "owner_id": "platform",
+   "merchant_id": "m_t09"
+  },
+  {
+   "txn_id": "T0001851",
+   "timestamp": "2026-11-13T15:25:30.114178+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_39",
+   "owner_id": "platform",
+   "merchant_id": "m_t12"
+  },
+  {
+   "txn_id": "T0001852",
+   "timestamp": "2026-11-13T15:25:32.114178+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_39",
+   "owner_id": "platform",
+   "merchant_id": "m_t13"
+  },
+  {
+   "txn_id": "T0001853",
+   "timestamp": "2026-11-13T15:25:34.114178+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_39",
+   "owner_id": "platform",
+   "merchant_id": "m_t02"
+  },
+  {
+   "txn_id": "T0001854",
+   "timestamp": "2026-11-13T15:25:36.114178+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_39",
+   "owner_id": "platform",
+   "merchant_id": "m_t15"
+  },
+  {
+   "txn_id": "T0001855",
+   "timestamp": "2026-11-13T15:25:38.114178+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_39",
+   "owner_id": "platform",
+   "merchant_id": "m_t09"
+  },
+  {
+   "txn_id": "T0001856",
+   "timestamp": "2026-11-13T15:25:40.114178+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_39",
+   "owner_id": "platform",
+   "merchant_id": "m_t11"
+  },
+  {
+   "txn_id": "T0001857",
+   "timestamp": "2026-11-13T15:25:42.114178+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_39",
+   "owner_id": "platform",
+   "merchant_id": "m_t14"
+  },
+  {
+   "txn_id": "T0001858",
+   "timestamp": "2026-11-13T15:25:44.114178+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_39",
+   "owner_id": "platform",
+   "merchant_id": "m_t05"
+  },
+  {
+   "txn_id": "T0001859",
+   "timestamp": "2026-11-13T15:25:46.114178+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_39",
+   "owner_id": "platform",
+   "merchant_id": "m_t02"
+  },
+  {
+   "txn_id": "T0001860",
+   "timestamp": "2026-11-13T15:25:48.114178+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_39",
+   "owner_id": "platform",
+   "merchant_id": "m_t01"
+  },
+  {
+   "txn_id": "T0001861",
+   "timestamp": "2026-11-13T15:25:50.114178+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_39",
+   "owner_id": "platform",
+   "merchant_id": "m_t05"
+  },
+  {
+   "txn_id": "T0001862",
+   "timestamp": "2026-11-13T15:25:52.114178+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_39",
+   "owner_id": "platform",
+   "merchant_id": "m_t16"
+  },
+  {
+   "txn_id": "T0001863",
+   "timestamp": "2026-11-13T15:25:54.114178+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_39",
+   "owner_id": "platform",
+   "merchant_id": "m_t07"
+  },
+  {
+   "txn_id": "T0001864",
+   "timestamp": "2026-11-13T15:25:56.114178+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_39",
+   "owner_id": "platform",
+   "merchant_id": "m_t13"
+  },
+  {
+   "txn_id": "T0001865",
+   "timestamp": "2026-11-13T15:25:58.114178+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_39",
+   "owner_id": "platform",
+   "merchant_id": "m_t07"
+  },
+  {
+   "txn_id": "T0001866",
+   "timestamp": "2026-11-13T15:26:00.114178+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_39",
+   "owner_id": "platform",
+   "merchant_id": "m_t10"
+  },
+  {
+   "txn_id": "T0001867",
+   "timestamp": "2026-11-13T15:26:02.114178+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_39",
+   "owner_id": "platform",
+   "merchant_id": "m_t05"
+  },
+  {
+   "txn_id": "T0001868",
+   "timestamp": "2026-11-13T15:26:04.114178+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_39",
+   "owner_id": "platform",
+   "merchant_id": "m_t06"
+  },
+  {
+   "txn_id": "T0001869",
+   "timestamp": "2026-11-13T11:58:44.683306+00:00",
+   "amount": 1000000,
+   "agent_id": "agent_10",
+   "owner_id": "growth",
+   "merchant_id": "m_t02"
+  },
+  {
+   "txn_id": "T0001870",
+   "timestamp": "2026-11-13T11:58:46.683306+00:00",
+   "amount": 1000000,
+   "agent_id": "agent_10",
+   "owner_id": "growth",
+   "merchant_id": "m_t03"
+  },
+  {
+   "txn_id": "T0001871",
+   "timestamp": "2026-11-13T11:58:48.683306+00:00",
+   "amount": 1000000,
+   "agent_id": "agent_10",
+   "owner_id": "growth",
+   "merchant_id": "m_t05"
+  },
+  {
+   "txn_id": "T0001872",
+   "timestamp": "2026-11-13T11:58:50.683306+00:00",
+   "amount": 1000000,
+   "agent_id": "agent_10",
+   "owner_id": "growth",
+   "merchant_id": "m_t08"
+  },
+  {
+   "txn_id": "T0001873",
+   "timestamp": "2026-11-13T11:58:52.683306+00:00",
+   "amount": 1000000,
+   "agent_id": "agent_10",
+   "owner_id": "growth",
+   "merchant_id": "m_t03"
+  },
+  {
+   "txn_id": "T0001874",
+   "timestamp": "2026-11-13T11:58:54.683306+00:00",
+   "amount": 1000000,
+   "agent_id": "agent_10",
+   "owner_id": "growth",
+   "merchant_id": "m_t05"
+  },
+  {
+   "txn_id": "T0001875",
+   "timestamp": "2026-11-13T11:58:56.683306+00:00",
+   "amount": 1000000,
+   "agent_id": "agent_10",
+   "owner_id": "growth",
+   "merchant_id": "m_t10"
+  },
+  {
+   "txn_id": "T0001876",
+   "timestamp": "2026-11-13T11:58:58.683306+00:00",
+   "amount": 1000000,
+   "agent_id": "agent_10",
+   "owner_id": "growth",
+   "merchant_id": "m_t09"
+  },
+  {
+   "txn_id": "T0001877",
+   "timestamp": "2026-11-13T11:59:00.683306+00:00",
+   "amount": 1000000,
+   "agent_id": "agent_10",
+   "owner_id": "growth",
+   "merchant_id": "m_t14"
+  },
+  {
+   "txn_id": "T0001878",
+   "timestamp": "2026-11-13T11:59:02.683306+00:00",
+   "amount": 1000000,
+   "agent_id": "agent_10",
+   "owner_id": "growth",
+   "merchant_id": "m_t03"
+  },
+  {
+   "txn_id": "T0001879",
+   "timestamp": "2026-11-13T11:59:04.683306+00:00",
+   "amount": 1000000,
+   "agent_id": "agent_10",
+   "owner_id": "growth",
+   "merchant_id": "m_t17"
+  },
+  {
+   "txn_id": "T0001880",
+   "timestamp": "2026-11-13T11:59:06.683306+00:00",
+   "amount": 1000000,
+   "agent_id": "agent_10",
+   "owner_id": "growth",
+   "merchant_id": "m_t06"
+  },
+  {
+   "txn_id": "T0001881",
+   "timestamp": "2026-11-13T11:59:08.683306+00:00",
+   "amount": 1000000,
+   "agent_id": "agent_10",
+   "owner_id": "growth",
+   "merchant_id": "m_t03"
+  },
+  {
+   "txn_id": "T0001882",
+   "timestamp": "2026-11-13T11:59:10.683306+00:00",
+   "amount": 1000000,
+   "agent_id": "agent_10",
+   "owner_id": "growth",
+   "merchant_id": "m_t04"
+  },
+  {
+   "txn_id": "T0001883",
+   "timestamp": "2026-11-13T11:59:12.683306+00:00",
+   "amount": 1000000,
+   "agent_id": "agent_10",
+   "owner_id": "growth",
+   "merchant_id": "m_t06"
+  },
+  {
+   "txn_id": "T0001884",
+   "timestamp": "2026-11-13T11:59:14.683306+00:00",
+   "amount": 1000000,
+   "agent_id": "agent_10",
+   "owner_id": "growth",
+   "merchant_id": "m_t12"
+  },
+  {
+   "txn_id": "T0001885",
+   "timestamp": "2026-11-13T11:59:16.683306+00:00",
+   "amount": 1000000,
+   "agent_id": "agent_10",
+   "owner_id": "growth",
+   "merchant_id": "m_t13"
+  },
+  {
+   "txn_id": "T0001886",
+   "timestamp": "2026-11-11T09:35:26.158931+00:00",
+   "amount": 10000000,
+   "agent_id": "agent_12",
+   "owner_id": "finance",
+   "merchant_id": "m_t08"
+  },
+  {
+   "txn_id": "T0001887",
+   "timestamp": "2026-11-11T09:35:28.158931+00:00",
+   "amount": 10000000,
+   "agent_id": "agent_12",
+   "owner_id": "finance",
+   "merchant_id": "m_t13"
+  },
+  {
+   "txn_id": "T0001888",
+   "timestamp": "2026-11-11T09:35:30.158931+00:00",
+   "amount": 10000000,
+   "agent_id": "agent_12",
+   "owner_id": "finance",
+   "merchant_id": "m_t14"
+  },
+  {
+   "txn_id": "T0001889",
+   "timestamp": "2026-11-11T09:35:32.158931+00:00",
+   "amount": 10000000,
+   "agent_id": "agent_12",
+   "owner_id": "finance",
+   "merchant_id": "m_t09"
+  },
+  {
+   "txn_id": "T0001890",
+   "timestamp": "2026-11-11T09:35:34.158931+00:00",
+   "amount": 10000000,
+   "agent_id": "agent_12",
+   "owner_id": "finance",
+   "merchant_id": "m_t01"
+  },
+  {
+   "txn_id": "T0001891",
+   "timestamp": "2026-11-11T09:35:36.158931+00:00",
+   "amount": 10000000,
+   "agent_id": "agent_12",
+   "owner_id": "finance",
+   "merchant_id": "m_t03"
+  },
+  {
+   "txn_id": "T0001892",
+   "timestamp": "2026-11-11T09:35:38.158931+00:00",
+   "amount": 10000000,
+   "agent_id": "agent_12",
+   "owner_id": "finance",
+   "merchant_id": "m_t13"
+  },
+  {
+   "txn_id": "T0001893",
+   "timestamp": "2026-11-11T09:35:40.158931+00:00",
+   "amount": 10000000,
+   "agent_id": "agent_12",
+   "owner_id": "finance",
+   "merchant_id": "m_t09"
+  },
+  {
+   "txn_id": "T0001894",
+   "timestamp": "2026-11-11T09:35:42.158931+00:00",
+   "amount": 10000000,
+   "agent_id": "agent_12",
+   "owner_id": "finance",
+   "merchant_id": "m_t16"
+  },
+  {
+   "txn_id": "T0001895",
+   "timestamp": "2026-11-11T09:35:44.158931+00:00",
+   "amount": 10000000,
+   "agent_id": "agent_12",
+   "owner_id": "finance",
+   "merchant_id": "m_t00"
+  },
+  {
+   "txn_id": "T0001896",
+   "timestamp": "2026-11-11T09:35:46.158931+00:00",
+   "amount": 10000000,
+   "agent_id": "agent_12",
+   "owner_id": "finance",
+   "merchant_id": "m_t16"
+  },
+  {
+   "txn_id": "T0001897",
+   "timestamp": "2026-11-11T09:35:48.158931+00:00",
+   "amount": 10000000,
+   "agent_id": "agent_12",
+   "owner_id": "finance",
+   "merchant_id": "m_t02"
+  },
+  {
+   "txn_id": "T0001898",
+   "timestamp": "2026-11-11T09:35:50.158931+00:00",
+   "amount": 10000000,
+   "agent_id": "agent_12",
+   "owner_id": "finance",
+   "merchant_id": "m_t04"
+  },
+  {
+   "txn_id": "T0001899",
+   "timestamp": "2026-11-11T09:35:52.158931+00:00",
+   "amount": 10000000,
+   "agent_id": "agent_12",
+   "owner_id": "finance",
+   "merchant_id": "m_t17"
+  },
+  {
+   "txn_id": "T0001900",
+   "timestamp": "2026-11-11T09:35:54.158931+00:00",
+   "amount": 10000000,
+   "agent_id": "agent_12",
+   "owner_id": "finance",
+   "merchant_id": "m_t15"
+  },
+  {
+   "txn_id": "T0001901",
+   "timestamp": "2026-11-11T09:35:56.158931+00:00",
+   "amount": 10000000,
+   "agent_id": "agent_12",
+   "owner_id": "finance",
+   "merchant_id": "m_t10"
+  },
+  {
+   "txn_id": "T0001902",
+   "timestamp": "2026-11-11T09:35:58.158931+00:00",
+   "amount": 10000000,
+   "agent_id": "agent_12",
+   "owner_id": "finance",
+   "merchant_id": "m_t08"
+  },
+  {
+   "txn_id": "T0001903",
+   "timestamp": "2026-11-11T09:36:00.158931+00:00",
+   "amount": 10000000,
+   "agent_id": "agent_12",
+   "owner_id": "finance",
+   "merchant_id": "m_t16"
+  },
+  {
+   "txn_id": "T0001904",
+   "timestamp": "2026-11-15T16:21:36.716563+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_26",
+   "owner_id": "research",
+   "merchant_id": "m_t02"
+  },
+  {
+   "txn_id": "T0001905",
+   "timestamp": "2026-11-15T16:21:38.716563+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_26",
+   "owner_id": "research",
+   "merchant_id": "m_t00"
+  },
+  {
+   "txn_id": "T0001906",
+   "timestamp": "2026-11-15T16:21:40.716563+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_26",
+   "owner_id": "research",
+   "merchant_id": "m_t03"
+  },
+  {
+   "txn_id": "T0001907",
+   "timestamp": "2026-11-15T16:21:42.716563+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_26",
+   "owner_id": "research",
+   "merchant_id": "m_t01"
+  },
+  {
+   "txn_id": "T0001908",
+   "timestamp": "2026-11-15T16:21:44.716563+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_26",
+   "owner_id": "research",
+   "merchant_id": "m_t17"
+  },
+  {
+   "txn_id": "T0001909",
+   "timestamp": "2026-11-15T16:21:46.716563+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_26",
+   "owner_id": "research",
+   "merchant_id": "m_t17"
+  },
+  {
+   "txn_id": "T0001910",
+   "timestamp": "2026-11-15T16:21:48.716563+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_26",
+   "owner_id": "research",
+   "merchant_id": "m_t03"
+  },
+  {
+   "txn_id": "T0001911",
+   "timestamp": "2026-11-15T16:21:50.716563+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_26",
+   "owner_id": "research",
+   "merchant_id": "m_t16"
+  },
+  {
+   "txn_id": "T0001912",
+   "timestamp": "2026-11-15T16:21:52.716563+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_26",
+   "owner_id": "research",
+   "merchant_id": "m_t00"
+  },
+  {
+   "txn_id": "T0001913",
+   "timestamp": "2026-11-15T16:21:54.716563+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_26",
+   "owner_id": "research",
+   "merchant_id": "m_t06"
+  },
+  {
+   "txn_id": "T0001914",
+   "timestamp": "2026-11-15T16:21:56.716563+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_26",
+   "owner_id": "research",
+   "merchant_id": "m_t09"
+  },
+  {
+   "txn_id": "T0001915",
+   "timestamp": "2026-11-15T16:21:58.716563+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_26",
+   "owner_id": "research",
+   "merchant_id": "m_t08"
+  },
+  {
+   "txn_id": "T0001916",
+   "timestamp": "2026-11-15T16:22:00.716563+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_26",
+   "owner_id": "research",
+   "merchant_id": "m_t15"
+  },
+  {
+   "txn_id": "T0001917",
+   "timestamp": "2026-11-15T16:22:02.716563+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_26",
+   "owner_id": "research",
+   "merchant_id": "m_t12"
+  },
+  {
+   "txn_id": "T0001918",
+   "timestamp": "2026-11-15T16:22:04.716563+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_26",
+   "owner_id": "research",
+   "merchant_id": "m_t07"
+  },
+  {
+   "txn_id": "T0001919",
+   "timestamp": "2026-11-15T16:22:06.716563+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_26",
+   "owner_id": "research",
+   "merchant_id": "m_t01"
+  },
+  {
+   "txn_id": "T0001920",
+   "timestamp": "2026-11-15T16:22:08.716563+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_26",
+   "owner_id": "research",
+   "merchant_id": "m_t10"
+  },
+  {
+   "txn_id": "T0001921",
+   "timestamp": "2026-11-15T16:22:10.716563+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_26",
+   "owner_id": "research",
+   "merchant_id": "m_t15"
+  },
+  {
+   "txn_id": "T0001922",
+   "timestamp": "2026-11-15T16:22:12.716563+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_26",
+   "owner_id": "research",
+   "merchant_id": "m_t11"
+  },
+  {
+   "txn_id": "T0001923",
+   "timestamp": "2026-11-15T16:22:14.716563+00:00",
+   "amount": 2000000,
+   "agent_id": "agent_26",
+   "owner_id": "research",
+   "merchant_id": "m_t05"
+  },
+  {
+   "txn_id": "T0001924",
+   "timestamp": "2026-11-09T17:26:05.295646+00:00",
+   "amount": 30000000,
+   "agent_id": "agent_30",
+   "owner_id": "growth",
+   "merchant_id": "m_t16"
+  },
+  {
+   "txn_id": "T0001925",
+   "timestamp": "2026-11-09T11:54:26.729480+00:00",
+   "amount": 40000000,
+   "agent_id": "agent_30",
+   "owner_id": "growth",
+   "merchant_id": "m_t16"
+  },
+  {
+   "txn_id": "T0001926",
+   "timestamp": "2026-11-09T15:32:07.099169+00:00",
+   "amount": 20000000,
+   "agent_id": "agent_30",
+   "owner_id": "growth",
+   "merchant_id": "m_t16"
+  },
+  {
+   "txn_id": "T0001927",
+   "timestamp": "2026-11-14T14:56:11.291991+00:00",
+   "amount": 40000000,
+   "agent_id": "agent_25",
+   "owner_id": "growth",
+   "merchant_id": "m_t13"
+  },
+  {
+   "txn_id": "T0001928",
+   "timestamp": "2026-11-14T17:06:01.687268+00:00",
+   "amount": 20000000,
+   "agent_id": "agent_25",
+   "owner_id": "growth",
+   "merchant_id": "m_t13"
+  },
+  {
+   "txn_id": "T0001929",
+   "timestamp": "2026-11-14T14:49:40.106753+00:00",
+   "amount": 20000000,
+   "agent_id": "agent_25",
+   "owner_id": "growth",
+   "merchant_id": "m_t13"
+  },
+  {
+   "txn_id": "T0001930",
+   "timestamp": "2026-11-13T17:00:07.221140+00:00",
+   "amount": 20000000,
+   "agent_id": "agent_18",
+   "owner_id": "ops",
+   "merchant_id": "m_t13"
+  },
+  {
+   "txn_id": "T0001931",
+   "timestamp": "2026-11-13T17:04:30.936197+00:00",
+   "amount": 40000000,
+   "agent_id": "agent_18",
+   "owner_id": "ops",
+   "merchant_id": "m_t13"
+  },
+  {
+   "txn_id": "T0001932",
+   "timestamp": "2026-11-13T11:19:40.007440+00:00",
+   "amount": 40000000,
+   "agent_id": "agent_18",
+   "owner_id": "ops",
+   "merchant_id": "m_t13"
+  },
+  {
+   "txn_id": "T0001933",
+   "timestamp": "2026-11-15T12:48:15.542329+00:00",
+   "amount": 30000000,
+   "agent_id": "agent_08",
+   "owner_id": "ops",
+   "merchant_id": "m_t12"
+  },
+  {
+   "txn_id": "T0001934",
+   "timestamp": "2026-11-15T11:53:56.059091+00:00",
+   "amount": 20000000,
+   "agent_id": "agent_08",
+   "owner_id": "ops",
+   "merchant_id": "m_t12"
+  },
+  {
+   "txn_id": "T0001935",
+   "timestamp": "2026-11-15T17:19:51.251329+00:00",
+   "amount": 30000000,
+   "agent_id": "agent_08",
+   "owner_id": "ops",
+   "merchant_id": "m_t12"
+  },
+  {
+   "txn_id": "T0001936",
+   "timestamp": "2026-11-15T16:31:53.159857+00:00",
+   "amount": 30000000,
+   "agent_id": "agent_23",
+   "owner_id": "ops",
+   "merchant_id": "m_t16"
+  },
+  {
+   "txn_id": "T0001937",
+   "timestamp": "2026-11-15T09:20:46.120783+00:00",
+   "amount": 30000000,
+   "agent_id": "agent_23",
+   "owner_id": "ops",
+   "merchant_id": "m_t16"
+  },
+  {
+   "txn_id": "T0001938",
+   "timestamp": "2026-11-15T15:19:46.500024+00:00",
+   "amount": 20000000,
+   "agent_id": "agent_23",
+   "owner_id": "ops",
+   "merchant_id": "m_t16"
+  },
+  {
+   "txn_id": "T0001939",
+   "timestamp": "2026-11-11T17:51:47.593108+00:00",
+   "amount": 20000000,
+   "agent_id": "agent_37",
+   "owner_id": "finance",
+   "merchant_id": "m_t12"
+  },
+  {
+   "txn_id": "T0001940",
+   "timestamp": "2026-11-11T18:28:16.856111+00:00",
+   "amount": 40000000,
+   "agent_id": "agent_37",
+   "owner_id": "finance",
+   "merchant_id": "m_t12"
+  },
+  {
+   "txn_id": "T0001941",
+   "timestamp": "2026-11-11T12:47:46.592279+00:00",
+   "amount": 20000000,
+   "agent_id": "agent_37",
+   "owner_id": "finance",
+   "merchant_id": "m_t12"
+  },
+  {
+   "txn_id": "T0001942",
+   "timestamp": "2026-11-11T13:12:28.659328+00:00",
+   "amount": 40000000,
+   "agent_id": "agent_35",
+   "owner_id": "growth",
+   "merchant_id": "m_t16"
+  },
+  {
+   "txn_id": "T0001943",
+   "timestamp": "2026-11-11T08:11:25.441415+00:00",
+   "amount": 30000000,
+   "agent_id": "agent_35",
+   "owner_id": "growth",
+   "merchant_id": "m_t16"
+  },
+  {
+   "txn_id": "T0001944",
+   "timestamp": "2026-11-11T11:12:27.464191+00:00",
+   "amount": 40000000,
+   "agent_id": "agent_35",
+   "owner_id": "growth",
+   "merchant_id": "m_t16"
+  },
+  {
+   "txn_id": "T0001945",
+   "timestamp": "2026-11-13T09:47:49.185635+00:00",
+   "amount": 40000000,
+   "agent_id": "agent_17",
+   "owner_id": "finance",
+   "merchant_id": "m_t16"
+  },
+  {
+   "txn_id": "T0001946",
+   "timestamp": "2026-11-13T14:12:03.072434+00:00",
+   "amount": 30000000,
+   "agent_id": "agent_17",
+   "owner_id": "finance",
+   "merchant_id": "m_t16"
+  },
+  {
+   "txn_id": "T0001947",
+   "timestamp": "2026-11-13T11:39:39.323713+00:00",
+   "amount": 20000000,
+   "agent_id": "agent_17",
+   "owner_id": "finance",
+   "merchant_id": "m_t16"
+  },
+  {
+   "txn_id": "T0001948",
+   "timestamp": "2026-11-11T09:06:15.158109+00:00",
+   "amount": 30000000,
+   "agent_id": "agent_26",
+   "owner_id": "research",
+   "merchant_id": "m_t13"
+  },
+  {
+   "txn_id": "T0001949",
+   "timestamp": "2026-11-11T13:07:02.698791+00:00",
+   "amount": 40000000,
+   "agent_id": "agent_26",
+   "owner_id": "research",
+   "merchant_id": "m_t13"
+  },
+  {
+   "txn_id": "T0001950",
+   "timestamp": "2026-11-11T10:55:01.654672+00:00",
+   "amount": 30000000,
+   "agent_id": "agent_26",
+   "owner_id": "research",
+   "merchant_id": "m_t13"
+  },
+  {
+   "txn_id": "T0001951",
+   "timestamp": "2026-11-14T16:19:56.328808+00:00",
+   "amount": 12000000,
+   "agent_id": "agent_38",
+   "owner_id": "ops",
+   "merchant_id": "m_u07"
+  },
+  {
+   "txn_id": "T0001952",
+   "timestamp": "2026-11-14T10:50:52.089659+00:00",
+   "amount": 12000000,
+   "agent_id": "agent_20",
+   "owner_id": "growth",
+   "merchant_id": "m_u07"
+  },
+  {
+   "txn_id": "T0001953",
+   "timestamp": "2026-11-14T16:37:15.203095+00:00",
+   "amount": 12000000,
+   "agent_id": "agent_18",
+   "owner_id": "ops",
+   "merchant_id": "m_u07"
+  },
+  {
+   "txn_id": "T0001954",
+   "timestamp": "2026-11-14T10:42:52.645666+00:00",
+   "amount": 15000000,
+   "agent_id": "agent_33",
+   "owner_id": "ops",
+   "merchant_id": "m_u07"
+  },
+  {
+   "txn_id": "T0001955",
+   "timestamp": "2026-11-14T10:19:12.401983+00:00",
+   "amount": 15000000,
+   "agent_id": "agent_27",
+   "owner_id": "finance",
+   "merchant_id": "m_u07"
+  },
+  {
+   "txn_id": "T0001956",
+   "timestamp": "2026-11-14T16:54:09.643735+00:00",
+   "amount": 9000000,
+   "agent_id": "agent_04",
+   "owner_id": "platform",
+   "merchant_id": "m_u07"
+  },
+  {
+   "txn_id": "T0001957",
+   "timestamp": "2026-11-15T16:20:20.705830+00:00",
+   "amount": 12000000,
+   "agent_id": "agent_22",
+   "owner_id": "finance",
+   "merchant_id": "m_u08"
+  },
+  {
+   "txn_id": "T0001958",
+   "timestamp": "2026-11-15T14:12:20.436653+00:00",
+   "amount": 15000000,
+   "agent_id": "agent_08",
+   "owner_id": "ops",
+   "merchant_id": "m_u08"
+  },
+  {
+   "txn_id": "T0001959",
+   "timestamp": "2026-11-15T08:14:58.289855+00:00",
+   "amount": 15000000,
+   "agent_id": "agent_36",
+   "owner_id": "research",
+   "merchant_id": "m_u08"
+  },
+  {
+   "txn_id": "T0001960",
+   "timestamp": "2026-11-15T17:13:21.462058+00:00",
+   "amount": 9000000,
+   "agent_id": "agent_12",
+   "owner_id": "finance",
+   "merchant_id": "m_u08"
+  },
+  {
+   "txn_id": "T0001961",
+   "timestamp": "2026-11-15T08:55:45.266946+00:00",
+   "amount": 15000000,
+   "agent_id": "agent_16",
+   "owner_id": "research",
+   "merchant_id": "m_u08"
+  },
+  {
+   "txn_id": "T0001962",
+   "timestamp": "2026-11-12T11:15:32.170011+00:00",
+   "amount": 15000000,
+   "agent_id": "agent_05",
+   "owner_id": "growth",
+   "merchant_id": "m_u05"
+  },
+  {
+   "txn_id": "T0001963",
+   "timestamp": "2026-11-12T11:18:12.067747+00:00",
+   "amount": 9000000,
+   "agent_id": "agent_21",
+   "owner_id": "research",
+   "merchant_id": "m_u05"
+  },
+  {
+   "txn_id": "T0001964",
+   "timestamp": "2026-11-12T09:55:06.117578+00:00",
+   "amount": 12000000,
+   "agent_id": "agent_02",
+   "owner_id": "finance",
+   "merchant_id": "m_u05"
+  },
+  {
+   "txn_id": "T0001965",
+   "timestamp": "2026-11-12T10:27:41.220358+00:00",
+   "amount": 9000000,
+   "agent_id": "agent_25",
+   "owner_id": "growth",
+   "merchant_id": "m_u05"
+  },
+  {
+   "txn_id": "T0001966",
+   "timestamp": "2026-11-12T17:24:15.951789+00:00",
+   "amount": 9000000,
+   "agent_id": "agent_39",
+   "owner_id": "platform",
+   "merchant_id": "m_u05"
+  },
+  {
+   "txn_id": "T0001967",
+   "timestamp": "2026-11-11T10:19:28.199618+00:00",
+   "amount": 14925491,
+   "agent_id": "agent_37",
+   "owner_id": "finance",
+   "merchant_id": "m_u00"
+  },
+  {
+   "txn_id": "T0001968",
+   "timestamp": "2026-11-11T17:16:49.748905+00:00",
+   "amount": 9401497,
+   "agent_id": "agent_37",
+   "owner_id": "finance",
+   "merchant_id": "m_u03"
+  },
+  {
+   "txn_id": "T0001969",
+   "timestamp": "2026-11-11T11:31:13.479711+00:00",
+   "amount": 19271444,
+   "agent_id": "agent_37",
+   "owner_id": "finance",
+   "merchant_id": "m_u08"
+  },
+  {
+   "txn_id": "T0001970",
+   "timestamp": "2026-11-10T13:09:09.223010+00:00",
+   "amount": 137037740,
+   "agent_id": "agent_23",
+   "owner_id": "ops",
+   "merchant_id": "m_u09"
+  },
+  {
+   "txn_id": "T0001971",
+   "timestamp": "2026-11-10T13:51:07.798906+00:00",
+   "amount": 115007779,
+   "agent_id": "agent_23",
+   "owner_id": "ops",
+   "merchant_id": "m_u01"
+  },
+  {
+   "txn_id": "T0001972",
+   "timestamp": "2026-11-10T11:02:46.659366+00:00",
+   "amount": 103086120,
+   "agent_id": "agent_23",
+   "owner_id": "ops",
+   "merchant_id": "m_u08"
+  },
+  {
+   "txn_id": "T0001973",
+   "timestamp": "2026-11-12T13:58:13.523523+00:00",
+   "amount": 19158317,
+   "agent_id": "agent_03",
+   "owner_id": "ops",
+   "merchant_id": "m_u05"
+  },
+  {
+   "txn_id": "T0001974",
+   "timestamp": "2026-11-12T15:39:13.489474+00:00",
+   "amount": 26083865,
+   "agent_id": "agent_03",
+   "owner_id": "ops",
+   "merchant_id": "m_u02"
+  },
+  {
+   "txn_id": "T0001975",
+   "timestamp": "2026-11-12T09:49:27.967837+00:00",
+   "amount": 18570079,
+   "agent_id": "agent_03",
+   "owner_id": "ops",
+   "merchant_id": "m_u00"
+  },
+  {
+   "txn_id": "T0001976",
+   "timestamp": "2026-11-12T09:32:28.321008+00:00",
+   "amount": 134847568,
+   "agent_id": "agent_02",
+   "owner_id": "finance",
+   "merchant_id": "m_u02"
+  },
+  {
+   "txn_id": "T0001977",
+   "timestamp": "2026-11-12T14:39:07.215746+00:00",
+   "amount": 83061802,
+   "agent_id": "agent_02",
+   "owner_id": "finance",
+   "merchant_id": "m_u09"
+  },
+  {
+   "txn_id": "T0001978",
+   "timestamp": "2026-11-12T17:18:04.164314+00:00",
+   "amount": 143876920,
+   "agent_id": "agent_02",
+   "owner_id": "finance",
+   "merchant_id": "m_u07"
+  },
+  {
+   "txn_id": "T0001979",
+   "timestamp": "2026-11-09T10:49:48.893660+00:00",
+   "amount": 10190798,
+   "agent_id": "agent_31",
+   "owner_id": "research",
+   "merchant_id": "m_u06"
+  },
+  {
+   "txn_id": "T0001980",
+   "timestamp": "2026-11-09T08:43:22.178593+00:00",
+   "amount": 16803257,
+   "agent_id": "agent_31",
+   "owner_id": "research",
+   "merchant_id": "m_u04"
+  },
+  {
+   "txn_id": "T0001981",
+   "timestamp": "2026-11-09T09:22:44.552551+00:00",
+   "amount": 13591235,
+   "agent_id": "agent_31",
+   "owner_id": "research",
+   "merchant_id": "m_u05"
+  },
+  {
+   "txn_id": "T0001982",
+   "timestamp": "2026-11-09T17:07:30.661313+00:00",
+   "amount": 14561321,
+   "agent_id": "agent_27",
+   "owner_id": "finance",
+   "merchant_id": "m_u04"
+  },
+  {
+   "txn_id": "T0001983",
+   "timestamp": "2026-11-09T12:52:41.223496+00:00",
+   "amount": 63743821,
+   "agent_id": "agent_27",
+   "owner_id": "finance",
+   "merchant_id": "m_u06"
+  },
+  {
+   "txn_id": "T0001984",
+   "timestamp": "2026-11-09T13:07:41.621173+00:00",
+   "amount": 55802203,
+   "agent_id": "agent_27",
+   "owner_id": "finance",
+   "merchant_id": "m_u05"
+  },
+  {
+   "txn_id": "T0001985",
+   "timestamp": "2026-11-11T11:33:19.250441+00:00",
+   "amount": 6248444,
+   "agent_id": "agent_10",
+   "owner_id": "growth",
+   "merchant_id": "m_u05"
+  },
+  {
+   "txn_id": "T0001986",
+   "timestamp": "2026-11-11T14:07:16.827425+00:00",
+   "amount": 10615642,
+   "agent_id": "agent_10",
+   "owner_id": "growth",
+   "merchant_id": "m_u00"
+  },
+  {
+   "txn_id": "T0001987",
+   "timestamp": "2026-11-11T16:31:22.387919+00:00",
+   "amount": 8199564,
+   "agent_id": "agent_10",
+   "owner_id": "growth",
+   "merchant_id": "m_u04"
+  },
+  {
+   "txn_id": "T0001988",
+   "timestamp": "2026-11-14T09:09:50.781672+00:00",
+   "amount": 95668179,
+   "agent_id": "agent_07",
+   "owner_id": "finance",
+   "merchant_id": "m_u09"
+  },
+  {
+   "txn_id": "T0001989",
+   "timestamp": "2026-11-14T11:35:42.227243+00:00",
+   "amount": 92107364,
+   "agent_id": "agent_07",
+   "owner_id": "finance",
+   "merchant_id": "m_u09"
+  },
+  {
+   "txn_id": "T0001990",
+   "timestamp": "2026-11-14T15:32:05.839093+00:00",
+   "amount": 88357413,
+   "agent_id": "agent_07",
+   "owner_id": "finance",
+   "merchant_id": "m_u09"
+  },
+  {
+   "txn_id": "T0001991",
+   "timestamp": "2026-11-14T16:12:29.392448+00:00",
+   "amount": 96511459,
+   "agent_id": "agent_07",
+   "owner_id": "finance",
+   "merchant_id": "m_u09"
+  },
+  {
+   "txn_id": "T0001992",
+   "timestamp": "2026-11-14T14:12:27.385929+00:00",
+   "amount": 94434767,
+   "agent_id": "agent_07",
+   "owner_id": "finance",
+   "merchant_id": "m_u09"
+  },
+  {
+   "txn_id": "T0001993",
+   "timestamp": "2026-11-14T13:18:05.306475+00:00",
+   "amount": 91249379,
+   "agent_id": "agent_01",
+   "owner_id": "research",
+   "merchant_id": "m_u05"
+  },
+  {
+   "txn_id": "T0001994",
+   "timestamp": "2026-11-14T18:55:54.841733+00:00",
+   "amount": 88592721,
+   "agent_id": "agent_01",
+   "owner_id": "research",
+   "merchant_id": "m_u05"
+  },
+  {
+   "txn_id": "T0001995",
+   "timestamp": "2026-11-14T20:43:53.398703+00:00",
+   "amount": 90079076,
+   "agent_id": "agent_01",
+   "owner_id": "research",
+   "merchant_id": "m_u05"
+  },
+  {
+   "txn_id": "T0001996",
+   "timestamp": "2026-11-14T13:03:56.556383+00:00",
+   "amount": 90877311,
+   "agent_id": "agent_01",
+   "owner_id": "research",
+   "merchant_id": "m_u05"
+  },
+  {
+   "txn_id": "T0001997",
+   "timestamp": "2026-11-14T13:46:27.712788+00:00",
+   "amount": 96936798,
+   "agent_id": "agent_01",
+   "owner_id": "research",
+   "merchant_id": "m_u05"
+  },
+  {
+   "txn_id": "T0001998",
+   "timestamp": "2026-11-09T14:22:58.860745+00:00",
+   "amount": 452448415,
+   "agent_id": "agent_08",
+   "owner_id": "ops",
+   "merchant_id": "m_u05"
+  },
+  {
+   "txn_id": "T0001999",
+   "timestamp": "2026-11-09T11:55:36.198073+00:00",
+   "amount": 449213956,
+   "agent_id": "agent_08",
+   "owner_id": "ops",
+   "merchant_id": "m_u05"
+  },
+  {
+   "txn_id": "T0002000",
+   "timestamp": "2026-11-09T16:57:24.706400+00:00",
+   "amount": 492574694,
+   "agent_id": "agent_08",
+   "owner_id": "ops",
+   "merchant_id": "m_u05"
+  },
+  {
+   "txn_id": "T0002001",
+   "timestamp": "2026-11-09T20:41:42.787775+00:00",
+   "amount": 481190080,
+   "agent_id": "agent_08",
+   "owner_id": "ops",
+   "merchant_id": "m_u05"
+  },
+  {
+   "txn_id": "T0002002",
+   "timestamp": "2026-11-10T16:10:48.549979+00:00",
+   "amount": 89646645,
+   "agent_id": "agent_03",
+   "owner_id": "ops",
+   "merchant_id": "m_u01"
+  },
+  {
+   "txn_id": "T0002003",
+   "timestamp": "2026-11-10T14:15:57.070188+00:00",
+   "amount": 93564367,
+   "agent_id": "agent_03",
+   "owner_id": "ops",
+   "merchant_id": "m_u01"
+  },
+  {
+   "txn_id": "T0002004",
+   "timestamp": "2026-11-10T08:38:55.072296+00:00",
+   "amount": 435206620,
+   "agent_id": "agent_08",
+   "owner_id": "ops",
+   "merchant_id": "m_u01"
+  },
+  {
+   "txn_id": "T0002005",
+   "timestamp": "2026-11-10T15:17:08.057777+00:00",
+   "amount": 441974025,
+   "agent_id": "agent_08",
+   "owner_id": "ops",
+   "merchant_id": "m_u01"
+  },
+  {
+   "txn_id": "T0002006",
+   "timestamp": "2026-11-10T09:14:04.046821+00:00",
+   "amount": 484123300,
+   "agent_id": "agent_13",
+   "owner_id": "ops",
+   "merchant_id": "m_u01"
+  },
+  {
+   "txn_id": "T0002007",
+   "timestamp": "2026-11-10T13:06:06.956868+00:00",
+   "amount": 424446687,
+   "agent_id": "agent_13",
+   "owner_id": "ops",
+   "merchant_id": "m_u01"
+  },
+  {
+   "txn_id": "T0002008",
+   "timestamp": "2026-11-13T03:37:32.648876+00:00",
+   "amount": 63026971,
+   "agent_id": "agent_06",
+   "owner_id": "research",
+   "merchant_id": "m_u04"
+  },
+  {
+   "txn_id": "T0002009",
+   "timestamp": "2026-11-13T03:37:35.648876+00:00",
+   "amount": 84045480,
+   "agent_id": "agent_06",
+   "owner_id": "research",
+   "merchant_id": "m_u04"
+  },
+  {
+   "txn_id": "T0002010",
+   "timestamp": "2026-11-13T03:37:38.648876+00:00",
+   "amount": 114322815,
+   "agent_id": "agent_06",
+   "owner_id": "research",
+   "merchant_id": "m_u04"
+  },
+  {
+   "txn_id": "T0002011",
+   "timestamp": "2026-11-13T03:37:41.648876+00:00",
+   "amount": 149018771,
+   "agent_id": "agent_06",
+   "owner_id": "research",
+   "merchant_id": "m_u04"
+  },
+  {
+   "txn_id": "T0002012",
+   "timestamp": "2026-11-13T03:37:44.648876+00:00",
+   "amount": 53219513,
+   "agent_id": "agent_06",
+   "owner_id": "research",
+   "merchant_id": "m_u04"
+  },
+  {
+   "txn_id": "T0002013",
+   "timestamp": "2026-11-13T03:37:47.648876+00:00",
+   "amount": 79454180,
+   "agent_id": "agent_06",
+   "owner_id": "research",
+   "merchant_id": "m_u04"
+  },
+  {
+   "txn_id": "T0002014",
+   "timestamp": "2026-11-13T03:37:50.648876+00:00",
+   "amount": 77623982,
+   "agent_id": "agent_06",
+   "owner_id": "research",
+   "merchant_id": "m_u04"
+  },
+  {
+   "txn_id": "T0002015",
+   "timestamp": "2026-11-13T03:37:53.648876+00:00",
+   "amount": 67710283,
+   "agent_id": "agent_06",
+   "owner_id": "research",
+   "merchant_id": "m_u04"
+  },
+  {
+   "txn_id": "T0002016",
+   "timestamp": "2026-11-13T03:37:56.648876+00:00",
+   "amount": 124397309,
+   "agent_id": "agent_06",
+   "owner_id": "research",
+   "merchant_id": "m_u04"
+  },
+  {
+   "txn_id": "T0002017",
+   "timestamp": "2026-11-13T03:37:59.648876+00:00",
+   "amount": 118448986,
+   "agent_id": "agent_06",
+   "owner_id": "research",
+   "merchant_id": "m_u04"
+  },
+  {
+   "txn_id": "T0002018",
+   "timestamp": "2026-11-13T03:38:02.648876+00:00",
+   "amount": 135290863,
+   "agent_id": "agent_06",
+   "owner_id": "research",
+   "merchant_id": "m_u04"
+  },
+  {
+   "txn_id": "T0002019",
+   "timestamp": "2026-11-13T03:38:05.648876+00:00",
+   "amount": 143501438,
+   "agent_id": "agent_06",
+   "owner_id": "research",
+   "merchant_id": "m_u04"
+  },
+  {
+   "txn_id": "T0002020",
+   "timestamp": "2026-11-13T03:38:08.648876+00:00",
+   "amount": 140024577,
+   "agent_id": "agent_06",
+   "owner_id": "research",
+   "merchant_id": "m_u04"
+  },
+  {
+   "txn_id": "T0002021",
+   "timestamp": "2026-11-13T03:38:11.648876+00:00",
+   "amount": 133797186,
+   "agent_id": "agent_06",
+   "owner_id": "research",
+   "merchant_id": "m_u04"
+  },
+  {
+   "txn_id": "T0002022",
+   "timestamp": "2026-11-13T03:38:14.648876+00:00",
+   "amount": 124396883,
+   "agent_id": "agent_06",
+   "owner_id": "research",
+   "merchant_id": "m_u04"
+  },
+  {
+   "txn_id": "T0002023",
+   "timestamp": "2026-11-13T03:38:17.648876+00:00",
+   "amount": 80530719,
+   "agent_id": "agent_06",
+   "owner_id": "research",
+   "merchant_id": "m_u04"
+  },
+  {
+   "txn_id": "T0002024",
+   "timestamp": "2026-11-13T03:38:20.648876+00:00",
+   "amount": 139885480,
+   "agent_id": "agent_06",
+   "owner_id": "research",
+   "merchant_id": "m_u04"
+  },
+  {
+   "txn_id": "T0002025",
+   "timestamp": "2026-11-13T03:38:23.648876+00:00",
+   "amount": 51362014,
+   "agent_id": "agent_06",
+   "owner_id": "research",
+   "merchant_id": "m_u04"
+  },
+  {
+   "txn_id": "T0002026",
+   "timestamp": "2026-11-13T03:38:26.648876+00:00",
+   "amount": 63745250,
+   "agent_id": "agent_06",
+   "owner_id": "research",
+   "merchant_id": "m_u04"
+  },
+  {
+   "txn_id": "T0002027",
+   "timestamp": "2026-11-13T03:38:29.648876+00:00",
+   "amount": 76741459,
+   "agent_id": "agent_06",
+   "owner_id": "research",
+   "merchant_id": "m_u04"
+  },
+  {
+   "txn_id": "T0002028",
+   "timestamp": "2026-11-13T00:28:18.435979+00:00",
+   "amount": 140226935,
+   "agent_id": "agent_12",
+   "owner_id": "finance",
+   "merchant_id": "m_u01"
+  },
+  {
+   "txn_id": "T0002029",
+   "timestamp": "2026-11-13T00:28:21.435979+00:00",
+   "amount": 106793922,
+   "agent_id": "agent_12",
+   "owner_id": "finance",
+   "merchant_id": "m_u01"
+  },
+  {
+   "txn_id": "T0002030",
+   "timestamp": "2026-11-13T00:28:24.435979+00:00",
+   "amount": 73398778,
+   "agent_id": "agent_12",
+   "owner_id": "finance",
+   "merchant_id": "m_u01"
+  },
+  {
+   "txn_id": "T0002031",
+   "timestamp": "2026-11-13T00:28:27.435979+00:00",
+   "amount": 117788824,
+   "agent_id": "agent_12",
+   "owner_id": "finance",
+   "merchant_id": "m_u01"
+  },
+  {
+   "txn_id": "T0002032",
+   "timestamp": "2026-11-13T00:28:30.435979+00:00",
+   "amount": 145287351,
+   "agent_id": "agent_12",
+   "owner_id": "finance",
+   "merchant_id": "m_u01"
+  },
+  {
+   "txn_id": "T0002033",
+   "timestamp": "2026-11-13T00:28:33.435979+00:00",
+   "amount": 145742561,
+   "agent_id": "agent_12",
+   "owner_id": "finance",
+   "merchant_id": "m_u01"
+  },
+  {
+   "txn_id": "T0002034",
+   "timestamp": "2026-11-13T00:28:36.435979+00:00",
+   "amount": 112545941,
+   "agent_id": "agent_12",
+   "owner_id": "finance",
+   "merchant_id": "m_u01"
+  },
+  {
+   "txn_id": "T0002035",
+   "timestamp": "2026-11-13T00:28:39.435979+00:00",
+   "amount": 132508976,
+   "agent_id": "agent_12",
+   "owner_id": "finance",
+   "merchant_id": "m_u01"
+  },
+  {
+   "txn_id": "T0002036",
+   "timestamp": "2026-11-13T00:28:42.435979+00:00",
+   "amount": 104726557,
+   "agent_id": "agent_12",
+   "owner_id": "finance",
+   "merchant_id": "m_u01"
+  },
+  {
+   "txn_id": "T0002037",
+   "timestamp": "2026-11-13T00:28:45.435979+00:00",
+   "amount": 59769332,
+   "agent_id": "agent_12",
+   "owner_id": "finance",
+   "merchant_id": "m_u01"
+  },
+  {
+   "txn_id": "T0002038",
+   "timestamp": "2026-11-13T00:28:48.435979+00:00",
+   "amount": 118399453,
+   "agent_id": "agent_12",
+   "owner_id": "finance",
+   "merchant_id": "m_u01"
+  },
+  {
+   "txn_id": "T0002039",
+   "timestamp": "2026-11-13T00:28:51.435979+00:00",
+   "amount": 60420195,
+   "agent_id": "agent_12",
+   "owner_id": "finance",
+   "merchant_id": "m_u01"
+  },
+  {
+   "txn_id": "T0002040",
+   "timestamp": "2026-11-13T00:28:54.435979+00:00",
+   "amount": 131362050,
+   "agent_id": "agent_12",
+   "owner_id": "finance",
+   "merchant_id": "m_u01"
+  },
+  {
+   "txn_id": "T0002041",
+   "timestamp": "2026-11-13T00:28:57.435979+00:00",
+   "amount": 144335643,
+   "agent_id": "agent_12",
+   "owner_id": "finance",
+   "merchant_id": "m_u01"
+  },
+  {
+   "txn_id": "T0002042",
+   "timestamp": "2026-11-13T00:29:00.435979+00:00",
+   "amount": 144666759,
+   "agent_id": "agent_12",
+   "owner_id": "finance",
+   "merchant_id": "m_u01"
+  },
+  {
+   "txn_id": "T0002043",
+   "timestamp": "2026-11-13T00:29:03.435979+00:00",
+   "amount": 77051481,
+   "agent_id": "agent_12",
+   "owner_id": "finance",
+   "merchant_id": "m_u01"
+  },
+  {
+   "txn_id": "T0002044",
+   "timestamp": "2026-11-13T00:29:06.435979+00:00",
+   "amount": 95937117,
+   "agent_id": "agent_12",
+   "owner_id": "finance",
+   "merchant_id": "m_u01"
+  },
+  {
+   "txn_id": "T0002045",
+   "timestamp": "2026-11-14T08:30:00.571346+00:00",
+   "amount": 21020124,
+   "agent_id": "agent_00",
+   "owner_id": "growth",
+   "merchant_id": "m_u02"
+  },
+  {
+   "txn_id": "T0002046",
+   "timestamp": "2026-11-14T13:10:46.352536+00:00",
+   "amount": 58414277,
+   "agent_id": "agent_37",
+   "owner_id": "finance",
+   "merchant_id": "m_u02"
+  },
+  {
+   "txn_id": "T0002047",
+   "timestamp": "2026-11-14T11:49:35.492932+00:00",
+   "amount": 66206225,
+   "agent_id": "agent_21",
+   "owner_id": "research",
+   "merchant_id": "m_u02"
+  },
+  {
+   "txn_id": "T0002048",
+   "timestamp": "2026-11-14T16:16:42.090555+00:00",
+   "amount": 236203666,
+   "agent_id": "agent_23",
+   "owner_id": "ops",
+   "merchant_id": "m_u02"
+  },
+  {
+   "txn_id": "T0002049",
+   "timestamp": "2026-11-12T15:52:38.339048+00:00",
+   "amount": 22236497,
+   "agent_id": "agent_35",
+   "owner_id": "growth",
+   "merchant_id": "m_u00"
+  },
+  {
+   "txn_id": "T0002050",
+   "timestamp": "2026-11-12T10:18:23.957678+00:00",
+   "amount": 204164675,
+   "agent_id": "agent_30",
+   "owner_id": "growth",
+   "merchant_id": "m_u00"
+  },
+  {
+   "txn_id": "T0002051",
+   "timestamp": "2026-11-12T08:16:46.137820+00:00",
+   "amount": 67506229,
+   "agent_id": "agent_26",
+   "owner_id": "research",
+   "merchant_id": "m_u00"
+  },
+  {
+   "txn_id": "T0002052",
+   "timestamp": "2026-11-12T18:16:55.695314+00:00",
+   "amount": 232580567,
+   "agent_id": "agent_29",
+   "owner_id": "platform",
+   "merchant_id": "m_u10"
+  },
+  {
+   "txn_id": "T0002053",
+   "timestamp": "2026-11-12T13:09:21.862660+00:00",
+   "amount": 250188579,
+   "agent_id": "agent_29",
+   "owner_id": "platform",
+   "merchant_id": "m_u10"
+  },
+  {
+   "txn_id": "T0002054",
+   "timestamp": "2026-11-12T19:47:25.454767+00:00",
+   "amount": 213110915,
+   "agent_id": "agent_29",
+   "owner_id": "platform",
+   "merchant_id": "m_u10"
+  },
+  {
+   "txn_id": "T0002055",
+   "timestamp": "2026-11-14T16:04:12.257740+00:00",
+   "amount": 130351962,
+   "agent_id": "agent_38",
+   "owner_id": "ops",
+   "merchant_id": "m_u11"
+  },
+  {
+   "txn_id": "T0002056",
+   "timestamp": "2026-11-14T18:16:25.388613+00:00",
+   "amount": 127441597,
+   "agent_id": "agent_38",
+   "owner_id": "ops",
+   "merchant_id": "m_u11"
+  },
+  {
+   "txn_id": "T0002057",
+   "timestamp": "2026-11-14T11:22:02.591534+00:00",
+   "amount": 110772389,
+   "agent_id": "agent_27",
+   "owner_id": "finance",
+   "merchant_id": "m_u12"
+  },
+  {
+   "txn_id": "T0002064",
+   "timestamp": "2026-11-15T09:31:09.736031+00:00",
+   "amount": 32559309,
+   "agent_id": "agent_18",
+   "owner_id": "ops",
+   "merchant_id": "m_u07"
+  },
+  {
+   "txn_id": "T0002065",
+   "timestamp": "2026-11-15T12:49:17.211353+00:00",
+   "amount": 77260385,
+   "agent_id": "agent_18",
+   "owner_id": "ops",
+   "merchant_id": "m_u07"
+  },
+  {
+   "txn_id": "T0002066",
+   "timestamp": "2026-11-13T10:48:04.995765+00:00",
+   "amount": 500000000,
+   "agent_id": "agent_04",
+   "owner_id": "platform",
+   "merchant_id": "m_u01"
+  },
+  {
+   "txn_id": "T0002067",
+   "timestamp": "2026-11-13T16:55:31.131434+00:00",
+   "amount": 500000000,
+   "agent_id": "agent_04",
+   "owner_id": "platform",
+   "merchant_id": "m_u01"
+  },
+  {
+   "txn_id": "T0002068",
+   "timestamp": "2026-11-13T17:29:24.506660+00:00",
+   "amount": 200000000,
+   "agent_id": "agent_04",
+   "owner_id": "platform",
+   "merchant_id": "m_u01"
+  },
+  {
+   "txn_id": "T0002069",
+   "timestamp": "2026-11-14T11:18:40.905274+00:00",
+   "amount": 200000000,
+   "agent_id": "agent_10",
+   "owner_id": "growth",
+   "merchant_id": "m_u03"
+  },
+  {
+   "txn_id": "T0002070",
+   "timestamp": "2026-11-14T17:40:18.066164+00:00",
+   "amount": 500000000,
+   "agent_id": "agent_10",
+   "owner_id": "growth",
+   "merchant_id": "m_u03"
+  },
+  {
+   "txn_id": "T0002071",
+   "timestamp": "2026-11-14T18:59:40.796823+00:00",
+   "amount": 200000000,
+   "agent_id": "agent_10",
+   "owner_id": "growth",
+   "merchant_id": "m_u03"
+  },
+  {
+   "txn_id": "T0002072",
+   "timestamp": "2026-11-13T14:47:39.951694+00:00",
+   "amount": 76832341,
+   "agent_id": "agent_34",
+   "owner_id": "platform",
+   "merchant_id": "m_u03"
+  },
+  {
+   "txn_id": "T0002073",
+   "timestamp": "2026-11-13T15:11:30.065070+00:00",
+   "amount": 53634623,
+   "agent_id": "agent_34",
+   "owner_id": "platform",
+   "merchant_id": "m_u03"
+  },
+  {
+   "txn_id": "T0002074",
+   "timestamp": "2026-11-13T16:17:12.266450+00:00",
+   "amount": 58047832,
+   "agent_id": "agent_34",
+   "owner_id": "platform",
+   "merchant_id": "m_u03"
+  },
+  {
+   "txn_id": "T0002075",
+   "timestamp": "2026-11-14T08:21:53.133097+00:00",
+   "amount": 139770257,
+   "agent_id": "agent_36",
+   "owner_id": "research",
+   "merchant_id": "m_u03"
+  },
+  {
+   "txn_id": "T0002076",
+   "timestamp": "2026-11-14T18:25:37.243020+00:00",
+   "amount": 66971726,
+   "agent_id": "agent_31",
+   "owner_id": "research",
+   "merchant_id": "m_u03"
+  },
+  {
+   "txn_id": "T0002084",
+   "timestamp": "2026-11-09T10:32:19.348712+00:00",
+   "amount": 40699236,
+   "agent_id": "agent_16",
+   "owner_id": "research",
+   "merchant_id": "m_u05"
+  },
+  {
+   "txn_id": "T0002085",
+   "timestamp": "2026-11-10T11:27:24.185014+00:00",
+   "amount": 31737670,
+   "agent_id": "agent_16",
+   "owner_id": "research",
+   "merchant_id": "m_u05"
+  },
+  {
+   "txn_id": "T0002086",
+   "timestamp": "2026-11-11T15:38:27.599128+00:00",
+   "amount": 48259014,
+   "agent_id": "agent_16",
+   "owner_id": "research",
+   "merchant_id": "m_u05"
+  },
+  {
+   "txn_id": "T0002087",
+   "timestamp": "2026-11-12T13:07:08.763444+00:00",
+   "amount": 32877216,
+   "agent_id": "agent_16",
+   "owner_id": "research",
+   "merchant_id": "m_u05"
+  }
+ ],
+ "alerts": [
+  {
+   "alert_id": "A079df76ca6",
+   "rule": "AML_NEW_MERCHANT_BURST",
+   "severity": 6,
+   "subject_type": "agent",
+   "subject_id": "agent_31",
+   "txn_ids": [
+    "T0001979",
+    "T0001980",
+    "T0001981"
+   ],
+   "raised_at": "2026-11-09T10:49:48.893660+00:00",
+   "explanation": "3 first-time merchants inside 24h.",
+   "in_queue": false
+  },
+  {
+   "alert_id": "A951f199d4f",
+   "rule": "AML_NEW_MERCHANT_BURST",
+   "severity": 6,
+   "subject_type": "agent",
+   "subject_id": "agent_27",
+   "txn_ids": [
+    "T0001982",
+    "T0001983",
+    "T0001984"
+   ],
+   "raised_at": "2026-11-09T17:07:30.661313+00:00",
+   "explanation": "3 first-time merchants inside 24h.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "Ab11d73ba3a",
+   "rule": "AML_ROUND_AMOUNTS",
+   "severity": 4,
+   "subject_type": "agent",
+   "subject_id": "agent_30",
+   "txn_ids": [
+    "T0001924",
+    "T0001925",
+    "T0001926"
+   ],
+   "raised_at": "2026-11-09T17:26:05.295646+00:00",
+   "explanation": "3 payments in exact multiples of $10.00.",
+   "in_queue": false
+  },
+  {
+   "alert_id": "A1feea23478",
+   "rule": "AML_FAN_IN",
+   "severity": 7,
+   "subject_type": "merchant",
+   "subject_id": "m_u05",
+   "txn_ids": [
+    "T0001981",
+    "T0001984",
+    "T0001998",
+    "T0001999",
+    "T0002000",
+    "T0002001",
+    "T0002084",
+    "T0002085"
+   ],
+   "raised_at": "2026-11-10T11:27:24.185014+00:00",
+   "explanation": "4 different agents paid untrusted merchant 'Orbit Tools' within 24h.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "A6ed9970466",
+   "rule": "AML_NEW_MERCHANT_BURST",
+   "severity": 6,
+   "subject_type": "agent",
+   "subject_id": "agent_36",
+   "txn_ids": [
+    "T0001815",
+    "T0001818",
+    "T0001820",
+    "T0001822",
+    "T0001824",
+    "T0001825",
+    "T0001827",
+    "T0001828",
+    "T0001830"
+   ],
+   "raised_at": "2026-11-10T13:14:13.589269+00:00",
+   "explanation": "9 first-time merchants inside 24h.",
+   "in_queue": false
+  },
+  {
+   "alert_id": "A08a2d08d56",
+   "rule": "AML_VELOCITY_SPIKE",
+   "severity": 6,
+   "subject_type": "agent",
+   "subject_id": "agent_36",
+   "txn_ids": [
+    "T0001814",
+    "T0001815",
+    "T0001816",
+    "T0001817",
+    "T0001818",
+    "T0001819",
+    "T0001820",
+    "T0001821",
+    "T0001822",
+    "T0001823",
+    "T0001824",
+    "T0001825",
+    "T0001826",
+    "T0001827",
+    "T0001828",
+    "T0001829",
+    "T0001830",
+    "T0001831"
+   ],
+   "raised_at": "2026-11-10T13:14:15.589269+00:00",
+   "explanation": "18 payments in a burst, far above this agent's usual rate.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "A442ae1d591",
+   "rule": "AML_RAPID_FIRE",
+   "severity": 5,
+   "subject_type": "agent",
+   "subject_id": "agent_36",
+   "txn_ids": [
+    "T0001814",
+    "T0001815",
+    "T0001816",
+    "T0001817",
+    "T0001818",
+    "T0001819",
+    "T0001820",
+    "T0001821",
+    "T0001822",
+    "T0001823",
+    "T0001824",
+    "T0001825",
+    "T0001826",
+    "T0001827",
+    "T0001828",
+    "T0001829",
+    "T0001830",
+    "T0001831"
+   ],
+   "raised_at": "2026-11-10T13:14:15.589269+00:00",
+   "explanation": "18 payments with at least 15 inside 60s.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "Abf045d9327",
+   "rule": "AML_NEW_MERCHANT_BURST",
+   "severity": 6,
+   "subject_type": "agent",
+   "subject_id": "agent_23",
+   "txn_ids": [
+    "T0001970",
+    "T0001971",
+    "T0001972"
+   ],
+   "raised_at": "2026-11-10T13:51:07.798906+00:00",
+   "explanation": "3 first-time merchants inside 24h.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "A83303da58c",
+   "rule": "AML_STRUCTURING",
+   "severity": 8,
+   "subject_type": "agent",
+   "subject_id": "agent_08",
+   "txn_ids": [
+    "T0001998",
+    "T0001999",
+    "T0002000",
+    "T0002001",
+    "T0002004",
+    "T0002005"
+   ],
+   "raised_at": "2026-11-10T15:17:08.057777+00:00",
+   "explanation": "6 payments each just under the $500.00 approval threshold, totalling $2,752.61.",
+   "in_queue": false
+  },
+  {
+   "alert_id": "A6c2d42955a",
+   "rule": "AML_TEAM_STRUCTURING",
+   "severity": 8,
+   "subject_type": "owner",
+   "subject_id": "ops",
+   "txn_ids": [
+    "T0001998",
+    "T0001999",
+    "T0002000",
+    "T0002001",
+    "T0002002",
+    "T0002003",
+    "T0002004",
+    "T0002005",
+    "T0002006",
+    "T0002007"
+   ],
+   "raised_at": "2026-11-10T16:10:48.549979+00:00",
+   "explanation": "10 payments from 3 agents of one owner, each just under its approval threshold, totalling $3,844.39.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "Af212a19138",
+   "rule": "AML_FAN_IN",
+   "severity": 7,
+   "subject_type": "merchant",
+   "subject_id": "m_u01",
+   "txn_ids": [
+    "T0001971",
+    "T0002002",
+    "T0002003",
+    "T0002004",
+    "T0002005",
+    "T0002006",
+    "T0002007"
+   ],
+   "raised_at": "2026-11-10T16:10:48.549979+00:00",
+   "explanation": "4 different agents paid untrusted merchant 'Nimbus Resell' within 24h.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "Abf58da80da",
+   "rule": "AML_NEW_MERCHANT_BURST",
+   "severity": 6,
+   "subject_type": "agent",
+   "subject_id": "agent_12",
+   "txn_ids": [
+    "T0001886",
+    "T0001887",
+    "T0001888",
+    "T0001890",
+    "T0001891",
+    "T0001894",
+    "T0001895",
+    "T0001897",
+    "T0001899",
+    "T0001901"
+   ],
+   "raised_at": "2026-11-11T09:35:56.158931+00:00",
+   "explanation": "10 first-time merchants inside 24h.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "A211214d0c6",
+   "rule": "AML_VELOCITY_SPIKE",
+   "severity": 6,
+   "subject_type": "agent",
+   "subject_id": "agent_12",
+   "txn_ids": [
+    "T0001886",
+    "T0001887",
+    "T0001888",
+    "T0001889",
+    "T0001890",
+    "T0001891",
+    "T0001892",
+    "T0001893",
+    "T0001894",
+    "T0001895",
+    "T0001896",
+    "T0001897",
+    "T0001898",
+    "T0001899",
+    "T0001900",
+    "T0001901",
+    "T0001902",
+    "T0001903"
+   ],
+   "raised_at": "2026-11-11T09:36:00.158931+00:00",
+   "explanation": "18 payments in a burst, far above this agent's usual rate.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "A4ae17b4d8b",
+   "rule": "AML_RAPID_FIRE",
+   "severity": 5,
+   "subject_type": "agent",
+   "subject_id": "agent_12",
+   "txn_ids": [
+    "T0001886",
+    "T0001887",
+    "T0001888",
+    "T0001889",
+    "T0001890",
+    "T0001891",
+    "T0001892",
+    "T0001893",
+    "T0001894",
+    "T0001895",
+    "T0001896",
+    "T0001897",
+    "T0001898",
+    "T0001899",
+    "T0001900",
+    "T0001901",
+    "T0001902",
+    "T0001903"
+   ],
+   "raised_at": "2026-11-11T09:36:00.158931+00:00",
+   "explanation": "18 payments with at least 15 inside 60s.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "Aecf7fd788e",
+   "rule": "AML_ROUND_AMOUNTS",
+   "severity": 4,
+   "subject_type": "agent",
+   "subject_id": "agent_12",
+   "txn_ids": [
+    "T0001886",
+    "T0001887",
+    "T0001888",
+    "T0001889",
+    "T0001890",
+    "T0001891",
+    "T0001892",
+    "T0001893",
+    "T0001894",
+    "T0001895",
+    "T0001896",
+    "T0001897",
+    "T0001898",
+    "T0001899",
+    "T0001900",
+    "T0001901",
+    "T0001902",
+    "T0001903"
+   ],
+   "raised_at": "2026-11-11T09:36:00.158931+00:00",
+   "explanation": "18 payments in exact multiples of $10.00.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "Af62570e8bc",
+   "rule": "AML_ROUND_AMOUNTS",
+   "severity": 4,
+   "subject_type": "agent",
+   "subject_id": "agent_26",
+   "txn_ids": [
+    "T0001948",
+    "T0001949",
+    "T0001950"
+   ],
+   "raised_at": "2026-11-11T13:07:02.698791+00:00",
+   "explanation": "3 payments in exact multiples of $10.00.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "Ad7c5d3a62a",
+   "rule": "AML_ROUND_AMOUNTS",
+   "severity": 4,
+   "subject_type": "agent",
+   "subject_id": "agent_35",
+   "txn_ids": [
+    "T0001942",
+    "T0001943",
+    "T0001944"
+   ],
+   "raised_at": "2026-11-11T13:12:28.659328+00:00",
+   "explanation": "3 payments in exact multiples of $10.00.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "A4c1b34b408",
+   "rule": "AML_RAPID_FIRE",
+   "severity": 5,
+   "subject_type": "agent",
+   "subject_id": "agent_28",
+   "txn_ids": [
+    "T0001832",
+    "T0001833",
+    "T0001834",
+    "T0001835",
+    "T0001836",
+    "T0001837",
+    "T0001838",
+    "T0001839",
+    "T0001840",
+    "T0001841",
+    "T0001842",
+    "T0001843",
+    "T0001844",
+    "T0001845",
+    "T0001846"
+   ],
+   "raised_at": "2026-11-11T16:15:47.452447+00:00",
+   "explanation": "15 payments with at least 15 inside 60s.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "Ac4c6507cde",
+   "rule": "AML_NEW_MERCHANT_BURST",
+   "severity": 6,
+   "subject_type": "agent",
+   "subject_id": "agent_10",
+   "txn_ids": [
+    "T0001985",
+    "T0001986",
+    "T0001987"
+   ],
+   "raised_at": "2026-11-11T16:31:22.387919+00:00",
+   "explanation": "3 first-time merchants inside 24h.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "Aadfdcb9383",
+   "rule": "AML_NEW_MERCHANT_BURST",
+   "severity": 6,
+   "subject_type": "agent",
+   "subject_id": "agent_37",
+   "txn_ids": [
+    "T0001941",
+    "T0001967",
+    "T0001968",
+    "T0001969"
+   ],
+   "raised_at": "2026-11-11T17:16:49.748905+00:00",
+   "explanation": "4 first-time merchants inside 24h.",
+   "in_queue": false
+  },
+  {
+   "alert_id": "A7fc265a7b9",
+   "rule": "AML_ROUND_AMOUNTS",
+   "severity": 4,
+   "subject_type": "agent",
+   "subject_id": "agent_37",
+   "txn_ids": [
+    "T0001939",
+    "T0001940",
+    "T0001941"
+   ],
+   "raised_at": "2026-11-11T18:28:16.856111+00:00",
+   "explanation": "3 payments in exact multiples of $10.00.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "A2d09e7cf19",
+   "rule": "AML_NEW_MERCHANT_BURST",
+   "severity": 6,
+   "subject_type": "agent",
+   "subject_id": "agent_03",
+   "txn_ids": [
+    "T0001973",
+    "T0001974",
+    "T0001975"
+   ],
+   "raised_at": "2026-11-12T15:39:13.489474+00:00",
+   "explanation": "3 first-time merchants inside 24h.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "Aa0200c49c1",
+   "rule": "AML_FAN_IN",
+   "severity": 7,
+   "subject_type": "merchant",
+   "subject_id": "m_u00",
+   "txn_ids": [
+    "T0001967",
+    "T0001975",
+    "T0001986",
+    "T0002049",
+    "T0002050",
+    "T0002051"
+   ],
+   "raised_at": "2026-11-12T15:52:38.339048+00:00",
+   "explanation": "6 different agents paid untrusted merchant 'QuickData Hub' within 24h.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "Ae2adc472a1",
+   "rule": "AML_NEW_MERCHANT_BURST",
+   "severity": 6,
+   "subject_type": "agent",
+   "subject_id": "agent_02",
+   "txn_ids": [
+    "T0001964",
+    "T0001976",
+    "T0001977",
+    "T0001978"
+   ],
+   "raised_at": "2026-11-12T17:18:04.164314+00:00",
+   "explanation": "4 first-time merchants inside 24h.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "A5f1c5d103c",
+   "rule": "AML_FAN_IN",
+   "severity": 7,
+   "subject_type": "merchant",
+   "subject_id": "m_u05",
+   "txn_ids": [
+    "T0001962",
+    "T0001963",
+    "T0001964",
+    "T0001965",
+    "T0001966",
+    "T0001973",
+    "T0001985",
+    "T0002086",
+    "T0002087"
+   ],
+   "raised_at": "2026-11-12T17:24:15.951789+00:00",
+   "explanation": "8 different agents paid untrusted merchant 'Orbit Tools' within 24h.",
+   "in_queue": false
+  },
+  {
+   "alert_id": "A2b21cc5d89",
+   "rule": "AML_VELOCITY_SPIKE",
+   "severity": 6,
+   "subject_type": "agent",
+   "subject_id": "agent_07",
+   "txn_ids": [
+    "T0001765",
+    "T0001766",
+    "T0001767",
+    "T0001768",
+    "T0001769",
+    "T0001770",
+    "T0001771",
+    "T0001772",
+    "T0001773",
+    "T0001774",
+    "T0001775",
+    "T0001776",
+    "T0001777",
+    "T0001778",
+    "T0001779"
+   ],
+   "raised_at": "2026-11-12T18:51:53.578393+00:00",
+   "explanation": "15 payments in a burst, far above this agent's usual rate.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "A6c7579ed0e",
+   "rule": "AML_NEW_MERCHANT_BURST",
+   "severity": 6,
+   "subject_type": "agent",
+   "subject_id": "agent_07",
+   "txn_ids": [
+    "T0001767",
+    "T0001768",
+    "T0001769",
+    "T0001770",
+    "T0001773",
+    "T0001774",
+    "T0001775",
+    "T0001776",
+    "T0001779"
+   ],
+   "raised_at": "2026-11-12T18:51:53.578393+00:00",
+   "explanation": "9 first-time merchants inside 24h.",
+   "in_queue": false
+  },
+  {
+   "alert_id": "Ac534857141",
+   "rule": "AML_RAPID_FIRE",
+   "severity": 5,
+   "subject_type": "agent",
+   "subject_id": "agent_07",
+   "txn_ids": [
+    "T0001765",
+    "T0001766",
+    "T0001767",
+    "T0001768",
+    "T0001769",
+    "T0001770",
+    "T0001771",
+    "T0001772",
+    "T0001773",
+    "T0001774",
+    "T0001775",
+    "T0001776",
+    "T0001777",
+    "T0001778",
+    "T0001779"
+   ],
+   "raised_at": "2026-11-12T18:51:53.578393+00:00",
+   "explanation": "15 payments with at least 15 inside 60s.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "A3c9be9e5c4",
+   "rule": "AML_LOOKALIKE_MERCHANT",
+   "severity": 9,
+   "subject_type": "merchant",
+   "subject_id": "m_u10",
+   "txn_ids": [
+    "T0002052",
+    "T0002053",
+    "T0002054"
+   ],
+   "raised_at": "2026-11-12T19:47:25.454767+00:00",
+   "explanation": "Paid 'DataLoorn', which resembles trusted merchant 'DataLoom': 3 payments, $695.88.",
+   "in_queue": false
+  },
+  {
+   "alert_id": "A5826d97b08",
+   "rule": "AML_VELOCITY_SPIKE",
+   "severity": 6,
+   "subject_type": "agent",
+   "subject_id": "agent_12",
+   "txn_ids": [
+    "T0002028",
+    "T0002029",
+    "T0002030",
+    "T0002031",
+    "T0002032",
+    "T0002033",
+    "T0002034",
+    "T0002035",
+    "T0002036",
+    "T0002037",
+    "T0002038",
+    "T0002039",
+    "T0002040",
+    "T0002041",
+    "T0002042",
+    "T0002043",
+    "T0002044"
+   ],
+   "raised_at": "2026-11-13T00:29:06.435979+00:00",
+   "explanation": "17 payments in a burst, far above this agent's usual rate.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "Ad21cf8c666",
+   "rule": "AML_RAPID_FIRE",
+   "severity": 5,
+   "subject_type": "agent",
+   "subject_id": "agent_12",
+   "txn_ids": [
+    "T0002028",
+    "T0002029",
+    "T0002030",
+    "T0002031",
+    "T0002032",
+    "T0002033",
+    "T0002034",
+    "T0002035",
+    "T0002036",
+    "T0002037",
+    "T0002038",
+    "T0002039",
+    "T0002040",
+    "T0002041",
+    "T0002042",
+    "T0002043",
+    "T0002044"
+   ],
+   "raised_at": "2026-11-13T00:29:06.435979+00:00",
+   "explanation": "17 payments with at least 15 inside 60s.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "A8b1b1cadc8",
+   "rule": "AML_RAPID_FIRE",
+   "severity": 5,
+   "subject_type": "agent",
+   "subject_id": "agent_06",
+   "txn_ids": [
+    "T0002008",
+    "T0002009",
+    "T0002010",
+    "T0002011",
+    "T0002012",
+    "T0002013",
+    "T0002014",
+    "T0002015",
+    "T0002016",
+    "T0002017",
+    "T0002018",
+    "T0002019",
+    "T0002020",
+    "T0002021",
+    "T0002022",
+    "T0002023",
+    "T0002024",
+    "T0002025",
+    "T0002026",
+    "T0002027"
+   ],
+   "raised_at": "2026-11-13T03:38:29.648876+00:00",
+   "explanation": "20 payments with at least 15 inside 60s.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "Aa757682c9a",
+   "rule": "AML_HIGH_RISK_CATEGORY",
+   "severity": 6,
+   "subject_type": "merchant",
+   "subject_id": "m_u04",
+   "txn_ids": [
+    "T0001980",
+    "T0001982",
+    "T0001987",
+    "T0002008",
+    "T0002009",
+    "T0002010",
+    "T0002011",
+    "T0002012",
+    "T0002013",
+    "T0002014",
+    "T0002015",
+    "T0002016",
+    "T0002017",
+    "T0002018",
+    "T0002019",
+    "T0002020",
+    "T0002021",
+    "T0002022",
+    "T0002023",
+    "T0002024",
+    "T0002025",
+    "T0002026",
+    "T0002027"
+   ],
+   "raised_at": "2026-11-13T03:38:29.648876+00:00",
+   "explanation": "23 payments, $2,060.11, to a merchant in high-risk category 'money_transfer'.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "Adaf0ccdcec",
+   "rule": "AML_VELOCITY_SPIKE",
+   "severity": 6,
+   "subject_type": "agent",
+   "subject_id": "agent_06",
+   "txn_ids": [
+    "T0002008",
+    "T0002009",
+    "T0002010",
+    "T0002011",
+    "T0002012",
+    "T0002013",
+    "T0002014",
+    "T0002015",
+    "T0002016",
+    "T0002017",
+    "T0002018",
+    "T0002019",
+    "T0002020",
+    "T0002021",
+    "T0002022",
+    "T0002023",
+    "T0002024",
+    "T0002025",
+    "T0002026",
+    "T0002027"
+   ],
+   "raised_at": "2026-11-13T03:38:29.648876+00:00",
+   "explanation": "20 payments in a burst, far above this agent's usual rate.",
+   "in_queue": false
+  },
+  {
+   "alert_id": "A120560d68c",
+   "rule": "AML_VELOCITY_SPIKE",
+   "severity": 6,
+   "subject_type": "agent",
+   "subject_id": "agent_10",
+   "txn_ids": [
+    "T0000514",
+    "T0001869",
+    "T0001870",
+    "T0001871",
+    "T0001872",
+    "T0001873",
+    "T0001874",
+    "T0001875",
+    "T0001876",
+    "T0001877",
+    "T0001878",
+    "T0001879",
+    "T0001880",
+    "T0001881",
+    "T0001882",
+    "T0001883",
+    "T0001884",
+    "T0001885"
+   ],
+   "raised_at": "2026-11-13T11:59:16.683306+00:00",
+   "explanation": "18 payments in a burst, far above this agent's usual rate.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "A310d3b2896",
+   "rule": "AML_RAPID_FIRE",
+   "severity": 5,
+   "subject_type": "agent",
+   "subject_id": "agent_10",
+   "txn_ids": [
+    "T0001869",
+    "T0001870",
+    "T0001871",
+    "T0001872",
+    "T0001873",
+    "T0001874",
+    "T0001875",
+    "T0001876",
+    "T0001877",
+    "T0001878",
+    "T0001879",
+    "T0001880",
+    "T0001881",
+    "T0001882",
+    "T0001883",
+    "T0001884",
+    "T0001885"
+   ],
+   "raised_at": "2026-11-13T11:59:16.683306+00:00",
+   "explanation": "17 payments with at least 15 inside 60s.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "Ae555733494",
+   "rule": "AML_ROUND_AMOUNTS",
+   "severity": 4,
+   "subject_type": "agent",
+   "subject_id": "agent_17",
+   "txn_ids": [
+    "T0001945",
+    "T0001946",
+    "T0001947"
+   ],
+   "raised_at": "2026-11-13T14:12:03.072434+00:00",
+   "explanation": "3 payments in exact multiples of $10.00.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "A53d6340950",
+   "rule": "AML_NEW_MERCHANT_BURST",
+   "severity": 6,
+   "subject_type": "agent",
+   "subject_id": "agent_39",
+   "txn_ids": [
+    "T0001847",
+    "T0001849",
+    "T0001850",
+    "T0001851",
+    "T0001853",
+    "T0001854",
+    "T0001856",
+    "T0001857",
+    "T0001858",
+    "T0001860",
+    "T0001862",
+    "T0001966"
+   ],
+   "raised_at": "2026-11-13T15:25:52.114178+00:00",
+   "explanation": "12 first-time merchants inside 24h.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "Aa07d2483d0",
+   "rule": "AML_VELOCITY_SPIKE",
+   "severity": 6,
+   "subject_type": "agent",
+   "subject_id": "agent_39",
+   "txn_ids": [
+    "T0001731",
+    "T0001735",
+    "T0001847",
+    "T0001848",
+    "T0001849",
+    "T0001850",
+    "T0001851",
+    "T0001852",
+    "T0001853",
+    "T0001854",
+    "T0001855",
+    "T0001856",
+    "T0001857",
+    "T0001858",
+    "T0001859",
+    "T0001860",
+    "T0001861",
+    "T0001862",
+    "T0001863",
+    "T0001864",
+    "T0001865",
+    "T0001866",
+    "T0001867",
+    "T0001868"
+   ],
+   "raised_at": "2026-11-13T15:26:04.114178+00:00",
+   "explanation": "24 payments in a burst, far above this agent's usual rate.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "Af68324dcac",
+   "rule": "AML_RAPID_FIRE",
+   "severity": 5,
+   "subject_type": "agent",
+   "subject_id": "agent_39",
+   "txn_ids": [
+    "T0001847",
+    "T0001848",
+    "T0001849",
+    "T0001850",
+    "T0001851",
+    "T0001852",
+    "T0001853",
+    "T0001854",
+    "T0001855",
+    "T0001856",
+    "T0001857",
+    "T0001858",
+    "T0001859",
+    "T0001860",
+    "T0001861",
+    "T0001862",
+    "T0001863",
+    "T0001864",
+    "T0001865",
+    "T0001866",
+    "T0001867",
+    "T0001868"
+   ],
+   "raised_at": "2026-11-13T15:26:04.114178+00:00",
+   "explanation": "22 payments with at least 15 inside 60s.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "A2a68a4257c",
+   "rule": "AML_ROUND_AMOUNTS",
+   "severity": 4,
+   "subject_type": "agent",
+   "subject_id": "agent_18",
+   "txn_ids": [
+    "T0001930",
+    "T0001931",
+    "T0001932"
+   ],
+   "raised_at": "2026-11-13T17:04:30.936197+00:00",
+   "explanation": "3 payments in exact multiples of $10.00.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "A60e0a49bcc",
+   "rule": "AML_ROUND_AMOUNTS",
+   "severity": 4,
+   "subject_type": "agent",
+   "subject_id": "agent_04",
+   "txn_ids": [
+    "T0002066",
+    "T0002067",
+    "T0002068"
+   ],
+   "raised_at": "2026-11-13T17:29:24.506660+00:00",
+   "explanation": "3 payments in exact multiples of $10.00.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "A1ef559e8fe",
+   "rule": "AML_NEW_MERCHANT_BURST",
+   "severity": 6,
+   "subject_type": "agent",
+   "subject_id": "agent_10",
+   "txn_ids": [
+    "T0001871",
+    "T0001872",
+    "T0001875",
+    "T0001876",
+    "T0001877",
+    "T0001879",
+    "T0001880",
+    "T0001882",
+    "T0001884",
+    "T0001885",
+    "T0002069"
+   ],
+   "raised_at": "2026-11-14T11:18:40.905274+00:00",
+   "explanation": "11 first-time merchants inside 24h.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "A14c1fb540f",
+   "rule": "AML_LOOKALIKE_MERCHANT",
+   "severity": 9,
+   "subject_type": "merchant",
+   "subject_id": "m_u12",
+   "txn_ids": [
+    "T0002057"
+   ],
+   "raised_at": "2026-11-14T11:22:02.591534+00:00",
+   "explanation": "Paid 'Lexa-AI Billing', which resembles trusted merchant 'Lexa AI': 1 payments, $110.77.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "A824955610b",
+   "rule": "AML_NEW_MERCHANT_BURST",
+   "severity": 6,
+   "subject_type": "agent",
+   "subject_id": "agent_33",
+   "txn_ids": [
+    "T0001798",
+    "T0001799",
+    "T0001801",
+    "T0001802",
+    "T0001804",
+    "T0001807",
+    "T0001810",
+    "T0001811",
+    "T0001954"
+   ],
+   "raised_at": "2026-11-14T14:37:45.576670+00:00",
+   "explanation": "9 first-time merchants inside 24h.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "A6b0d081a3c",
+   "rule": "AML_VELOCITY_SPIKE",
+   "severity": 6,
+   "subject_type": "agent",
+   "subject_id": "agent_33",
+   "txn_ids": [
+    "T0001798",
+    "T0001799",
+    "T0001800",
+    "T0001801",
+    "T0001802",
+    "T0001803",
+    "T0001804",
+    "T0001805",
+    "T0001806",
+    "T0001807",
+    "T0001808",
+    "T0001809",
+    "T0001810",
+    "T0001811",
+    "T0001812",
+    "T0001813"
+   ],
+   "raised_at": "2026-11-14T14:37:49.576670+00:00",
+   "explanation": "16 payments in a burst, far above this agent's usual rate.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "A926219c9f2",
+   "rule": "AML_RAPID_FIRE",
+   "severity": 5,
+   "subject_type": "agent",
+   "subject_id": "agent_33",
+   "txn_ids": [
+    "T0001798",
+    "T0001799",
+    "T0001800",
+    "T0001801",
+    "T0001802",
+    "T0001803",
+    "T0001804",
+    "T0001805",
+    "T0001806",
+    "T0001807",
+    "T0001808",
+    "T0001809",
+    "T0001810",
+    "T0001811",
+    "T0001812",
+    "T0001813"
+   ],
+   "raised_at": "2026-11-14T14:37:49.576670+00:00",
+   "explanation": "16 payments with at least 15 inside 60s.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "A3e1d5643f0",
+   "rule": "AML_STRUCTURING",
+   "severity": 8,
+   "subject_type": "agent",
+   "subject_id": "agent_07",
+   "txn_ids": [
+    "T0001988",
+    "T0001989",
+    "T0001990",
+    "T0001991",
+    "T0001992"
+   ],
+   "raised_at": "2026-11-14T16:12:29.392448+00:00",
+   "explanation": "5 payments each just under the $100.00 approval threshold, totalling $467.08.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "A525038e38c",
+   "rule": "AML_FAN_IN",
+   "severity": 7,
+   "subject_type": "merchant",
+   "subject_id": "m_u02",
+   "txn_ids": [
+    "T0002045",
+    "T0002046",
+    "T0002047",
+    "T0002048"
+   ],
+   "raised_at": "2026-11-14T16:16:42.090555+00:00",
+   "explanation": "4 different agents paid untrusted merchant 'Apex Vouchers' within 24h.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "A58d5bd0a80",
+   "rule": "AML_HIGH_RISK_CATEGORY",
+   "severity": 6,
+   "subject_type": "merchant",
+   "subject_id": "m_u02",
+   "txn_ids": [
+    "T0001974",
+    "T0001976",
+    "T0002045",
+    "T0002046",
+    "T0002047",
+    "T0002048"
+   ],
+   "raised_at": "2026-11-14T16:16:42.090555+00:00",
+   "explanation": "6 payments, $542.78, to a merchant in high-risk category 'gift_cards'.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "Aa00004456f",
+   "rule": "AML_ROUND_AMOUNTS",
+   "severity": 4,
+   "subject_type": "agent",
+   "subject_id": "agent_25",
+   "txn_ids": [
+    "T0001927",
+    "T0001928",
+    "T0001929"
+   ],
+   "raised_at": "2026-11-14T17:06:01.687268+00:00",
+   "explanation": "3 payments in exact multiples of $10.00.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "A2b56ec1d38",
+   "rule": "AML_LOOKALIKE_MERCHANT",
+   "severity": 9,
+   "subject_type": "merchant",
+   "subject_id": "m_u11",
+   "txn_ids": [
+    "T0002055",
+    "T0002056"
+   ],
+   "raised_at": "2026-11-14T18:16:25.388613+00:00",
+   "explanation": "Paid 'C0reCloud', which resembles trusted merchant 'CoreCloud': 2 payments, $257.79.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "Aa446074e92",
+   "rule": "AML_FAN_IN",
+   "severity": 7,
+   "subject_type": "merchant",
+   "subject_id": "m_u03",
+   "txn_ids": [
+    "T0002069",
+    "T0002070",
+    "T0002071",
+    "T0002072",
+    "T0002073",
+    "T0002074",
+    "T0002075",
+    "T0002076"
+   ],
+   "raised_at": "2026-11-14T18:59:40.796823+00:00",
+   "explanation": "4 different agents paid untrusted merchant 'CoinRelay' within 24h.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "Aa7eb5315ac",
+   "rule": "AML_HIGH_RISK_CATEGORY",
+   "severity": 6,
+   "subject_type": "merchant",
+   "subject_id": "m_u03",
+   "txn_ids": [
+    "T0001968",
+    "T0002069",
+    "T0002070",
+    "T0002071",
+    "T0002072",
+    "T0002073",
+    "T0002074",
+    "T0002075",
+    "T0002076"
+   ],
+   "raised_at": "2026-11-14T18:59:40.796823+00:00",
+   "explanation": "9 payments, $1,304.66, to a merchant in high-risk category 'crypto_exchange'.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "Af3cf8f2511",
+   "rule": "AML_ROUND_AMOUNTS",
+   "severity": 4,
+   "subject_type": "agent",
+   "subject_id": "agent_10",
+   "txn_ids": [
+    "T0002069",
+    "T0002070",
+    "T0002071"
+   ],
+   "raised_at": "2026-11-14T18:59:40.796823+00:00",
+   "explanation": "3 payments in exact multiples of $10.00.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "A0c369b2ee9",
+   "rule": "AML_STRUCTURING",
+   "severity": 8,
+   "subject_type": "agent",
+   "subject_id": "agent_01",
+   "txn_ids": [
+    "T0001993",
+    "T0001994",
+    "T0001995",
+    "T0001996",
+    "T0001997"
+   ],
+   "raised_at": "2026-11-14T20:43:53.398703+00:00",
+   "explanation": "5 payments each just under the $100.00 approval threshold, totalling $457.74.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "A216dedba19",
+   "rule": "AML_FAN_IN",
+   "severity": 7,
+   "subject_type": "merchant",
+   "subject_id": "m_u07",
+   "txn_ids": [
+    "T0001951",
+    "T0001952",
+    "T0001953",
+    "T0001954",
+    "T0001955",
+    "T0001956",
+    "T0002064",
+    "T0002065"
+   ],
+   "raised_at": "2026-11-15T12:49:17.211353+00:00",
+   "explanation": "6 different agents paid untrusted merchant 'Halcyon Consulting' within 24h.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "A4b1da7cc24",
+   "rule": "AML_VELOCITY_SPIKE",
+   "severity": 6,
+   "subject_type": "agent",
+   "subject_id": "agent_25",
+   "txn_ids": [
+    "T0001148",
+    "T0001743",
+    "T0001744",
+    "T0001745",
+    "T0001746",
+    "T0001747",
+    "T0001748",
+    "T0001749",
+    "T0001750",
+    "T0001751",
+    "T0001752",
+    "T0001753",
+    "T0001754",
+    "T0001755",
+    "T0001756",
+    "T0001757",
+    "T0001758",
+    "T0001759",
+    "T0001760",
+    "T0001761",
+    "T0001762",
+    "T0001763",
+    "T0001764"
+   ],
+   "raised_at": "2026-11-15T13:19:01.950089+00:00",
+   "explanation": "23 payments in a burst, far above this agent's usual rate.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "A91275b75d8",
+   "rule": "AML_RAPID_FIRE",
+   "severity": 5,
+   "subject_type": "agent",
+   "subject_id": "agent_25",
+   "txn_ids": [
+    "T0001743",
+    "T0001744",
+    "T0001745",
+    "T0001746",
+    "T0001747",
+    "T0001748",
+    "T0001749",
+    "T0001750",
+    "T0001751",
+    "T0001752",
+    "T0001753",
+    "T0001754",
+    "T0001755",
+    "T0001756",
+    "T0001757",
+    "T0001758",
+    "T0001759",
+    "T0001760",
+    "T0001761",
+    "T0001762",
+    "T0001763",
+    "T0001764"
+   ],
+   "raised_at": "2026-11-15T13:19:01.950089+00:00",
+   "explanation": "22 payments with at least 15 inside 60s.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "Af86501933f",
+   "rule": "AML_NEW_MERCHANT_BURST",
+   "severity": 6,
+   "subject_type": "agent",
+   "subject_id": "agent_25",
+   "txn_ids": [
+    "T0001743",
+    "T0001744",
+    "T0001746",
+    "T0001747",
+    "T0001748",
+    "T0001749",
+    "T0001750",
+    "T0001752",
+    "T0001754",
+    "T0001756",
+    "T0001764",
+    "T0001929"
+   ],
+   "raised_at": "2026-11-15T13:19:01.950089+00:00",
+   "explanation": "12 first-time merchants inside 24h.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "A3330632f2a",
+   "rule": "AML_NEW_MERCHANT_BURST",
+   "severity": 6,
+   "subject_type": "agent",
+   "subject_id": "agent_26",
+   "txn_ids": [
+    "T0001904",
+    "T0001905",
+    "T0001906",
+    "T0001907",
+    "T0001908",
+    "T0001913",
+    "T0001914",
+    "T0001915",
+    "T0001916",
+    "T0001917",
+    "T0001918",
+    "T0001920",
+    "T0001923"
+   ],
+   "raised_at": "2026-11-15T16:22:14.716563+00:00",
+   "explanation": "13 first-time merchants inside 24h.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "A90102a9a43",
+   "rule": "AML_RAPID_FIRE",
+   "severity": 5,
+   "subject_type": "agent",
+   "subject_id": "agent_26",
+   "txn_ids": [
+    "T0001904",
+    "T0001905",
+    "T0001906",
+    "T0001907",
+    "T0001908",
+    "T0001909",
+    "T0001910",
+    "T0001911",
+    "T0001912",
+    "T0001913",
+    "T0001914",
+    "T0001915",
+    "T0001916",
+    "T0001917",
+    "T0001918",
+    "T0001919",
+    "T0001920",
+    "T0001921",
+    "T0001922",
+    "T0001923"
+   ],
+   "raised_at": "2026-11-15T16:22:14.716563+00:00",
+   "explanation": "20 payments with at least 15 inside 60s.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "A90ec229e8d",
+   "rule": "AML_VELOCITY_SPIKE",
+   "severity": 6,
+   "subject_type": "agent",
+   "subject_id": "agent_26",
+   "txn_ids": [
+    "T0001179",
+    "T0001904",
+    "T0001905",
+    "T0001906",
+    "T0001907",
+    "T0001908",
+    "T0001909",
+    "T0001910",
+    "T0001911",
+    "T0001912",
+    "T0001913",
+    "T0001914",
+    "T0001915",
+    "T0001916",
+    "T0001917",
+    "T0001918",
+    "T0001919",
+    "T0001920",
+    "T0001921",
+    "T0001922",
+    "T0001923"
+   ],
+   "raised_at": "2026-11-15T17:06:58.012713+00:00",
+   "explanation": "21 payments in a burst, far above this agent's usual rate.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "Aaea659492f",
+   "rule": "AML_FAN_IN",
+   "severity": 7,
+   "subject_type": "merchant",
+   "subject_id": "m_u08",
+   "txn_ids": [
+    "T0001957",
+    "T0001958",
+    "T0001959",
+    "T0001960",
+    "T0001961"
+   ],
+   "raised_at": "2026-11-15T17:13:21.462058+00:00",
+   "explanation": "5 different agents paid untrusted merchant 'Meridian Services' within 24h.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "A55d05194f7",
+   "rule": "AML_ROUND_AMOUNTS",
+   "severity": 4,
+   "subject_type": "agent",
+   "subject_id": "agent_08",
+   "txn_ids": [
+    "T0001933",
+    "T0001934",
+    "T0001935"
+   ],
+   "raised_at": "2026-11-15T17:19:51.251329+00:00",
+   "explanation": "3 payments in exact multiples of $10.00.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "A94b3a64058",
+   "rule": "AML_NEW_MERCHANT_BURST",
+   "severity": 6,
+   "subject_type": "agent",
+   "subject_id": "agent_23",
+   "txn_ids": [
+    "T0001780",
+    "T0001781",
+    "T0001782",
+    "T0001785",
+    "T0001786",
+    "T0001787",
+    "T0001791",
+    "T0001794",
+    "T0001937"
+   ],
+   "raised_at": "2026-11-15T17:23:22.720628+00:00",
+   "explanation": "9 first-time merchants inside 24h.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "A1f0725796f",
+   "rule": "AML_RAPID_FIRE",
+   "severity": 5,
+   "subject_type": "agent",
+   "subject_id": "agent_23",
+   "txn_ids": [
+    "T0001780",
+    "T0001781",
+    "T0001782",
+    "T0001783",
+    "T0001784",
+    "T0001785",
+    "T0001786",
+    "T0001787",
+    "T0001788",
+    "T0001789",
+    "T0001790",
+    "T0001791",
+    "T0001792",
+    "T0001793",
+    "T0001794",
+    "T0001795",
+    "T0001796",
+    "T0001797"
+   ],
+   "raised_at": "2026-11-15T17:23:28.720628+00:00",
+   "explanation": "18 payments with at least 15 inside 60s.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "A743b5ed320",
+   "rule": "AML_VELOCITY_SPIKE",
+   "severity": 6,
+   "subject_type": "agent",
+   "subject_id": "agent_23",
+   "txn_ids": [
+    "T0001780",
+    "T0001781",
+    "T0001782",
+    "T0001783",
+    "T0001784",
+    "T0001785",
+    "T0001786",
+    "T0001787",
+    "T0001788",
+    "T0001789",
+    "T0001790",
+    "T0001791",
+    "T0001792",
+    "T0001793",
+    "T0001794",
+    "T0001795",
+    "T0001796",
+    "T0001797",
+    "T0001936"
+   ],
+   "raised_at": "2026-11-15T17:23:28.720628+00:00",
+   "explanation": "19 payments in a burst, far above this agent's usual rate.",
+   "in_queue": true
+  },
+  {
+   "alert_id": "Ab48cb02f73",
+   "rule": "AML_ROUND_AMOUNTS",
+   "severity": 4,
+   "subject_type": "agent",
+   "subject_id": "agent_23",
+   "txn_ids": [
+    "T0001780",
+    "T0001781",
+    "T0001782",
+    "T0001783",
+    "T0001784",
+    "T0001785",
+    "T0001786",
+    "T0001787",
+    "T0001788",
+    "T0001789",
+    "T0001790",
+    "T0001791",
+    "T0001792",
+    "T0001793",
+    "T0001794",
+    "T0001795",
+    "T0001796",
+    "T0001797",
+    "T0001936",
+    "T0001937",
+    "T0001938"
+   ],
+   "raised_at": "2026-11-15T17:23:28.720628+00:00",
+   "explanation": "21 payments in exact multiples of $10.00.",
+   "in_queue": true
+  }
+ ]
+}
