@@ -1,6 +1,8 @@
-# AgentGuard Red-Team Suite v1
+# SafeSpend Red-Team Suite v1
 
 A locked, versioned set of payment scenarios for testing guardrails on AI agents that spend money. It has 55 attacks and 55 legitimate tasks across seven categories. A small runner scores any guardrail you plug in. MIT licence.
+
+The project was called AgentGuard when v1 was locked, so the locked files (`suite/agentguard-redteam-v1.json`, the LOCK files and the held-out sets) keep that name; changing them would break their hashes.
 
 All money, merchants, people and the sanctions list are **fictional**. Nothing here is real payment data.
 
@@ -66,13 +68,13 @@ python runner/redteam.py run suite/agentguard-redteam-v1.json --adapter mymodule
 
 Two held-out sets live in `heldout/` and are locked in their own commits:
 
-- `heldout-model-v1.json`: 18 attacks written by a separate model session. That session saw only the world and the format, not the suite or any guardrail code. The AgentGuard developers did not read it. It is still a model of the same family, so it is not fully independent.
+- `heldout-model-v1.json`: 18 attacks written by a separate model session. That session saw only the world and the format, not the suite or any guardrail code. The SafeSpend developers did not read it. It is still a model of the same family, so it is not fully independent.
 - `heldout-owner-v1.json`: 5 attacks written by the project owner (to be added).
 
 Held-out sets are never used while developing a guardrail. They are only run for reporting.
 
 ## Limitations
 
-- **Small, synthetic suite:** 110 scenarios written by the same project that builds AgentGuard. The held-out sets exist to check for teaching to the test.
+- **Small, synthetic suite:** 110 scenarios written by the same project that builds SafeSpend. The held-out sets exist to check for teaching to the test.
 - **Scripted agent:** the agent always proposes the listed payments, so the suite measures guardrails, not whether a model would fall for an injection.
 - **Fictional world:** amounts are realistic for the items, but every merchant, person and sanctioned name is invented.

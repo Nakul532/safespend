@@ -17,7 +17,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "redteam" / "runner"))
 import redteam as rt  # noqa: E402
 
-from eval.agentguard_adapter import AgentGuardAdapter, Config, Stats  # noqa: E402
+from eval.safespend_adapter import SafeSpendAdapter, Config, Stats  # noqa: E402
 from eval.common import make_checker  # noqa: E402
 from eval.run_e1 import SETS  # noqa: E402
 
@@ -42,7 +42,7 @@ def main(configs=None, out_name="round2.json") -> None:
     res: dict = {"sets": {k: v[0] for k, v in SETS.items()}, "results": {}}
     for cfg in configs or CONFIGS:
         for k, (s, w) in loaded.items():
-            r = rt.run_suite(AgentGuardAdapter(cfg, checker=checker, stats=Stats()), s, w)
+            r = rt.run_suite(SafeSpendAdapter(cfg, checker=checker, stats=Stats()), s, w)
             agg = {x: r[x] for x in ("overall", "adaptive_attacks", "by_category")}
             agg["after_lock"] = cfg.after_lock
             res["results"].setdefault(k, {})[cfg.name] = agg

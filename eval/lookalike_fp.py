@@ -14,8 +14,8 @@ import argparse
 import json
 from pathlib import Path
 
-from agentguard.lookalike import find_lookalike, levenshtein, skeleton
-from agentguard.models import Merchant
+from safespend.lookalike import find_lookalike, levenshtein, skeleton
+from safespend.models import Merchant
 
 ROOT = Path(__file__).resolve().parents[1]
 

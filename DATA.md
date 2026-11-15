@@ -1,4 +1,4 @@
-# DATA.md: existing code and facts AgentGuard may reuse
+# DATA.md: existing code and facts SafeSpend may reuse
 
 ## Existing repos (clone both as references)
 - ComplianceGuard AI: https://github.com/Nakul532/Complianceguard-ai (Streamlit, Python)

@@ -10,11 +10,11 @@ from datetime import datetime, timezone
 from decimal import Decimal
 from pathlib import Path
 
-from agentguard import Agent, AgentGuard, Merchant, Outcome, PaymentRequest, usd
-from agentguard.clock import ManualClock
-from agentguard.intent import Intent, IntentChecker
-from agentguard.llm import GroqClient
-from agentguard.registry import Registry
+from safespend import Agent, SafeSpend, Merchant, Outcome, PaymentRequest, usd
+from safespend.clock import ManualClock
+from safespend.intent import Intent, IntentChecker
+from safespend.llm import GroqClient
+from safespend.registry import Registry
 from eval.common import CACHE, MODEL, ROOT, load_env
 
 SETS = {"dev": ROOT / "eval/dev/intent_dev.json", "locked": ROOT / "redteam/intent/intent-v1.json"}
@@ -27,7 +27,7 @@ def run_case(case, checker):
     reg.add_merchant(Merchant("m_case", p["merchant_name"], p["merchant_category"], trusted=False))
     reg.add_agent(Agent(agent_id="buyer", name="buyer", role="purchasing", owner_id="person", per_txn_limit=usd(100000),
                         daily_budget=usd(100000), approval_threshold=usd(100000), allowed_merchants=frozenset({"m_case"})))
-    g = AgentGuard(reg, clock=clock, intent_checker=checker)
+    g = SafeSpend(reg, clock=clock, intent_checker=checker)
     g.fund("buyer", usd(200000))
     intent = Intent(it["request_text"], usd(Decimal(it["max_amount_usd"])) if it.get("max_amount_usd") else None,
                     frozenset(it["categories"]) if it.get("categories") else None, it.get("merchant_hint"))
@@ -47,7 +47,7 @@ def main() -> None:
     out = {"set": args.set, "cases": len(cases), "model": MODEL, "runs": {}}
     for r in range(1, args.runs + 1):
         checker = IntentChecker(GroqClient(default_model=MODEL), model=MODEL, cache_dir=CACHE / "intent",
-                                run_tag=f"{args.set}-run{r}-{__import__('agentguard.intent', fromlist=['x']).PROMPT_VERSION[:2]}", min_interval_s=2.0)
+                                run_tag=f"{args.set}-run{r}-{__import__('safespend.intent', fromlist=['x']).PROMPT_VERSION[:2]}", min_interval_s=2.0)
         agg = Counter(); by = defaultdict(Counter); lat = []; rows = []
         for c in cases:
             held, res = run_case(c, checker)
@@ -74,7 +74,7 @@ def main() -> None:
         out["runs"][f"run{r}"] = {"totals": dict(agg), "breakdown": {k: dict(v) for k, v in by.items()},
                                   "llm_latency_ms_p50": round(statistics.median(lat)) if lat else None,
                                   "live_calls": checker.calls, "cache_hits": checker.cache_hits, **({"rows": rows} if rows else {})}
-    from agentguard.intent import PROMPT_VERSION
+    from safespend.intent import PROMPT_VERSION
     out["prompt_version"] = PROMPT_VERSION
     dest = ROOT / "eval/results" / (f"intent_{args.set}.json" if PROMPT_VERSION.startswith("v1") else f"intent_{args.set}_v2.json")
     dest.write_text(json.dumps(out, indent=1))

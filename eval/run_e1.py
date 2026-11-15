@@ -15,7 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "redteam" / "runner"))
 import redteam as rt  # noqa: E402
 
-from eval.agentguard_adapter import AgentGuardAdapter, Config, Stats  # noqa: E402
+from eval.safespend_adapter import SafeSpendAdapter, Config, Stats  # noqa: E402
 from eval.common import make_checker  # noqa: E402
 
 SETS = {
@@ -64,7 +64,7 @@ def main() -> None:
                 continue  # deterministic configs need one run
             stats = stats_by_cfg.setdefault(f"{cfg.name}|{run_tag}", Stats())
             for k, (s, w) in loaded.items():
-                ad = AgentGuardAdapter(cfg, checker=checker, stats=stats)
+                ad = SafeSpendAdapter(cfg, checker=checker, stats=stats)
                 r = rt.run_suite(ad, s, w)
                 agg = {x: r[x] for x in ("overall", "adaptive_attacks", "by_category")}
                 agg["after_lock"] = cfg.after_lock

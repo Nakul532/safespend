@@ -1,9 +1,9 @@
 """Recurring-commitment and stored-credential holds. ADDED AFTER LOCK (Stage 4 game, level 4)."""
 from __future__ import annotations
 
-from agentguard import Commitment, Outcome, ReasonCode as R, usd
-from agentguard.commitments import detect_terms, worst_case
-from agentguard.config import PolicyConfig
+from safespend import Commitment, Outcome, ReasonCode as R, usd
+from safespend.commitments import detect_terms, worst_case
+from safespend.config import PolicyConfig
 from conftest import RISK_OFFICER, make_guard, replace, req
 
 TRIAL = {"task": "Sign up for the code-search tool", "merchant_page": "Start your free trial: $0 today, then $49/month."}
@@ -74,7 +74,7 @@ def test_detection_patterns():
 
 
 def test_disabled_checks_skip_and_are_audited(clock):
-    from agentguard.audit import EventType
+    from safespend.audit import EventType
     guard = make_guard(clock, policy=PolicyConfig(disabled_checks=frozenset({"merchant_allowlist"})))
     d = guard.submit_payment(req(merchant="m_oracleai"))  # not on agent_001's allowlist
     assert d.approved and "merchant_allowlist" not in d.checks_evaluated

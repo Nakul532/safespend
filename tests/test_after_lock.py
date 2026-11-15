@@ -6,11 +6,11 @@ import sys
 from dataclasses import replace
 from pathlib import Path
 
-from agentguard import ReasonCode as R, Outcome, usd
-from agentguard.config import PolicyConfig
-from agentguard.injection import InjectionChecker, heuristics
-from agentguard.llm import MockLlmClient
-from agentguard.sanctions import FuzzyScreener, name_similarity
+from safespend import ReasonCode as R, Outcome, usd
+from safespend.config import PolicyConfig
+from safespend.injection import InjectionChecker, heuristics
+from safespend.llm import MockLlmClient
+from safespend.sanctions import FuzzyScreener, name_similarity
 from datetime import timedelta
 
 from conftest import RISK_OFFICER, make_guard, req, txn
@@ -21,10 +21,10 @@ YES = json.dumps({"injection": True, "confidence": "high", "reasons": ["tries to
 
 def guard_with(clock, reply=NO, **kw):
     checker = InjectionChecker(MockLlmClient(lambda m: reply))
-    from agentguard import AgentGuard
-    from agentguard.fixtures import demo_registry
-    from agentguard.config import BreakerConfig
-    g = AgentGuard(demo_registry(), clock=clock, policy=PolicyConfig(price_check=True),
+    from safespend import SafeSpend
+    from safespend.fixtures import demo_registry
+    from safespend.config import BreakerConfig
+    g = SafeSpend(demo_registry(), clock=clock, policy=PolicyConfig(price_check=True),
                    breaker=BreakerConfig(spend_limit=usd(10_000), alert_limit=1000), injection_checker=checker, **kw)
     for a in g.registry.agents:
         g.fund(a, usd(100))
@@ -70,7 +70,7 @@ def test_clean_context_passes_and_no_outside_content_skips_llm(clock):
 
 
 def test_unreachable_model_fails_closed(clock):
-    from agentguard.llm import LlmError
+    from safespend.llm import LlmError
     def boom(m):
         raise LlmError("down")
     g, ck = guard_with(clock)
@@ -121,9 +121,9 @@ def test_adapter_runs_mini_suite():
     root = Path(__file__).resolve().parents[1]
     sys.path.insert(0, str(root / "redteam" / "runner"))
     import redteam as rt
-    from eval.agentguard_adapter import AgentGuardAdapter, Config
+    from eval.safespend_adapter import SafeSpendAdapter, Config
     suite, world = rt.load(root / "redteam" / "examples" / "mini-suite.json")
-    res = rt.run_suite(AgentGuardAdapter(Config("policy")), suite, world)
+    res = rt.run_suite(SafeSpendAdapter(Config("policy")), suite, world)
     o = res["overall"]
     # Second $1.95 split settles under policy alone (each is under the threshold); the retry is not charged twice.
     assert o["double_charges"] == 0 and o["false_blocks"] == 0 and o["dollars_lost_usd"] == "3.90"
@@ -167,8 +167,8 @@ def test_split_check_off_is_stage1(clock):
 
 
 def _many_trusted(n):
-    from agentguard.fixtures import demo_registry
-    from agentguard.models import Merchant
+    from safespend.fixtures import demo_registry
+    from safespend.models import Merchant
     reg = demo_registry()
     for i in range(n):
         reg.add_merchant(Merchant(f"m_t{i}", f"Trustedco{i:03d}", "data", trusted=True))
@@ -189,7 +189,7 @@ def test_lookalike_blocks_with_small_list_and_holds_with_large_list(clock):
 def test_fast_episodes_match_reference():
     from datetime import datetime, timezone
     from hypothesis import given, settings, strategies as st
-    from agentguard.aml.rules import _episodes
+    from safespend.aml.rules import _episodes
 
     def reference(txns, window, hit):
         eps, start = [], 0

@@ -552,7 +552,7 @@ for id_, mid, name, ag, amt, task, how in _legsan:
 
 def main() -> None:
     suite = {
-        "suite": "AgentGuard Red-Team Suite",
+        "suite": "SafeSpend Red-Team Suite",
         "version": "1.0.0",
         "license": "MIT",
         "world_file": "world-v1.json",

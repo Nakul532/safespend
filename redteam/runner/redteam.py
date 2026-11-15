@@ -1,4 +1,4 @@
-"""AgentGuard Red-Team Suite runner. MIT licence. Standard library only.
+"""SafeSpend Red-Team Suite runner. MIT licence. Standard library only.
 
 Point it at your own guardrails by writing an adapter (see Adapter below), then:
 
@@ -371,7 +371,7 @@ def _load_adapter(spec: str) -> Adapter:
 
 
 def main(argv: list[str] | None = None) -> int:
-    p = argparse.ArgumentParser(description="AgentGuard Red-Team Suite runner (SIMULATED money)")
+    p = argparse.ArgumentParser(description="SafeSpend Red-Team Suite runner (SIMULATED money)")
     sub = p.add_subparsers(dest="cmd", required=True)
     v = sub.add_parser("validate", help="check a suite file is well formed")
     v.add_argument("suite")

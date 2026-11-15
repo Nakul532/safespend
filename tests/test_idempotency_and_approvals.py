@@ -6,11 +6,11 @@ from datetime import timedelta
 
 import pytest
 
-from agentguard import Outcome, ReasonCode as R, usd
-from agentguard.approvals import ApprovalError
-from agentguard.audit import EventType
-from agentguard.ledger import LedgerError
-from agentguard.models import SettlementPermit
+from safespend import Outcome, ReasonCode as R, usd
+from safespend.approvals import ApprovalError
+from safespend.audit import EventType
+from safespend.ledger import LedgerError
+from safespend.models import SettlementPermit
 from conftest import OWNER_GROWTH, OWNER_MARKETS, RISK_OFFICER, req
 
 # == idempotency (primary duplicate / replay defence) ==========================

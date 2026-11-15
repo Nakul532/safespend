@@ -21,8 +21,8 @@ def load_env(path: Path = ROOT / ".env") -> None:
 
 
 def make_checker(run_tag: str, *, llm: bool = True):
-    from agentguard.injection import InjectionChecker
-    from agentguard.llm import GroqClient
+    from safespend.injection import InjectionChecker
+    from safespend.llm import GroqClient
     client = None
     if llm:
         load_env()

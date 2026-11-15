@@ -9,7 +9,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from agentguard.llm import MockLlmClient  # noqa: E402
+from safespend.llm import MockLlmClient  # noqa: E402
 from web.game.agent import parse, propose  # noqa: E402
 from web.game.levels import BOSS_POLICY, INTRODUCED, WORLDS, defence_policy, policy_for  # noqa: E402
 from web.game.play import reveal, run  # noqa: E402
@@ -33,7 +33,7 @@ NO_FLAG = MockLlmClient(lambda m: json.dumps({"injection": False, "mismatch": Fa
 
 
 def test_boss_runs_exactly_the_evaluated_c5_policy():
-    from eval.agentguard_adapter import Config
+    from eval.safespend_adapter import Config
     from eval.run_e1_round2 import C5
     assert BOSS_POLICY.disabled_checks == frozenset()
     flags = {k: getattr(BOSS_POLICY, k) for k in ("price_check", "split_check", "lookalike_hold_min_trusted", "commitment_check")}

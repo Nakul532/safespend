@@ -1,4 +1,4 @@
-"""E2: AgentGuard's AML rules on the IBM AML synthetic public benchmark (HI-Small).
+"""E2: SafeSpend's AML rules on the IBM AML synthetic public benchmark (HI-Small).
 
 Data: IBM "Transactions for Anti Money Laundering", CDLA-Sharing-1.0. Not
 redistributed; place files in data/ibm-aml/. Results are labelled
@@ -19,10 +19,10 @@ from dataclasses import dataclass, replace
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-from agentguard.aml import rules
-from agentguard.aml.rules import AmlConfig
-from agentguard.models import Merchant
-from agentguard.money import usd
+from safespend.aml import rules
+from safespend.aml.rules import AmlConfig
+from safespend.models import Merchant
+from safespend.money import usd
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data" / "ibm-aml"

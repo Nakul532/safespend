@@ -16,14 +16,14 @@
 | 1 Accounts-payable agent | Four-eyes approval from the system, never from text | `human_approval` with signed, payment-bound approvals; approver ≠ owner | None |
 | 2 Pay-per-call drain | Velocity + cumulative per-merchant checks | `agent_velocity`, `merchant_daily_limit`, `split_check` | The split check ignores payments under 10% of the approval threshold, so micropayments are caught only by the per-merchant daily cap and velocity limit. The level will set a per-API daily cap. I'll say this on screen. |
 | 3 Travel agent | Look-alike detection + trusted registry | `lookalike_merchant` (edit distance, homoglyphs), registry | An "open payee" switch so the agent may try a new payee (added after lock) |
-| 4 Free-trial trap | Recurring-commitment and stored-credential holds | **Built in this round, added after lock:** `recurring_commitment`, `stored_credential` (`agentguard/commitments.py`, 8 tests) | None. Remaining gaps are listed on the Level 4 screen |
+| 4 Free-trial trap | Recurring-commitment and stored-credential holds | **Built in this round, added after lock:** `recurring_commitment`, `stored_credential` (`safespend/commitments.py`, 8 tests) | None. Remaining gaps are listed on the Level 4 screen |
 | 5 Intent mismatch | Injection check + **intent check against the original request** | Injection check is built. **The intent check is not built.** | Build an intent check: code compares the proposed purchase (merchant category, item, amount) with the person's original request; the LLM may flag a mismatch with reasons; code decides |
 | Boss | Everything, adaptive | All of the above, AML monitoring with AML→hold | Per-level switches for checks that are always on today (look-alike, velocity), so early levels genuinely lack later defences |
 
 **Analyst shift** needs a seeded synthetic data generator (agent transactions with planted patterns, including IBM-style fan-in, scatter-gather and cycles). GAME_DESIGN.md also asks for the AI investigator's case note on each opened alert, so the investigator and its E3 citation check must be built before this mode ships.
 
 ## Level 4 gaps that stay (shown on screen)
-- After approval, later charges on a stored card don't pass through AgentGuard unless the payment rail routes them here.
+- After approval, later charges on a stored card don't pass through SafeSpend unless the payment rail routes them here.
 - No subscription ledger: renewals and cancellations aren't tracked after sign-up (future liabilities are recorded at sign-up only).
 - Terms are found by English keyword patterns; terms in images, PDFs or reworded text can be missed.
 - No worst-case amount when the terms give no price or period; auto top-up has no upper limit.

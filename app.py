@@ -1,6 +1,6 @@
-"""AgentGuard web app (Flask on Vercel). SIMULATED money only.
+"""SafeSpend web app (Flask on Vercel). SIMULATED money only.
 
-Pages are static files in web/public. The API runs the real AgentGuard engine on every request.
+Pages are static files in web/public. The API runs the real SafeSpend engine on every request.
 """
 from __future__ import annotations
 
@@ -12,11 +12,11 @@ from pathlib import Path
 
 from flask import Flask, jsonify, make_response, request, send_from_directory
 
-from agentguard.evidence import build as build_pack
-from agentguard.investigator import Investigator
-from agentguard.llm import GroqClient
-from agentguard.money import fmt_usd
-from agentguard.synth import best, generate, ranked, score
+from safespend.evidence import build as build_pack
+from safespend.investigator import Investigator
+from safespend.llm import GroqClient
+from safespend.money import fmt_usd
+from safespend.synth import best, generate, ranked, score
 from web import store
 from web.game.agent import AgentUnavailable, propose
 from web.game.levels import ORDER, WORLDS, policy_for
@@ -148,7 +148,7 @@ def attempt():
                          ("ip_attempts", store.ip_hash(client_ip()), store.CAPS["ip_attempts"]),
                          ("site_attempts", "all", store.CAPS["site_attempts"])])
     if capped:
-        msg = ("You've used today's tries. Come back tomorrow, or read how AgentGuard was evaluated in For professionals."
+        msg = ("You've used today's tries. Come back tomorrow, or read how SafeSpend was evaluated in For professionals."
                if capped != "site_attempts" else "The game has hit today's site-wide limit. Please come back tomorrow.")
         return respond({"error": msg, "capped": capped}, vid, 429)
     kv = store.KV("llm:")

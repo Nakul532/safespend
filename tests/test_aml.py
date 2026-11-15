@@ -4,12 +4,12 @@ from __future__ import annotations
 from dataclasses import replace
 from datetime import timedelta
 
-from agentguard import Merchant, ReasonCode as R, usd
-from agentguard.aml import AmlConfig, AmlMonitor
-from agentguard.aml import rules
-from agentguard.audit import EventType
-from agentguard.fixtures import demo_registry
-from agentguard.lookalike import find_lookalike, skeleton
+from safespend import Merchant, ReasonCode as R, usd
+from safespend.aml import AmlConfig, AmlMonitor
+from safespend.aml import rules
+from safespend.audit import EventType
+from safespend.fixtures import demo_registry
+from safespend.lookalike import find_lookalike, skeleton
 from conftest import START, make_guard, req, txn
 
 CFG = AmlConfig()

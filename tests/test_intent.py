@@ -3,13 +3,13 @@ from __future__ import annotations
 
 import json
 
-from agentguard import Outcome, ReasonCode as R, usd
-from agentguard.intent import Intent, IntentChecker, field_checks
-from agentguard.llm import MockLlmClient
+from safespend import Outcome, ReasonCode as R, usd
+from safespend.intent import Intent, IntentChecker, field_checks
+from safespend.llm import MockLlmClient
 from conftest import RISK_OFFICER, make_guard, replace, req
-from agentguard import AgentGuard
-from agentguard.fixtures import demo_registry
-from agentguard.config import BreakerConfig
+from safespend import SafeSpend
+from safespend.fixtures import demo_registry
+from safespend.config import BreakerConfig
 
 OK = json.dumps({"mismatch": False, "confidence": "high", "reasons": ["same thing"]})
 BAD = json.dumps({"mismatch": True, "confidence": "high", "reasons": ["an annual plan, not one month"]})
@@ -18,7 +18,7 @@ WANT = Intent("Buy one article from NewsHub.", max_amount=usd(1))
 
 def guard(clock, reply=OK, llm=True):
     ck = IntentChecker(MockLlmClient(lambda m: reply) if llm else None)
-    g = AgentGuard(demo_registry(), clock=clock, intent_checker=ck,
+    g = SafeSpend(demo_registry(), clock=clock, intent_checker=ck,
                    breaker=BreakerConfig(spend_limit=usd(10_000), alert_limit=1000))
     for a in g.registry.agents:
         g.fund(a, usd(100))

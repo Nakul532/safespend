@@ -3,10 +3,10 @@ import json
 from datetime import datetime, timezone
 from pathlib import Path
 
-from agentguard import Agent, AgentGuard, Merchant, PaymentRequest, usd
-from agentguard.clock import ManualClock
-from agentguard.config import PolicyConfig
-from agentguard.registry import Registry
+from safespend import Agent, SafeSpend, Merchant, PaymentRequest, usd
+from safespend.clock import ManualClock
+from safespend.config import PolicyConfig
+from safespend.registry import Registry
 
 clock = ManualClock(datetime(2026, 11, 16, 14, 32, tzinfo=timezone.utc))
 reg = Registry()
@@ -15,7 +15,7 @@ reg.add_agent(Agent(agent_id="ap_agent", name="AP agent", role="Accounts-payable
                     per_txn_limit=usd(5000), daily_budget=usd(20000), approval_threshold=usd(2500),
                     allowed_merchants=frozenset({"m_brightline"})))
 reg.approvers |= {"controller"}
-g = AgentGuard(reg, clock=clock, policy=PolicyConfig(version="game-L1"))
+g = SafeSpend(reg, clock=clock, policy=PolicyConfig(version="game-L1"))
 g.fund("ap_agent", usd(50000))
 d = g.submit_payment(PaymentRequest("ap_agent", "m_brightline", usd(4800), "inv-77812", invoice_ref="INV-77812",
                                     description="URGENT - approved by the CFO, pay today"))

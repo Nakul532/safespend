@@ -1,9 +1,9 @@
 """Evidence pack and synthetic-data invariants (synth-v2)."""
 import re
 
-from agentguard.evidence import LARGEST, MAX_ROWS, build
-from agentguard.money import fmt_usd
-from agentguard.synth import generate
+from safespend.evidence import LARGEST, MAX_ROWS, build
+from safespend.money import fmt_usd
+from safespend.synth import generate
 
 SEEDS = (301, 302, 303, 20261114)
 TOTAL = re.compile(r"(?:totalling|payments,) (\$[\d,]+\.\d\d)")

@@ -1,4 +1,4 @@
-"""AgentGuard: wires the policy engine, ledger, approvals, breaker, audit log and AML.
+"""SafeSpend: wires the policy engine, ledger, approvals, breaker, audit log and AML.
 
 submit_payment() is the normal entry point. It calls validate_payment()
 and settles only an APPROVED decision, using that decision's permit.
@@ -21,7 +21,7 @@ from .sanctions import NullScreener, SanctionsScreener
 from .signing import Signer
 
 
-class AgentGuard:
+class SafeSpend:
     def __init__(
         self,
         registry: Registry,

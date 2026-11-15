@@ -1,4 +1,4 @@
-/* AgentGuard: ledger-paper design system (docs/design/GAME_DESIGN.md). Exact colours; --held-ink is the approved
+/* SafeSpend: ledger-paper design system (docs/design/GAME_DESIGN.md). Exact colours; --held-ink is the approved
    small-text tone for HELD (#B7791F stays for stamps and icons). */
 :root {
   --paper:#F4F1EA; --surface:#FFFFFF; --hairline:#E3DED3; --ink:#151A22; --ink-2:#5B6270;

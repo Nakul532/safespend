@@ -6,7 +6,7 @@ from two places: what the agent declares on the request, and deterministic keywo
 content the agent read (so a $0 trial that silently converts is still seen).
 
 Known gaps (stated on screen):
-- After approval, later merchant-initiated charges on a stored credential do not pass through AgentGuard
+- After approval, later merchant-initiated charges on a stored credential do not pass through SafeSpend
   unless the payment rails route them here; nothing here intercepts them.
 - Future liabilities are recorded at sign-up only; there is no subscription ledger, renewal tracking or
   cancellation.

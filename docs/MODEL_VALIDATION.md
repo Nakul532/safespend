@@ -1,15 +1,15 @@
 # Model validation report (SR 11-7 style)
 
-AgentGuard is a portfolio project. Money is simulated; this report follows the structure of US bank model-risk guidance (Federal Reserve SR 11-7) to show how the controls would be validated, not to claim regulatory approval.
+SafeSpend is a portfolio project. Money is simulated; this report follows the structure of US bank model-risk guidance (Federal Reserve SR 11-7) to show how the controls would be validated, not to claim regulatory approval.
 
 ## 1. Purpose and scope
-AgentGuard decides whether an AI agent may make a payment, and monitors settled payments for laundering patterns. Components in scope:
-- **Deterministic policy engine** (`agentguard/policy.py`): limits, budgets, allowlists, four-eyes approval, duplicates, velocity, split check, commitment holds. It makes every decision.
+SafeSpend decides whether an AI agent may make a payment, and monitors settled payments for laundering patterns. Components in scope:
+- **Deterministic policy engine** (`safespend/policy.py`): limits, budgets, allowlists, four-eyes approval, duplicates, velocity, split check, commitment holds. It makes every decision.
 - **LLM checks** (gpt-oss-120b): the injection check and the intent check. They can only flag a payment for a human; code decides. If the model is unreachable, the payment is held.
-- **AML monitoring** (`agentguard/aml/rules.py`): ten rules over the ledger; alerts at or above severity 7 hold the agent.
+- **AML monitoring** (`safespend/aml/rules.py`): ten rules over the ledger; alerts at or above severity 7 hold the agent.
 - **AI investigator**: drafts case notes; code verifies every citation and removes model-written numbers.
 
-Out of scope: real payment rails, real customer data, card networks, and charges made outside AgentGuard (for example on a stored card).
+Out of scope: real payment rails, real customer data, card networks, and charges made outside SafeSpend (for example on a stored card).
 
 ## 2. Limits of use
 - Thresholds were set for the fictional worlds in the red-team suite and the game; a deployment must set its own.
@@ -50,7 +50,7 @@ See the results tabs. Headlines, all MEASURED:
 ## 7. Known weaknesses
 - Structuring caught by AML only on the third split (fixed by the pre-payment split check, which ignores payments under 10% of the approval threshold).
 - Small evaluation sets; perfect scores on 26 intent cases written by the builder's model family are not strong evidence.
-- Commitment detection is keyword-based; stored-card charges outside AgentGuard are invisible; no subscription ledger.
+- Commitment detection is keyword-based; stored-card charges outside SafeSpend are invisible; no subscription ledger.
 - AML rules miss chain patterns (stack, cycle, bipartite) that need graph analysis.
 - The investigator's claims are checked against the evidence pack, but the excuse filter is word-based and over-removes: it drops open questions such as "Is there a legitimate business need…?" and reasons such as "without an evident legitimate purpose". Half of v4 notes lose their summary, mostly to claim checks. The judge still finds 9 unsupported lines (for example "bulk of the payments" from a single merchant line).
 

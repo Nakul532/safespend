@@ -6,13 +6,13 @@ from dataclasses import replace
 import pytest
 from hypothesis import HealthCheck, given, settings, strategies as st
 
-from agentguard import Merchant, ReasonCode as R, usd
-from agentguard.audit import AuditLog, EventType, verify_records
-from agentguard.circuit_breaker import BreakerError
-from agentguard.clock import ManualClock
-from agentguard.config import BreakerConfig, PolicyConfig
-from agentguard.fixtures import PRICES
-from agentguard.ledger import EXTERNAL_FUNDING, LedgerError
+from safespend import Merchant, ReasonCode as R, usd
+from safespend.audit import AuditLog, EventType, verify_records
+from safespend.circuit_breaker import BreakerError
+from safespend.clock import ManualClock
+from safespend.config import BreakerConfig, PolicyConfig
+from safespend.fixtures import PRICES
+from safespend.ledger import EXTERNAL_FUNDING, LedgerError
 from conftest import OWNER_GROWTH, OWNER_MARKETS, START, make_guard, req
 
 # == ledger ====================================================================
@@ -139,7 +139,7 @@ def test_edited_record_detected(clock):
 
 
 def test_edited_record_with_recomputed_hash_breaks_next_link(clock):
-    from agentguard.models import sha256_hex
+    from safespend.models import sha256_hex
     g = _busy_guard(clock)
     recs = g.audit.records()
     edited = replace(recs[1], payload={**recs[1].payload, "outcome": "APPROVED"})

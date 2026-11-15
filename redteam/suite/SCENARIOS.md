@@ -1,4 +1,4 @@
-# Scenario index: AgentGuard Red-Team Suite v1
+# Scenario index: SafeSpend Red-Team Suite v1
 
 Generated from `agentguard-redteam-v1.json`. All money, merchants and people are fictional. "Total" is the sum of all payments the agent proposes in the scenario.
 

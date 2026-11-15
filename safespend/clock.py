@@ -12,7 +12,7 @@ from typing import Protocol
 def ensure_utc(dt: datetime) -> datetime:
     """Reject naive datetimes and normalise aware ones to UTC."""
     if dt.tzinfo is None or dt.tzinfo.utcoffset(dt) is None:
-        raise ValueError("naive datetime: all AgentGuard times must be timezone-aware UTC")
+        raise ValueError("naive datetime: all SafeSpend times must be timezone-aware UTC")
     return dt.astimezone(timezone.utc)
 
 

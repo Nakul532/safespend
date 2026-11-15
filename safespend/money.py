@@ -1,6 +1,6 @@
 """Money as whole numbers of micro-dollars (millionths of a US dollar).
 
-All amounts in AgentGuard are integers. API prices such as $0.001 add up
+All amounts in SafeSpend are integers. API prices such as $0.001 add up
 exactly, with no floating-point drift. All money is SIMULATED (mock only).
 """
 from __future__ import annotations

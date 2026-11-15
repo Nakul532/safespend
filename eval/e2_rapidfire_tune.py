@@ -16,7 +16,7 @@ from dataclasses import replace
 from datetime import timedelta
 from pathlib import Path
 
-from agentguard.aml import rules
+from safespend.aml import rules
 from eval.e2_ibm import BANK_CFG, BankRegistry, ROOT, evaluate, load, prf
 
 WINDOWS = (60, 300, 900, 3600, 21600)

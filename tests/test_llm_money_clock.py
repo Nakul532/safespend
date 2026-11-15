@@ -5,11 +5,11 @@ from datetime import datetime, timedelta, timezone
 
 import pytest
 
-from agentguard.clock import ManualClock, SystemClock, ensure_utc, utc_day_start
-from agentguard.llm import (
+from safespend.clock import ManualClock, SystemClock, ensure_utc, utc_day_start
+from safespend.llm import (
     GroqClient, LlmConfigError, LlmError, LlmRateLimited, MockLlmClient, OpenRouterClient, drop_sentences_with_digits,
 )
-from agentguard.money import fmt_usd, usd
+from safespend.money import fmt_usd, usd
 
 MSGS = [{"role": "user", "content": "hello"}]
 OK = {"model": "openai/gpt-oss-120b", "choices": [{"message": {"content": "hi"}}],
@@ -85,7 +85,7 @@ def test_mock_function_replies():
 
 def test_no_gemini_left_in_codebase():
     from pathlib import Path
-    src = Path(__file__).resolve().parents[1] / "agentguard"
+    src = Path(__file__).resolve().parents[1] / "safespend"
     assert not [p for p in src.rglob("*.py") if "gemini" in p.read_text().lower() or "generativeai" in p.read_text()]
 
 
@@ -151,7 +151,7 @@ def test_system_clock_is_utc_aware():
 def test_no_direct_wall_clock_reads_in_time_logic():
     """Time windows must use the injected Clock. Only clock.py may read the wall clock."""
     from pathlib import Path
-    src = Path(__file__).resolve().parents[1] / "agentguard"
+    src = Path(__file__).resolve().parents[1] / "safespend"
     offenders = [p.name for p in src.rglob("*.py") if p.name != "clock.py"
                  and any(s in p.read_text() for s in ("datetime.now(", "datetime.utcnow(", "time.time("))]
     assert offenders == []

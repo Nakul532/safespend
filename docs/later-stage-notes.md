@@ -8,4 +8,8 @@
 ## Deploy-time order (from Nakul, 2026-11-14)
 1. Run a secrets scan across the **full git history**: API keys, `.env`, the SEC contact (`SEC_USER_AGENT`), raw IBM/SEC data, raw held-out `*-raw.txt` files. Show Nakul the result.
 2. Nakul makes the repo public.
-3. Then fill `AGENTGUARD_URL` and the repo link in the approved README notices (`docs/readme-drafts/`) and push them to agentpay-ai and Complianceguard-ai. Not before.
+3. Then fill `SAFESPEND_URL` and the repo link in the approved README notices (`docs/readme-drafts/`) and push them to agentpay-ai and Complianceguard-ai. Not before.
+
+## Naming (2026-11-15)
+- The project is SafeSpend ("Spending controls for AI agents"); GitHub repo Nakul532/safespend. It was called AgentGuard until 2026-11-15; commit history, the frozen evaluation tags and the locked v1 suite files keep the old name.
+- Vercel project name: `safespend`.

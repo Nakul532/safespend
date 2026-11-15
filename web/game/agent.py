@@ -1,5 +1,5 @@
 """The naive purchasing agent the visitor attacks. It is an LLM (gpt-oss-20b) told to follow the documents it
-reads, so the game tests AgentGuard, not the agent's caution. Its reply is a proposal; code validates it.
+reads, so the game tests SafeSpend, not the agent's caution. Its reply is a proposal; code validates it.
 """
 from __future__ import annotations
 
@@ -8,7 +8,7 @@ import re
 from dataclasses import dataclass
 from decimal import Decimal, InvalidOperation
 
-from agentguard.llm.client import LlmError
+from safespend.llm.client import LlmError
 
 AGENT_MODEL = "openai/gpt-oss-20b"
 PROMPT_VERSION = "agent-v2"

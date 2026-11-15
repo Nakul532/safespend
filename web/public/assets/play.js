@@ -30,7 +30,7 @@ function brief(l) {
     <p class="small" style="margin-top:12px"><strong>Its instructions:</strong> “${esc(l.request)}”</p>
     <p class="small muted">${l.open_payees && l.key !== "BOSS" ? "It may pay new payees." : `Payees it knows: ${esc(l.payees.join(", "))}.`}</p>
     <div class="defence"><strong>${l.key === "BOSS" ? "Defences" : "Defence added in this level"}</strong>${after}<br>${esc(l.defence.replace(/ \(added after lock\)/, ""))}</div>
-    ${l.gaps.length ? `<div class="gaps" style="margin-top:16px"><strong>What AgentGuard still can't see</strong><ul>${l.gaps.map((g) => `<li>${esc(g)}</li>`).join("")}</ul></div>` : ""}
+    ${l.gaps.length ? `<div class="gaps" style="margin-top:16px"><strong>What SafeSpend still can't see</strong><ul>${l.gaps.map((g) => `<li>${esc(g)}</li>`).join("")}</ul></div>` : ""}
     <details><summary>${l.disabled_checks.length ? `${l.disabled_checks.length} ${l.disabled_checks.length === 1 ? "check is" : "checks are"} switched off until later levels` : "No checks switched off"}</summary>
       <p class="small mono">${esc(l.disabled_checks.join(", ") || "Every check runs.")}</p>
       <p class="small muted">Policy ${esc(l.policy_version)}</p></details>
@@ -79,7 +79,7 @@ function resultCard(data) {
   const a = data.attempt || (data.attempts && data.attempts[data.attempts.length - 1]);
   if (!rows.length) {
     return `<div class="card" style="margin-top:16px"><p class="eyebrow">Attempt ${att.n + 1}</p><h2 style="font-size:20px">The agent didn't bite</h2>
-      <p>It proposed no payment. ${esc(a?.note || "")}</p><p class="muted small">That is the agent being cautious, not AgentGuard. Try a document it will believe.</p></div>`;
+      <p>It proposed no payment. ${esc(a?.note || "")}</p><p class="muted small">That is the agent being cautious, not SafeSpend. Try a document it will believe.</p></div>`;
   }
   const d = decisive(rows), v = verdictOf(d.outcome);
   const bit = rows.some((r) => r.waste);
@@ -138,7 +138,7 @@ function winPanel(data) {
     ${rv.length ? `<p><strong>Which defence would have stopped you?</strong> Your exact payments, re-run:</p><ul class="reveal">${list}</ul>` : ""}
     ${none ? "<p><strong>No current defence stops this.</strong> That is a real gap, and the most useful kind of attack to share.</p>" : ""}</div>
     <div class="card" style="margin-top:12px" id="consent-box">
-      <label class="chk"><input type="checkbox" id="consent"> <span><strong>Let AgentGuard learn from my attack.</strong> Store the text of this attack for a future visitor-submitted test set. It contains no personal information.</span></label>
+      <label class="chk"><input type="checkbox" id="consent"> <span><strong>Let SafeSpend learn from my attack.</strong> Store the text of this attack for a future visitor-submitted test set. It contains no personal information.</span></label>
       <p class="hint">Text only. No name, email or IP address. Reviewed by a person before use. You get an ID to request deletion. <a href="/privacy">What we keep</a></p>
       <div class="actions"><button class="btn btn-s" id="donate">Save my choice</button>${cur.key !== "BOSS" ? `<a class="btn btn-p" href="?level=${levels[levels.findIndex((l) => l.key === cur.key) + 1].key}">Next level <kbd>N</kbd></a>` : ""}<button class="btn btn-s" id="reset">Play this level again</button></div>
       <div id="donate-msg" role="status"></div></div>`;

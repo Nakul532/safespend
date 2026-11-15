@@ -5,7 +5,7 @@
   provider with fallbacks off, so results come from the same model host.
 - MockLlmClient: tests. Scripted replies, no network.
 
-Keys are read only from environment variables. In AgentGuard the LLM never
+Keys are read only from environment variables. In SafeSpend the LLM never
 decides anything: its output is advice that deterministic code checks.
 """
 from __future__ import annotations
@@ -92,7 +92,7 @@ class _OpenAICompatibleClient:
     def _headers(self) -> dict[str, str]:
         # A generic client name: some API front ends reject Python's default user-agent.
         return {"Authorization": f"Bearer {self._key}", "Content-Type": "application/json",
-                "User-Agent": "agentguard-eval/0.1"}
+                "User-Agent": "safespend-eval/0.1"}
 
     def _body(self, messages: Sequence[Message], model: str, max_tokens: int, temperature: float, json_mode: bool) -> dict[str, Any]:
         body: dict[str, Any] = {

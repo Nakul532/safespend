@@ -2,10 +2,10 @@
 import json
 from datetime import timedelta
 
-from agentguard.evidence import build
-from agentguard.investigator import Investigator, identifiers_for, verify
-from agentguard.llm import MockLlmClient
-from agentguard.synth import generate
+from safespend.evidence import build
+from safespend.investigator import Investigator, identifiers_for, verify
+from safespend.llm import MockLlmClient
+from safespend.synth import generate
 from eval.e3.reference import load
 
 

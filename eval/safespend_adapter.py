@@ -1,4 +1,4 @@
-"""Runs AgentGuard inside the red-team runner. ADDED AFTER THE RED-TEAM LOCK (Stage 3).
+"""Runs SafeSpend inside the red-team runner. ADDED AFTER THE RED-TEAM LOCK (Stage 3).
 
 Each config is a set of switches, so every after-lock addition can be
 reported with and without it.
@@ -10,12 +10,12 @@ from dataclasses import dataclass, field, replace
 from datetime import datetime
 from decimal import Decimal
 
-from agentguard import AgentGuard, PaymentRequest, usd
-from agentguard.approvals import ApprovalError
-from agentguard.clock import ManualClock
-from agentguard.models import Agent, Merchant, Outcome
-from agentguard.registry import Registry
-from agentguard.sanctions import ExactListScreener, FuzzyScreener
+from safespend import SafeSpend, PaymentRequest, usd
+from safespend.approvals import ApprovalError
+from safespend.clock import ManualClock
+from safespend.models import Agent, Merchant, Outcome
+from safespend.registry import Registry
+from safespend.sanctions import ExactListScreener, FuzzyScreener
 
 
 @dataclass(frozen=True)
@@ -81,7 +81,7 @@ def build_registry(world: dict) -> Registry:
     return reg
 
 
-class AgentGuardAdapter:
+class SafeSpendAdapter:
     def __init__(self, config: Config, checker=None, stats: Stats | None = None) -> None:
         self.config = config
         self.name = config.name
@@ -89,7 +89,7 @@ class AgentGuardAdapter:
         self.stats = stats if stats is not None else Stats()
 
     def reset(self, world: dict, scenario: dict, start_time: datetime) -> None:
-        from agentguard.config import PolicyConfig
+        from safespend.config import PolicyConfig
         self.scenario_id = scenario["id"]
         self.clock = ManualClock(start_time)
         reg = build_registry(world)
@@ -97,7 +97,7 @@ class AgentGuardAdapter:
         screener = (FuzzyScreener if self.config.fuzzy_sanctions else ExactListScreener)(
             sl["entries"], list_name=sl["name"], list_date=sl["list_date"])
         version = "policy-2026.11.10-1" + ("+after-lock:" + ",".join(self.config.after_lock) if self.config.after_lock else "")
-        self.guard = AgentGuard(reg, clock=self.clock, policy=PolicyConfig(version=version, price_check=self.config.price_check,
+        self.guard = SafeSpend(reg, clock=self.clock, policy=PolicyConfig(version=version, price_check=self.config.price_check,
                                                                     split_check=self.config.split_check,
                                                                     lookalike_hold_min_trusted=self.config.lookalike_hold_min_trusted,
                                                                     commitment_check=self.config.commitment_check),
@@ -142,7 +142,7 @@ class AgentGuardAdapter:
         d = self.guard.submit_payment(req)
         total_ms = (time.perf_counter() - t0) * 1000
         inj = self.guard.engine.last_injection if not d.replayed else None
-        from agentguard.injection import has_outside_content
+        from safespend.injection import has_outside_content
         self.stats.steps.append(StepStat(self.scenario_id, step["step"], total_ms, bool(inj and inj.llm_called),
                                          inj.llm_latency_ms if inj else None, has_outside_content(req.context or {}),
                                          bool(inj and inj.llm_cached)))

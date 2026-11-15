@@ -1,7 +1,7 @@
 """AI investigator v4: interprets a code-computed evidence pack for an AML alert. Stage 4.
 
 The LLM proposes, code decides what is shown:
-- Code builds the evidence pack (agentguard.evidence): every figure, each line with an ID [E1], [E2], ...
+- Code builds the evidence pack (safespend.evidence): every figure, each line with an ID [E1], [E2], ...
 - The model writes interpretation only, in a fixed template (Summary, Evidence, Open questions, Recommended
   actions, recommendation with reason), citing evidence IDs. It never types a number: the analyst sees each cited
   line's exact text, from the pack, next to the model's words.

@@ -1,6 +1,6 @@
-# Build brief: AgentGuard, anti-money-laundering for AI agents
+# Build brief: SafeSpend, anti-money-laundering for AI agents
 
-AgentGuard merges two of Nakul's projects (AgentPay and ComplianceGuard) into one product: a payment firewall for AI agents. Before a payment, guardrails decide whether an agent may spend. After payments, AML monitoring watches the stream of agent transactions for suspicious patterns, and an AI investigator writes evidence-cited case notes. Read DATA.md first: it lists the existing code and every fact you may reuse.
+SafeSpend merges two of Nakul's projects (AgentPay and ComplianceGuard) into one product: a payment firewall for AI agents. Before a payment, guardrails decide whether an agent may spend. After payments, AML monitoring watches the stream of agent transactions for suspicious patterns, and an AI investigator writes evidence-cited case notes. Read DATA.md first: it lists the existing code and every fact you may reuse.
 
 Owner: Nakul. Explain your plan before each stage and wait for his approval. He must understand every step.
 
@@ -31,7 +31,7 @@ Teams letting AI agents pay for things (API calls, data, SaaS seats, procurement
 
 ## Stage 2: Red-team suite (publishable)
 - Write a locked, versioned suite of 50 attack scenarios + 50 legitimate tasks. Suggested mix: 15 prompt injections (in merchant pages, tool outputs, invoices), 10 budget-splitting/structuring, 8 look-alike merchants, 7 bait-and-switch prices, 5 duplicate/replay, 5 approval bypass attempts. Each scenario: setup, the attack, expected outcome.
-- Package it as a standalone JSON suite + small runner anyone can point at their own guardrails (MIT licence, clear README: "AgentGuard Red-Team Suite v1").
+- Package it as a standalone JSON suite + small runner anyone can point at their own guardrails (MIT licence, clear README: "SafeSpend Red-Team Suite v1").
 - Lock (commit) the suite before running anything against it.
 
 ## Stage 3: Evaluations
@@ -42,11 +42,11 @@ Teams letting AI agents pay for things (API calls, data, SaaS seats, procurement
 
 ## Stage 4: Design approval, then ship
 - Run the Design-first steps above and stop for approval before building UI.
-- Landing: one sentence on what it does; a "Run the red-team" button that replays results live (from cache by default); a sandbox where visitors write their own injection attempt and see whether AgentGuard blocks it (counts against caps).
+- Landing: one sentence on what it does; a "Run the red-team" button that replays results live (from cache by default); a sandbox where visitors write their own injection attempt and see whether SafeSpend blocks it (counts against caps).
 - Results page, a Track Record page like SearchIQ's, and a case study (problem, design, evals, failures found and fixed).
 - Clear visual design: read the frontend-design guidance; buttons at least 44px, strong contrast, obvious primary actions, good phone layout. Show Nakul desktop and phone screenshots before deploying.
 - Deploy on Vercel; run the checklist on the live URL.
-- Update the old agentpay-ai and Complianceguard-ai READMEs to point to AgentGuard.
+- Update the old agentpay-ai and Complianceguard-ai READMEs to point to SafeSpend.
 
 
 ## Wall Street-grade requirements (these are what make it credible to bank, payments and fintech reviewers)

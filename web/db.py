@@ -23,8 +23,8 @@ import requests
 
 # Local fallback DB (git-ignored). On Vercel without Turso it falls back to /tmp, which does not persist.
 LOCAL_DB_PATH = os.environ.get("DB_PATH") or (
-    "/tmp/agentguard.db" if os.environ.get("VERCEL") else
-    os.path.join(os.path.dirname(os.path.abspath(__file__)), ".local", "agentguard.db"))
+    "/tmp/safespend.db" if os.environ.get("VERCEL") else
+    os.path.join(os.path.dirname(os.path.abspath(__file__)), ".local", "safespend.db"))
 
 
 class DatabaseError(sqlite3.OperationalError):

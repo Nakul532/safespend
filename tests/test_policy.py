@@ -6,12 +6,12 @@ from datetime import timedelta
 
 import pytest
 
-from agentguard import Merchant, Outcome, ReasonCode as R, usd
-from agentguard.audit import EventType
-from agentguard.config import PolicyConfig
-from agentguard.models import AgentStatus
-from agentguard.policy import PolicyEngine
-from agentguard.sanctions import ExactListScreener
+from safespend import Merchant, Outcome, ReasonCode as R, usd
+from safespend.audit import EventType
+from safespend.config import PolicyConfig
+from safespend.models import AgentStatus
+from safespend.policy import PolicyEngine
+from safespend.sanctions import ExactListScreener
 from conftest import OWNER_GROWTH, codes, make_guard, req
 
 

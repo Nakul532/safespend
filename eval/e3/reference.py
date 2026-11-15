@@ -12,19 +12,19 @@ import sys
 from datetime import datetime, timedelta
 from pathlib import Path
 
-from agentguard.aml.rules import Alert
-from agentguard.ledger import LedgerTxn, Posting, TxnKind
-from agentguard.models import Agent, Merchant
-from agentguard.reason_codes import ReasonCode
-from agentguard.registry import Registry
+from safespend.aml.rules import Alert
+from safespend.ledger import LedgerTxn, Posting, TxnKind
+from safespend.models import Agent, Merchant
+from safespend.reason_codes import ReasonCode
+from safespend.registry import Registry
 
 PATH = Path(__file__).with_name("reference_A6c2d42955a.json")
 ALERT_ID, SEED = "A6c2d42955a", 20261114
 
 
 def freeze() -> None:
-    from agentguard.aml.monitor import AmlMonitor
-    from agentguard.synth import DAYS, PLANT_DAYS, START, generate
+    from safespend.aml.monitor import AmlMonitor
+    from safespend.synth import DAYS, PLANT_DAYS, START, generate
     sh = generate(SEED)
     cutoff = START + timedelta(days=DAYS - PLANT_DAYS)
     pool = [a for a in AmlMonitor(sh.registry).scan(sh.txns) if a.raised_at >= cutoff]

@@ -1,5 +1,5 @@
 """Analyst-shift synthetic data: deterministic, labelled, alerts from the real rules."""
-from agentguard.synth import best, generate, ranked, score
+from safespend.synth import best, generate, ranked, score
 
 
 def test_same_seed_same_shift_and_queue_size():

@@ -6,11 +6,11 @@ from datetime import datetime, timedelta, timezone
 
 import pytest
 
-from agentguard import AgentGuard, PaymentRequest, usd
-from agentguard.clock import ManualClock
-from agentguard.config import BreakerConfig, PolicyConfig
-from agentguard.fixtures import OWNER_GROWTH, OWNER_MARKETS, RISK_OFFICER, demo_registry
-from agentguard.ledger import LedgerTxn, Posting, TxnKind
+from safespend import SafeSpend, PaymentRequest, usd
+from safespend.clock import ManualClock
+from safespend.config import BreakerConfig, PolicyConfig
+from safespend.fixtures import OWNER_GROWTH, OWNER_MARKETS, RISK_OFFICER, demo_registry
+from safespend.ledger import LedgerTxn, Posting, TxnKind
 
 START = datetime(2026, 11, 10, 9, 0, tzinfo=timezone.utc)
 
@@ -27,8 +27,8 @@ def clock() -> ManualClock:
 
 
 def make_guard(clock: ManualClock, *, policy: PolicyConfig | None = None, breaker: BreakerConfig | None = None,
-               registry=None, sanctions=None, fund: int = usd(100)) -> AgentGuard:
-    g = AgentGuard(registry or demo_registry(), clock=clock, policy=policy,
+               registry=None, sanctions=None, fund: int = usd(100)) -> SafeSpend:
+    g = SafeSpend(registry or demo_registry(), clock=clock, policy=policy,
                    breaker=breaker or BreakerConfig(spend_limit=usd(10_000), alert_limit=1_000), sanctions=sanctions)
     if fund > 0:
         for agent_id in g.registry.agents:
@@ -37,7 +37,7 @@ def make_guard(clock: ManualClock, *, policy: PolicyConfig | None = None, breake
 
 
 @pytest.fixture
-def guard(clock: ManualClock) -> AgentGuard:
+def guard(clock: ManualClock) -> SafeSpend:
     return make_guard(clock)
 
 

@@ -3,7 +3,7 @@
 Normal agent purchasing over 21 days, benign activity that looks suspicious (busy bursts, round SaaS
 seats, a popular new tool many agents adopt, onboarding new vendors), and planted laundering patterns in
 the last 7 days. The planted patterns are the labels. Alerts come from the real AML rules
-(agentguard.aml.rules) run over the ledger; nothing is hand-placed in the queue.
+(safespend.aml.rules) run over the ledger; nothing is hand-placed in the queue.
 
 Some planted patterns are designed to evade the rules (slow drip under the structuring band, chain
 layering), so a shift always has laundering that no alert shows.
@@ -211,7 +211,7 @@ def score(shift: Shift, escalated: list[str], penalty: int = usd(50)) -> dict:
 
 
 def ranked(shift: Shift) -> list[str]:
-    """AgentGuard's own queue order: severity, then total amount."""
+    """SafeSpend's own queue order: severity, then total amount."""
     return [a.alert_id for a in sorted(shift.alerts, key=lambda a: (-a.severity, -sum(shift.by_id[t].amount for t in a.txn_ids)))]
 
 

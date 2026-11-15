@@ -1,4 +1,4 @@
-"""Runs a level through the real AgentGuard engine. State is the list of attempts (the visitor's documents and
+"""Runs a level through the real SafeSpend engine. State is the list of attempts (the visitor's documents and
 the agent's proposals), replayed into a fresh engine on every request, so serverless functions stay stateless
 and every outcome is reproducible. LLM checks are cached by content, so replays make no new model calls.
 """
@@ -8,14 +8,14 @@ import re
 import time
 from datetime import datetime, timedelta, timezone
 
-from agentguard import AgentGuard, Commitment, Outcome, PaymentRequest
-from agentguard.commitments import detect_terms, worst_case
-from agentguard.config import BreakerConfig
-from agentguard.intent import Intent, IntentChecker
-from agentguard.injection import InjectionChecker
-from agentguard.models import Merchant
-from agentguard.registry import Registry
-from agentguard.sanctions import FuzzyScreener
+from safespend import SafeSpend, Commitment, Outcome, PaymentRequest
+from safespend.commitments import detect_terms, worst_case
+from safespend.config import BreakerConfig
+from safespend.intent import Intent, IntentChecker
+from safespend.injection import InjectionChecker
+from safespend.models import Merchant
+from safespend.registry import Registry
+from safespend.sanctions import FuzzyScreener
 
 from .agent import Proposal
 from .levels import BOSS_AML_HOLD_SEVERITY, ORDER, WORLDS, World, policy_for
@@ -59,7 +59,7 @@ def run(world: World, attempts: list[dict], *, llm=None, store=None, defence_lev
     clock = _Clock(START)
     inj = InjectionChecker(llm, model=CHECK_MODEL, store=store, max_retries=2) if llm_checks else None
     intent_ck = IntentChecker(llm, model=CHECK_MODEL, store=store, max_retries=2) if llm_checks else None
-    g = AgentGuard(reg, clock=clock, policy=policy, sanctions=FuzzyScreener(SANCTIONS, list_name="Fictional game list", list_date="2026-11-01"),
+    g = SafeSpend(reg, clock=clock, policy=policy, sanctions=FuzzyScreener(SANCTIONS, list_name="Fictional game list", list_date="2026-11-01"),
                    injection_checker=inj, intent_checker=intent_ck, aml_hold_severity=BOSS_AML_HOLD_SEVERITY if aml else None,
                    breaker=BreakerConfig(spend_limit=world.agent.daily_budget, alert_limit=50))
     g.fund(world.agent.agent_id, world.agent.daily_budget * 100)

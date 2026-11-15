@@ -42,7 +42,7 @@ function e2(d) {
   const chart = `<svg class="chart" viewBox="0 0 ${W} ${H}" width="100%" style="max-width:${W}px" role="img" aria-label="Recall at daily alert budgets">${ticks}
     <line x1="${x0}" y1="${y0}" x2="${W - 10}" y2="${y0}" stroke="#E3DED3"/>${ks.map((k, i) => `<text x="${X(i) - 14}" y="${y0 + 18}">${k.split("/")[0].slice(2)}/day</text>`).join("")}
     ${line("rules", "#3D4FC9")}${line("baseline_top_amounts", "#B33A2E")}<text x="${x0}" y="10">recall (share of laundering caught)</text></svg>
-    <div class="legend"><span><i style="background:#3D4FC9"></i>AgentGuard rules, ranked</span><span><i style="background:#B33A2E"></i>Baseline: largest transfers</span></div>`;
+    <div class="legend"><span><i style="background:#3D4FC9"></i>SafeSpend rules, ranked</span><span><i style="background:#B33A2E"></i>Baseline: largest transfers</span></div>`;
   const rows = ks.map((k) => `<tr><td>${k.split("/")[0].slice(2)}</td><td class="n">${pct(b[k].rules.recall)}</td><td class="n">${pct(b[k].rules.alert_precision)}</td><td class="n">${pct(b[k].baseline_top_amounts.recall)}</td></tr>`).join("");
   const u = d.e2.unbudgeted;
   const pats = Object.entries(d.e2.recall_by_pattern).map(([p, v]) => `<tr><td>${esc(p)}</td><td class="n">${v.laundering_txns.toLocaleString()}</td><td class="n">${pct(v.rules_recall)}</td><td class="n">${pct(v.baseline_recall)}</td></tr>`).join("");

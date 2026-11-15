@@ -1,6 +1,6 @@
 """E3 v4: investigator v4 case notes on 31 alerts (synth-v2 data) plus the frozen reference case. SIMULATED money.
 
-- Code checks (agentguard.investigator.verify): cited evidence IDs exist; no model-written numbers; claim checks
+- Code checks (safespend.investigator.verify): cited evidence IDs exist; no model-written numbers; claim checks
   (just under >= 80% of threshold, burst <= 10 min, short period <= 24 h); doubts only as questions; no excuses.
 - LLM judge (a different model family) rates each kept claim line (summary, evidence, reason) against the pack
   lines it cites: supported / partly / unsupported, and whether it contradicts the rule.
@@ -19,13 +19,13 @@ import time
 from collections import Counter
 from datetime import timedelta
 
-from agentguard import evidence as ev_mod
-from agentguard import investigator as inv_mod
-from agentguard.evidence import build
-from agentguard.investigator import Investigator
-from agentguard.llm import GroqClient
-from agentguard.llm.client import LlmRateLimited
-from agentguard.synth import DATA_VERSION, generate
+from safespend import evidence as ev_mod
+from safespend import investigator as inv_mod
+from safespend.evidence import build
+from safespend.investigator import Investigator
+from safespend.llm import GroqClient
+from safespend.llm.client import LlmRateLimited
+from safespend.synth import DATA_VERSION, generate
 from eval.common import CACHE, MODEL, ROOT, load_env
 from eval.e3 import reference
 

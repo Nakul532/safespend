@@ -364,7 +364,7 @@ class PolicyEngine:
         how = "the agent asked to store" if c.req.store_credential else "the checkout the agent read would store"
         return CheckResult(ReasonCode.STORED_CREDENTIAL,
                            f"{how} the payment card with {c.req.merchant_id}; later charges on it would not pass through "
-                           f"AgentGuard; held for a human")
+                           f"SafeSpend; held for a human")
 
     def _intent(self, c: _Ctx) -> CheckResult | None:
         self.last_intent = None

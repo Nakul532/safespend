@@ -7,7 +7,7 @@ function intro() {
   main.innerHTML = `<section class="card" style="margin:24px 0;max-width:760px">
     <p class="eyebrow">Analyst shift</p><h1>You have three minutes and room for 15 reviews.</h1>
     <p>Sixty alerts are waiting. Some are laundering; most are agents doing their jobs. Opening an alert uses one review and shows the evidence and the AI investigator's case note. Escalate what looks like laundering; clear the rest.</p>
-    <p class="muted">Score: laundering caught, false alarms (each costs $50.00 of analyst time, an assumption), and money recovered by holding the agent early. At the end you'll see how AgentGuard's own ranked queue did with the same 15 reviews.</p>
+    <p class="muted">Score: laundering caught, false alarms (each costs $50.00 of analyst time, an assumption), and money recovered by holding the agent early. At the end you'll see how SafeSpend's own ranked queue did with the same 15 reviews.</p>
     <label class="chk"><input type="checkbox" id="relaxed"> <span>Relaxed mode: no timer</span></label>
     <div class="actions" style="margin-top:12px"><button class="btn btn-p" id="start-daily">Start today's shift</button><button class="btn btn-s" id="start-practice">Practice shift</button></div>
   </section>`;
@@ -135,10 +135,10 @@ async function finish() {
     <p class="eyebrow">End of shift · seed ${esc(String(r.truth ? S.data.seed : ""))}</p>
     <h1>You caught ${fmt(r.you.caught_micros)} of laundering.</h1>
     <div class="tablewrap"><table class="t stack"><thead><tr><th>With ${S.data.budget} reviews</th><th class="n">Laundering caught</th><th class="n">False alarms</th><th class="n">Money recovered</th><th class="n">Score</th></tr></thead>
-      <tbody>${row("You", r.you)}${row("AgentGuard's ranked queue (severity, then amount)", r.engine_ranked)}${row("Best possible picks", r.best)}</tbody></table></div>
+      <tbody>${row("You", r.you)}${row("SafeSpend's ranked queue (severity, then amount)", r.engine_ranked)}${row("Best possible picks", r.best)}</tbody></table></div>
     <p class="hint">${esc(r.penalty_note)} Money recovered = later laundering payments by the same agents, stopped because escalation holds the agent.</p>
     <p><strong>Laundering in alerts you didn't open:</strong> ${fmt(r.you.missed_in_queue_micros)} · <strong>Laundering no rule alerted on</strong> (mostly a slow drip kept under the structuring band): ${fmt(r.you.never_alerted_micros)}</p>
-    <div class="why approved"><p><strong>The lesson from the IBM benchmark:</strong> with a limited review budget, ranking matters more than catching everything. On IBM HI-Small, AgentGuard's ranked rules found about ten times more laundering than an amount threshold at 50 reviews a day.</p></div>
+    <div class="why approved"><p><strong>The lesson from the IBM benchmark:</strong> with a limited review budget, ranking matters more than catching everything. On IBM HI-Small, SafeSpend's ranked rules found about ten times more laundering than an amount threshold at 50 reviews a day.</p></div>
     <h3 style="margin-top:16px">Your reviews</h3><div class="tablewrap"><table class="t stack"><thead><tr><th>Alert</th><th>You</th><th>Truth</th><th></th></tr></thead><tbody>${yours || '<tr><td colspan="4">You opened no alerts.</td></tr>'}</tbody></table></div>
     <div class="actions" style="margin-top:16px"><button class="btn btn-p" id="again">Play a practice shift</button><a class="btn btn-s" href="/pro#ibm">See the IBM results</a></div></section>`;
   document.getElementById("again").onclick = () => { intro(); };

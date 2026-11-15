@@ -114,7 +114,7 @@ class PaymentRequest:
     # so an approval covers the terms it was granted for and older hashes are unchanged.
     commitment: Commitment | None = None
     store_credential: bool = False
-    # Stage 4 (added after lock): what the person originally asked for (agentguard.intent.Intent).
+    # Stage 4 (added after lock): what the person originally asked for (safespend.intent.Intent).
     # Not part of the payment hash: it describes the request, not the money movement.
     intent: Any = field(default=None, compare=False)
 

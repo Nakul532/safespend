@@ -1,6 +1,6 @@
-# AgentGuard
+# SafeSpend
 
-A payment firewall and anti-money-laundering monitor for AI agents. All money is simulated (mock only).
+**Spending controls for AI agents.** A payment firewall and anti-money-laundering monitor for AI agents. All money is simulated (mock only).
 
 Status: **Stage 1, the core engine.** There is no UI and no live LLM calls yet.
 
@@ -18,18 +18,18 @@ Status: **Stage 1, the core engine.** There is no UI and no live LLM calls yet.
 
 | Path | What it is |
 |---|---|
-| `agentguard/policy.py` | Policy engine and `validate_payment()` |
-| `agentguard/ledger.py` | Double-entry mock ledger |
-| `agentguard/approvals.py` | Maker-checker approvals |
-| `agentguard/idempotency.py` | Idempotency-key store |
-| `agentguard/circuit_breaker.py` | Spend and alert circuit breaker |
-| `agentguard/audit.py` | Hash-chained audit log, with verify and export |
-| `agentguard/aml/` | AML rules and monitor |
-| `agentguard/lookalike.py` | Homoglyph and edit-distance merchant matching |
-| `agentguard/sanctions.py` | Sanctions-screening interface (real OFAC list comes later) |
-| `agentguard/llm/` | `LlmClient`: Groq, OpenRouter (pinned to Groq, no fallbacks), Mock |
-| `agentguard/clock.py` | Injectable UTC clock |
-| `agentguard/fixtures.py` | Demo agents and merchants from AgentPay |
+| `safespend/policy.py` | Policy engine and `validate_payment()` |
+| `safespend/ledger.py` | Double-entry mock ledger |
+| `safespend/approvals.py` | Maker-checker approvals |
+| `safespend/idempotency.py` | Idempotency-key store |
+| `safespend/circuit_breaker.py` | Spend and alert circuit breaker |
+| `safespend/audit.py` | Hash-chained audit log, with verify and export |
+| `safespend/aml/` | AML rules and monitor |
+| `safespend/lookalike.py` | Homoglyph and edit-distance merchant matching |
+| `safespend/sanctions.py` | Sanctions-screening interface (real OFAC list comes later) |
+| `safespend/llm/` | `LlmClient`: Groq, OpenRouter (pinned to Groq, no fallbacks), Mock |
+| `safespend/clock.py` | Injectable UTC clock |
+| `safespend/fixtures.py` | Demo agents and merchants from AgentPay |
 | `refs/` | Read-only clones of ComplianceGuard and AgentPay (git-ignored) |
 
 ## Run the tests
@@ -43,8 +43,8 @@ Keys (`GROQ_API_KEY`, `OPENROUTER_API_KEY`) are read only from environment varia
 
 ## Red-team suite
 
-`redteam/` holds the AgentGuard Red-Team Suite v1: 55 attacks and 55 legitimate tasks, a runner, and held-out sets. It is MIT-licensed and self-contained. See `redteam/README.md`.
+`redteam/` holds the SafeSpend Red-Team Suite v1: 55 attacks and 55 legitimate tasks, a runner, and held-out sets. It is MIT-licensed and self-contained. See `redteam/README.md`.
 
 ### Held-out sets are now public
 
-The v1 held-out sets (model-written, external-model and owner-sourced incidents) and the intent-mismatch set are published here together with their results. Once public they can no longer serve as held-out tests: anyone, including future builders, can read and tune against them. **Any future version of AgentGuard needs new held-out attacks**, written independently, locked before evaluation and run once, to make a fresh claim. Results on the v1 sets after publication should be read as regression checks, not as held-out evidence.
+The v1 held-out sets (model-written, external-model and owner-sourced incidents) and the intent-mismatch set are published here together with their results. Once public they can no longer serve as held-out tests: anyone, including future builders, can read and tune against them. **Any future version of SafeSpend needs new held-out attacks**, written independently, locked before evaluation and run once, to make a fresh claim. Results on the v1 sets after publication should be read as regression checks, not as held-out evidence.
