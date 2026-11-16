@@ -282,6 +282,27 @@ def shift_score():
                     "penalty_note": "ASSUMPTION: a false alarm costs $50.00 of analyst time (simulated)."})
 
 
+@app.get("/api/health")
+def health():
+    """Deploy check. Reports only the database kind and whether a query works; never hosts, keys or tokens."""
+    from web import db
+    out = {"db": "turso" if db.using_turso() else "sqlite", "groq_key_set": bool(os.environ.get("GROQ_API_KEY")),
+           "cap_salt_set": bool(os.environ.get("CAP_SALT")), "static_files": (PUBLIC / "index.html").exists()}
+    try:
+        store.conn().execute("SELECT 1").fetchone()
+        out["db_ok"] = True
+    except Exception as exc:  # noqa: BLE001 - reported as a class name and HTTP status only
+        out["db_ok"] = False
+        out["db_error"] = type(exc).__name__ + (f" ({m.group(0)})" if (m := __import__("re").search(r"HTTP \d{3}", str(exc))) else "")
+    return respond(out, status=200 if out["db_ok"] and out["static_files"] else 503)
+
+
+@app.errorhandler(500)
+def server_error(exc):
+    app.logger.exception("unhandled error")  # appears in Vercel's runtime logs
+    return respond({"error": "Something went wrong on our side. Please try again."}, status=500)
+
+
 @app.get("/api/vault")
 def vault():
     return respond(store.vault())
