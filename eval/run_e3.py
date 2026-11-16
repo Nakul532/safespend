@@ -26,7 +26,7 @@ from safespend.investigator import Investigator
 from safespend.llm import GroqClient
 from safespend.llm.client import LlmRateLimited
 from safespend.synth import DATA_VERSION, generate
-from eval.common import CACHE, MODEL, ROOT, load_env
+from eval.common import CACHE, MODEL, ROOT, eval_client, load_env
 from eval.e3 import reference
 
 JUDGE_MODEL = "qwen/qwen3.8-27b"
@@ -101,6 +101,7 @@ def pick(seeds=(301, 302, 303), per_seed=10):
 def run_one(inv, client, judge_cache, label, a, by_id, reg, pool, queue, hist, truth):
     pack = build(a, by_id, reg, pool=pool, queue=queue, history=hist)
     note = inv.draft(a, by_id, reg, hist, pool=pool, queue=queue)
+    meta = dict(inv.last_meta or {})
     facts = pack.by_id()
     head = f"Alert {a.alert_id}: rule {a.rule}, severity {a.severity}.\n[E1] {facts['E1'].text}"
     judged = []
@@ -119,7 +120,7 @@ def run_one(inv, client, judge_cache, label, a, by_id, reg, pool, queue, hist, t
             judged.append({"section": sec, **x, "judge": v.get("verdict"), "judge_reason": v.get("reason"),
                            "contradicts": v.get("contradicts_rule") is True})
     return {"label": label, "alert": a, "pack": pack, "note": note, "judged": judged, "truth": truth, "checks": checklist(note, pack),
-            "checks_model_only": checklist(note, pack, model_only=True)}
+            "checks_model_only": checklist(note, pack, model_only=True), "provider": meta}
 
 
 def summarise(rows) -> dict:
@@ -153,7 +154,10 @@ def summarise(rows) -> dict:
         for c, v in r["checks_model_only"].items():
             chk_m[c]["n/a" if v is None else ("pass" if v else "fail")] += 1
     judged = sum(verdicts[k] for k in ("supported", "partly", "unsupported", "unparseable"))
-    return {"totals": dict(tot), "judge_verdicts_on_kept_claim_lines": dict(verdicts),
+    prov = Counter(f"{(r.get('provider') or {}).get('provider')} -> {(r.get('provider') or {}).get('upstream')}" for r in rows)
+    return {"totals": dict(tot), "investigator_providers": dict(prov),
+            "investigator_calls": [{"alert": r["alert"].alert_id, **(r.get("provider") or {})} for r in rows],
+            "judge_verdicts_on_kept_claim_lines": dict(verdicts),
             "supported_rate": round(verdicts["supported"] / judged, 4) if judged else None,
             "citation_existence_rate": round(1 - tot["cited_unknown"] / tot["cited_total"], 4) if tot["cited_total"] else None,
             "usefulness_checklist": {c: dict(v) for c, v in chk.items()},
@@ -164,8 +168,8 @@ def summarise(rows) -> dict:
 
 def main() -> None:
     load_env()
-    client = GroqClient(default_model=MODEL)
-    inv = Investigator(client, model=MODEL, cache_dir=CACHE / "investigator", min_interval_s=2.0)
+    client = GroqClient(default_model=MODEL)  # judge only: qwen3.8-27b is not served by Groq on OpenRouter
+    inv = Investigator(eval_client(), model=MODEL, cache_dir=CACHE / "investigator", min_interval_s=2.0)
     judge_cache = CACHE / "e3_judge"
     judge_cache.mkdir(parents=True, exist_ok=True)
     rows = []
@@ -186,8 +190,10 @@ def main() -> None:
            "claim_check_thresholds": {"just_under_min_pct": inv_mod.NEAR_PCT, "timing": "only via the pack's code-computed timing label ({timing:E#})"},
            "earlier_results_unchanged": ["eval/results/e3_v1.json", "eval/results/e3_v2.json", "eval/results/e3_v3_prompt_only.json",
                                          "eval/results/e3_v3.json", "eval/results/e3_v4_filter_v2.1.json", "eval/results/e3_v4_pack_p2.json", "eval/results/e3_v4_pack_p3.json"],
-           "p4_run_note": "The first p4 run lost 7 model calls to transient API errors (6 alerts in seed 303 and the reference case); "
-                          "those 7 calls were retried with the same configuration. The other drafts are the first run's, from cache.",
+           "p4_run_note": "The first p4 run lost 7 investigator calls to Groq rate limits; a same-day retry on Groq recovered 1. The "
+                          "remaining 6 (5 alerts in seed 303 and the reference case) were retried via OpenRouter pinned to Groq, same "
+                          "model and settings, no fallbacks; the provider of every call is recorded in investigator_calls. The judge "
+                          "stays on Groq directly (qwen3.8-27b is not served by Groq on OpenRouter).",
            "post_results_change_p4": "pack p4 (approved after the p3 results): code writes the summary's first sentence and the "
                                      "recommendation's basis from the pack; the model writes only why it matters, open questions and "
                                      "actions. The judge rates model-written claim lines (why it matters). One run. p3 results in e3_v4_pack_p3.json.",

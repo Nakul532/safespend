@@ -12,36 +12,228 @@
  "main": {
   "totals": {
    "alerts": 31,
-   "notes_with_error": 5,
-   "raw_lines": 209,
-   "kept_lines": 232,
-   "kept_claim_lines": 34,
-   "kept_model_lines": 170,
-   "notes_with_why_it_matters": 23,
-   "cited_total": 428,
+   "notes_with_error": 0,
+   "raw_lines": 248,
+   "kept_lines": 259,
+   "kept_claim_lines": 37,
+   "kept_model_lines": 197,
+   "notes_with_why_it_matters": 26,
+   "cited_total": 537,
    "cited_unknown": 0,
    "notes_shown": 31,
    "notes_with_summary": 31,
    "kept: summary": 31,
-   "kept: why": 34,
-   "kept: open_questions": 70,
-   "kept: actions": 66,
+   "kept: why": 37,
+   "kept: open_questions": 83,
+   "kept: actions": 77,
    "kept: reason": 31,
    "notes_contradicting_rule": 0,
-   "dropped: describes timing itself instead of using the pack's label": 21,
-   "dropped: states a doubt outside open questions": 2,
+   "dropped: describes timing itself instead of using the pack's label": 30,
+   "dropped: states a doubt outside open questions": 3,
    "dropped: contains a spelled-out number": 8,
    "dropped: argues against the alert's computed facts": 3,
-   "dropped: claims 'just under the threshold' without support": 4,
+   "dropped: claims 'just under the threshold' without support": 6,
    "dropped: contains a number": 1
   },
+  "investigator_providers": {
+   "groq -> Groq": 26,
+   "openrouter -> Groq": 5
+  },
+  "investigator_calls": [
+   {
+    "alert": "A19427e2333",
+    "provider": "groq",
+    "upstream": "Groq",
+    "note": "direct Groq call, before per-call provider logging"
+   },
+   {
+    "alert": "A19310559d0",
+    "provider": "groq",
+    "upstream": "Groq",
+    "note": "direct Groq call, before per-call provider logging"
+   },
+   {
+    "alert": "Aef9cfe1eee",
+    "provider": "groq",
+    "upstream": "Groq",
+    "note": "direct Groq call, before per-call provider logging"
+   },
+   {
+    "alert": "A73553239e4",
+    "provider": "groq",
+    "upstream": "Groq",
+    "note": "direct Groq call, before per-call provider logging"
+   },
+   {
+    "alert": "A0445b0b381",
+    "provider": "groq",
+    "upstream": "Groq",
+    "note": "direct Groq call, before per-call provider logging"
+   },
+   {
+    "alert": "A28a4629ee0",
+    "provider": "groq",
+    "upstream": "Groq",
+    "note": "direct Groq call, before per-call provider logging"
+   },
+   {
+    "alert": "A6dc5ab4930",
+    "provider": "groq",
+    "upstream": "Groq",
+    "note": "direct Groq call, before per-call provider logging"
+   },
+   {
+    "alert": "Aa9f5251bca",
+    "provider": "groq",
+    "upstream": "Groq",
+    "note": "direct Groq call, before per-call provider logging"
+   },
+   {
+    "alert": "A6f3dfc6133",
+    "provider": "groq",
+    "upstream": "Groq",
+    "note": "direct Groq call, before per-call provider logging"
+   },
+   {
+    "alert": "Aea86239f87",
+    "provider": "groq",
+    "upstream": "Groq",
+    "note": "direct Groq call, before per-call provider logging"
+   },
+   {
+    "alert": "A7ad9c0c8fe",
+    "provider": "groq",
+    "upstream": "Groq",
+    "note": "direct Groq call, before per-call provider logging"
+   },
+   {
+    "alert": "Abdac967c00",
+    "provider": "groq",
+    "upstream": "Groq",
+    "note": "direct Groq call, before per-call provider logging"
+   },
+   {
+    "alert": "A7a01e4019d",
+    "provider": "groq",
+    "upstream": "Groq",
+    "note": "direct Groq call, before per-call provider logging"
+   },
+   {
+    "alert": "Abcd33fd995",
+    "provider": "groq",
+    "upstream": "Groq",
+    "note": "direct Groq call, before per-call provider logging"
+   },
+   {
+    "alert": "A38f4156628",
+    "provider": "groq",
+    "upstream": "Groq",
+    "note": "direct Groq call, before per-call provider logging"
+   },
+   {
+    "alert": "Ab95d4de054",
+    "provider": "groq",
+    "upstream": "Groq",
+    "note": "direct Groq call, before per-call provider logging"
+   },
+   {
+    "alert": "Acfeca1b29d",
+    "provider": "groq",
+    "upstream": "Groq",
+    "note": "direct Groq call, before per-call provider logging"
+   },
+   {
+    "alert": "A91fc566589",
+    "provider": "groq",
+    "upstream": "Groq",
+    "note": "direct Groq call, before per-call provider logging"
+   },
+   {
+    "alert": "A4c4a537c7e",
+    "provider": "groq",
+    "upstream": "Groq",
+    "note": "direct Groq call, before per-call provider logging"
+   },
+   {
+    "alert": "A4fcfcd1f99",
+    "provider": "groq",
+    "upstream": "Groq",
+    "note": "direct Groq call, before per-call provider logging"
+   },
+   {
+    "alert": "A20950ee0f6",
+    "provider": "groq",
+    "upstream": "Groq",
+    "note": "direct Groq call, before per-call provider logging"
+   },
+   {
+    "alert": "A752c7567af",
+    "provider": "groq",
+    "upstream": "Groq",
+    "note": "direct Groq call, before per-call provider logging"
+   },
+   {
+    "alert": "A607e3cc1e1",
+    "provider": "groq",
+    "upstream": "Groq",
+    "note": "direct Groq call, before per-call provider logging"
+   },
+   {
+    "alert": "Afe6c9ae3b4",
+    "provider": "groq",
+    "upstream": "Groq",
+    "note": "direct Groq call, before per-call provider logging"
+   },
+   {
+    "alert": "Abbad360ba7",
+    "provider": "openrouter",
+    "upstream": "Groq",
+    "model": "openai/gpt-oss-120b"
+   },
+   {
+    "alert": "A7cdd04ce83",
+    "provider": "openrouter",
+    "upstream": "Groq",
+    "model": "openai/gpt-oss-120b"
+   },
+   {
+    "alert": "A238ed05a08",
+    "provider": "groq",
+    "upstream": "Groq",
+    "note": "direct Groq call, before per-call provider logging"
+   },
+   {
+    "alert": "A1372056519",
+    "provider": "openrouter",
+    "upstream": "Groq",
+    "model": "openai/gpt-oss-120b"
+   },
+   {
+    "alert": "A714007b02d",
+    "provider": "groq",
+    "upstream": "Groq",
+    "note": "direct Groq call, before per-call provider logging"
+   },
+   {
+    "alert": "Ad39873d1b3",
+    "provider": "openrouter",
+    "upstream": "Groq",
+    "model": "openai/gpt-oss-120b"
+   },
+   {
+    "alert": "A86b410b108",
+    "provider": "openrouter",
+    "upstream": "Groq",
+    "model": "openai/gpt-oss-120b"
+   }
+  ],
   "judge_verdicts_on_kept_claim_lines": {
-   "supported": 29,
+   "supported": 31,
    "contradicts_rule": 0,
-   "unsupported": 2,
+   "unsupported": 3,
    "partly": 3
   },
-  "supported_rate": 0.8529,
+  "supported_rate": 0.8378,
   "citation_existence_rate": 1.0,
   "usefulness_checklist": {
    "limit_proximity": {
@@ -58,12 +250,10 @@
     "pass": 31
    },
    "recommendation_with_reason": {
-    "pass": 26,
-    "fail": 5
+    "pass": 31
    },
    "next_steps": {
-    "pass": 26,
-    "fail": 5
+    "pass": 31
    }
   },
   "usefulness_pass_rate": {
@@ -71,47 +261,60 @@
    "time_window": 1.0,
    "merchant_concentration": 1.0,
    "cross_alert_links": 1.0,
-   "recommendation_with_reason": 0.8387,
-   "next_steps": 0.8387
+   "recommendation_with_reason": 1.0,
+   "next_steps": 1.0
   },
   "usefulness_pass_rate_model_lines_only": {
-   "limit_proximity": 0.7,
-   "time_window": 0.0323,
-   "merchant_concentration": 0.7742,
-   "cross_alert_links": 0.6129,
+   "limit_proximity": 0.8,
+   "time_window": 0.0645,
+   "merchant_concentration": 0.871,
+   "cross_alert_links": 0.6774,
    "recommendation_with_reason": null,
-   "next_steps": 0.8387
+   "next_steps": 1.0
   },
   "recommendation_vs_truth": {
-   "laundering -> escalate": 15,
-   "benign -> escalate": 11,
-   "benign -> none": 3,
-   "laundering -> none": 2
+   "laundering -> escalate": 17,
+   "benign -> escalate": 14
   }
  },
  "reference_frozen": {
   "totals": {
    "alerts": 1,
-   "notes_with_error": 1,
-   "raw_lines": 0,
-   "kept_lines": 2,
-   "kept_claim_lines": 0,
-   "kept_model_lines": 0,
-   "notes_with_why_it_matters": 0,
-   "cited_total": 0,
+   "notes_with_error": 0,
+   "raw_lines": 7,
+   "kept_lines": 8,
+   "kept_claim_lines": 1,
+   "kept_model_lines": 6,
+   "notes_with_why_it_matters": 1,
+   "cited_total": 16,
    "cited_unknown": 0,
    "notes_shown": 1,
    "notes_with_summary": 1,
+   "dropped: describes timing itself instead of using the pack's label": 1,
    "kept: summary": 1,
-   "kept: why": 0,
-   "kept: open_questions": 0,
-   "kept: actions": 0,
+   "kept: why": 1,
+   "kept: open_questions": 2,
+   "kept: actions": 3,
    "kept: reason": 1,
    "notes_contradicting_rule": 0
   },
-  "judge_verdicts_on_kept_claim_lines": {},
-  "supported_rate": null,
-  "citation_existence_rate": null,
+  "investigator_providers": {
+   "openrouter -> Groq": 1
+  },
+  "investigator_calls": [
+   {
+    "alert": "A6c2d42955a",
+    "provider": "openrouter",
+    "upstream": "Groq",
+    "model": "openai/gpt-oss-120b"
+   }
+  ],
+  "judge_verdicts_on_kept_claim_lines": {
+   "supported": 1,
+   "contradicts_rule": 0
+  },
+  "supported_rate": 1.0,
+  "citation_existence_rate": 1.0,
   "usefulness_checklist": {
    "limit_proximity": {
     "pass": 1
@@ -126,10 +329,10 @@
     "pass": 1
    },
    "recommendation_with_reason": {
-    "fail": 1
+    "pass": 1
    },
    "next_steps": {
-    "fail": 1
+    "pass": 1
    }
   },
   "usefulness_pass_rate": {
@@ -137,16 +340,16 @@
    "time_window": 1.0,
    "merchant_concentration": 1.0,
    "cross_alert_links": 1.0,
-   "recommendation_with_reason": 0.0,
-   "next_steps": 0.0
+   "recommendation_with_reason": 1.0,
+   "next_steps": 1.0
   },
   "usefulness_pass_rate_model_lines_only": {
-   "limit_proximity": 0.0,
+   "limit_proximity": 1.0,
    "time_window": 0.0,
-   "merchant_concentration": 0.0,
+   "merchant_concentration": 1.0,
    "cross_alert_links": 0.0,
    "recommendation_with_reason": null,
-   "next_steps": 0.0
+   "next_steps": 1.0
   },
   "recommendation_vs_truth": {},
   "alert_id": "A6c2d42955a",
@@ -178,9 +381,90 @@
       ]
      }
     ],
-    "why": [],
-    "open_questions": [],
-    "actions": [],
+    "why": [
+     {
+      "text": "Payments clustered just below approval limits across multiple agents suggest deliberate structuring to avoid detection, especially given the untrusted merchant profile.",
+      "cites": [
+       "E1",
+       "E3",
+       "E4",
+       "E5"
+      ],
+      "facts": [
+       "Rule explanation (computed by code, true): 10 payments from 3 agents of one owner, each just under its approval threshold, totalling $3,844.39.",
+       "agent_03 (team ops): 2 payments, $183.21, each 89.6%\u201393.6% of its $100.00 approval threshold.",
+       "agent_08 (team ops): 6 payments, $2,752.61, each 87.0%\u201398.5% of its $500.00 approval threshold.",
+       "agent_13 (team ops): 2 payments, $908.57, each 84.9%\u201396.8% of its $500.00 approval threshold."
+      ],
+      "by": "model"
+     }
+    ],
+    "open_questions": [
+     {
+      "text": "What business justification exists for using these untrusted merchants for routine expenses?",
+      "cites": [
+       "E7",
+       "E8"
+      ],
+      "facts": [
+       "Nimbus Resell (compute, untrusted): 6 payments, $1,968.96, from 3 agents.",
+       "Orbit Tools (software, untrusted): 4 payments, $1,875.43, from 1 agent."
+      ],
+      "by": "model"
+     },
+     {
+      "text": "Are there any legitimate contracts or services linking the owner's team to these merchants?",
+      "cites": [
+       "E7",
+       "E8"
+      ],
+      "facts": [
+       "Nimbus Resell (compute, untrusted): 6 payments, $1,968.96, from 3 agents.",
+       "Orbit Tools (software, untrusted): 4 payments, $1,875.43, from 1 agent."
+      ],
+      "by": "model"
+     }
+    ],
+    "actions": [
+     {
+      "text": "Request detailed invoices and service agreements for the transactions with the untrusted merchants.",
+      "cites": [
+       "E7",
+       "E8"
+      ],
+      "facts": [
+       "Nimbus Resell (compute, untrusted): 6 payments, $1,968.96, from 3 agents.",
+       "Orbit Tools (software, untrusted): 4 payments, $1,875.43, from 1 agent."
+      ],
+      "by": "model"
+     },
+     {
+      "text": "Conduct a risk assessment on the merchant entities and verify their licensing status.",
+      "cites": [
+       "E7",
+       "E8"
+      ],
+      "facts": [
+       "Nimbus Resell (compute, untrusted): 6 payments, $1,968.96, from 3 agents.",
+       "Orbit Tools (software, untrusted): 4 payments, $1,875.43, from 1 agent."
+      ],
+      "by": "model"
+     },
+     {
+      "text": "Interview the owner and the agents involved to understand the operational need for these payments.",
+      "cites": [
+       "E3",
+       "E4",
+       "E5"
+      ],
+      "facts": [
+       "agent_03 (team ops): 2 payments, $183.21, each 89.6%\u201393.6% of its $100.00 approval threshold.",
+       "agent_08 (team ops): 6 payments, $2,752.61, each 87.0%\u201398.5% of its $500.00 approval threshold.",
+       "agent_13 (team ops): 2 payments, $908.57, each 84.9%\u201396.8% of its $500.00 approval threshold."
+      ],
+      "by": "model"
+     }
+    ],
     "reason": [
      {
       "text": "Team structuring rule, severity 8: 10 payments from 3 agents of one owner, each just under its approval threshold, totalling $3,844.39. Every payment is at 80% or more of its agent's approval threshold. 2 untrusted merchants involved. Linked to at least 6 other alerts on the same untrusted merchants, owner or agents (4 of those in your queue).",
@@ -216,12 +500,14 @@
      }
     ]
    },
-   "recommendation": null,
-   "dropped": {},
-   "cited_total": 0,
+   "recommendation": "escalate",
+   "dropped": {
+    "describes timing itself instead of using the pack's label": 1
+   },
+   "cited_total": 16,
    "cited_unknown": 0,
-   "raw_lines": 0,
-   "error": "rate limited",
+   "raw_lines": 7,
+   "error": null,
    "pack": [
     {
      "id": "E1",
@@ -388,14 +674,35 @@
     }
    ]
   },
-  "judged": [],
+  "judged": [
+   {
+    "section": "why",
+    "text": "Payments clustered just below approval limits across multiple agents suggest deliberate structuring to avoid detection, especially given the untrusted merchant profile.",
+    "cites": [
+     "E1",
+     "E3",
+     "E4",
+     "E5"
+    ],
+    "facts": [
+     "Rule explanation (computed by code, true): 10 payments from 3 agents of one owner, each just under its approval threshold, totalling $3,844.39.",
+     "agent_03 (team ops): 2 payments, $183.21, each 89.6%\u201393.6% of its $100.00 approval threshold.",
+     "agent_08 (team ops): 6 payments, $2,752.61, each 87.0%\u201398.5% of its $500.00 approval threshold.",
+     "agent_13 (team ops): 2 payments, $908.57, each 84.9%\u201396.8% of its $500.00 approval threshold."
+    ],
+    "by": "model",
+    "judge": "supported",
+    "judge_reason": "The note accurately summarizes the evidence: 10 payments from 3 agents (2+6+2), all clustered just below their respective approval thresholds, which aligns with the rule explanation and cited data.",
+    "contradicts": false
+   }
+  ],
   "checks": {
    "limit_proximity": true,
    "time_window": true,
    "merchant_concentration": true,
    "cross_alert_links": true,
-   "recommendation_with_reason": false,
-   "next_steps": false
+   "recommendation_with_reason": true,
+   "next_steps": true
   }
  },
  "claim_check_thresholds": {
@@ -411,7 +718,7 @@
   "eval/results/e3_v4_pack_p2.json",
   "eval/results/e3_v4_pack_p3.json"
  ],
- "p4_run_note": "The first p4 run lost 7 model calls to transient API errors (6 alerts in seed 303 and the reference case); those 7 calls were retried with the same configuration. The other drafts are the first run's, from cache.",
+ "p4_run_note": "The first p4 run lost 7 investigator calls to Groq rate limits; a same-day retry on Groq recovered 1. The remaining 6 (5 alerts in seed 303 and the reference case) were retried via OpenRouter pinned to Groq, same model and settings, no fallbacks; the provider of every call is recorded in investigator_calls. The judge stays on Groq directly (qwen3.8-27b is not served by Groq on OpenRouter).",
  "post_results_change_p4": "pack p4 (approved after the p3 results): code writes the summary's first sentence and the recommendation's basis from the pack; the model writes only why it matters, open questions and actions. The judge rates model-written claim lines (why it matters). One run. p3 results in e3_v4_pack_p3.json.",
  "post_results_change_p3": "pack p3 (approved after the v2.2 results): code-computed timing labels; the model may describe timing only via {timing:E#}. New drafts (prompt v4-p3), one run. Pack p2 results kept in e3_v4_pack_p2.json.",
  "post_results_change": "filter v2.2 was approved after the v2.1 results: no excuse filter on open questions; negated excuses allowed. Same drafts (cached), re-checked; v2.1 results kept in e3_v4_filter_v2.1.json.",

@@ -1,6 +1,12 @@
 note,alert_id,line_no,section,line,cites,supported_Y_N,useful_Y_N_Partly,comment,verdict_source
 1,A6c2d42955a,1,summary,"Team structuring: 10 payments totalling $3,844.39 from 3 agents to 2 merchants, over about 28 hours, at 84.9%–98.5% of the agents' approval thresholds; all to untrusted merchants.",E2 E6 E3 E4 E5 E7 E8,,,,
-1,A6c2d42955a,2,reason,"Team structuring rule, severity 8: 10 payments from 3 agents of one owner, each just under its approval threshold, totalling $3,844.39. Every payment is at 80% or more of its agent's approval threshold. 2 untrusted merchants involved. Linked to at least 6 other alerts on the same untrusted merchants, owner or agents (4 of those in your queue).",E1 E3 E4 E5 E7 E8 E11 E12 E13 E14 E15 E16,,,,
+1,A6c2d42955a,2,why,"Payments clustered just below approval limits across multiple agents suggest deliberate structuring to avoid detection, especially given the untrusted merchant profile.",E1 E3 E4 E5,,,,
+1,A6c2d42955a,3,open_questions,What business justification exists for using these untrusted merchants for routine expenses?,E7 E8,,,,
+1,A6c2d42955a,4,open_questions,Are there any legitimate contracts or services linking the owner's team to these merchants?,E7 E8,,,,
+1,A6c2d42955a,5,actions,Request detailed invoices and service agreements for the transactions with the untrusted merchants.,E7 E8,,,,
+1,A6c2d42955a,6,actions,Conduct a risk assessment on the merchant entities and verify their licensing status.,E7 E8,,,,
+1,A6c2d42955a,7,actions,Interview the owner and the agents involved to understand the operational need for these payments.,E3 E4 E5,,,,
+1,A6c2d42955a,8,reason,"Team structuring rule, severity 8: 10 payments from 3 agents of one owner, each just under its approval threshold, totalling $3,844.39. Every payment is at 80% or more of its agent's approval threshold. 2 untrusted merchants involved. Linked to at least 6 other alerts on the same untrusted merchants, owner or agents (4 of those in your queue).",E1 E3 E4 E5 E7 E8 E11 E12 E13 E14 E15 E16,,,,
 2,A19427e2333,1,summary,"Team structuring: 10 payments totalling $3,844.34 from 3 agents to 2 merchants, over about 28 hours, at 84.9%–98.5% of the agents' approval thresholds; all to untrusted merchants.",E2 E6 E3 E4 E5 E7 E8,,,,
 2,A19427e2333,2,why,"Payments clustered just below approval limits across several agents suggest deliberate avoidance of automatic flags, a classic structuring technique.",E1 E3 E4 E5,,,,
 2,A19427e2333,3,why,"All transactions involve merchants flagged as untrusted, increasing the risk that the funds are being moved through high-risk channels.",E7 E8,,,,

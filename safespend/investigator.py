@@ -285,6 +285,7 @@ class Investigator:
         self.min_interval_s, self.max_retries = min_interval_s, max_retries
         self._last = 0.0
         self.calls = self.cache_hits = 0
+        self.last_meta: dict | None = None  # provider of the reply behind the last draft (recorded per call)
         if cache_dir:
             cache_dir.mkdir(parents=True, exist_ok=True)
 
@@ -294,8 +295,11 @@ class Investigator:
         key = hashlib.sha256(json.dumps(["investigator", PROMPT_VERSION, PACK_VERSION, self.model, SYSTEM_PROMPT, ev]).encode()).hexdigest()
         path = self.cache_dir / f"{key}.json" if self.cache_dir else None
         raw = json.loads(path.read_text()) if path and path.exists() else (self.store.get(key) if self.store is not None else None)
+        meta_path = self.cache_dir.parent / "investigator_meta" / f"{key}.json" if self.cache_dir else None
         if raw is not None:
             self.cache_hits += 1
+            self.last_meta = (json.loads(meta_path.read_text()) if meta_path and meta_path.exists()
+                              else {"provider": "groq", "upstream": "Groq", "note": "direct Groq call, before per-call provider logging"})
             return verify(alert.alert_id, raw, pack, txns_by_id, idents)
         msgs = [{"role": "system", "content": SYSTEM_PROMPT}, {"role": "user", "content": ev}]
         resp, err = None, None
@@ -317,6 +321,7 @@ class Investigator:
                 err = str(exc)[:200]
                 time.sleep(1)
         fail = verify(alert.alert_id, {}, pack, txns_by_id, idents)  # code-written summary and basis still shown
+        self.last_meta = {"provider": getattr(self.llm, "provider", None), "upstream": None, "error": True}
         if resp is None:
             fail.error = err or "rate limited"
             return fail
@@ -327,8 +332,12 @@ class Investigator:
         except (json.JSONDecodeError, ValueError):
             fail.error, fail.latency_ms = "unparseable", resp.latency_ms
             return fail
+        self.last_meta = {"provider": resp.provider, "upstream": (resp.raw or {}).get("provider") if isinstance(resp.raw, dict) else None,
+                          "model": resp.model}
         if path:
             path.write_text(json.dumps(raw))
+            meta_path.parent.mkdir(parents=True, exist_ok=True)
+            meta_path.write_text(json.dumps(self.last_meta))
         if self.store is not None:
             self.store.put(key, raw)
         note = verify(alert.alert_id, raw, pack, txns_by_id, idents)

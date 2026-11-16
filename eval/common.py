@@ -20,11 +20,17 @@ def load_env(path: Path = ROOT / ".env") -> None:
             os.environ.setdefault(k.strip(), v.strip().strip('"').strip("'"))
 
 
+def eval_client():
+    """Evals use OpenRouter (OPENROUTER_API_KEY), pinned to Groq with fallbacks off, so they never share the live site's
+    Groq free-key rate limit (decision 2026-11-15)."""
+    from safespend.llm.client import OpenRouterClient
+    load_env()
+    return OpenRouterClient(default_model=MODEL)
+
+
 def make_checker(run_tag: str, *, llm: bool = True):
     from safespend.injection import InjectionChecker
-    from safespend.llm import GroqClient
     client = None
     if llm:
-        load_env()
-        client = GroqClient(default_model=MODEL)  # key from GROQ_API_KEY
+        client = eval_client()  # OpenRouter pinned to Groq (was GroqClient before 2026-11-15)
     return InjectionChecker(client, model=MODEL, cache_dir=CACHE / "injection", run_tag=run_tag, min_interval_s=2.5)
