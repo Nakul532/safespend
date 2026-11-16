@@ -39,7 +39,7 @@ normal or legitimate.
 "supported": everything the line claims is shown by the cited evidence lines (or the rule explanation).
 "partly": the main claim is shown but a detail is not. "unsupported": the main claim is not shown or is contradicted."""
 CHECKS = ("limit_proximity", "time_window", "merchant_concentration", "cross_alert_links", "recommendation_with_reason", "next_steps")
-CLAIM_SECTIONS = ("summary", "evidence", "reason")
+CLAIM_SECTIONS = ("why",)  # p4: the judge rates model-written claim lines; code-written summary and reason are tested in code
 
 
 def judge(client, content: str) -> dict:
@@ -64,16 +64,17 @@ def judge(client, content: str) -> dict:
     return {"verdict": "unparseable", "reason": "rate limited"}
 
 
-def checklist(note, pack) -> dict[str, bool | None]:
-    """True/False where the item applies to this alert, None where it does not."""
+def checklist(note, pack, model_only: bool = False) -> dict[str, bool | None]:
+    """True/False where the item applies to this alert, None where it does not. model_only: count only model-written lines."""
     kind = {f.id: f.kind for f in pack.facts}
-    cited = {kind[c] for sec in ("summary", "evidence", "reason", "actions") for x in note.sections[sec] for c in x["cites"] if c in kind}
+    secs = ("why", "actions") if model_only else ("summary", "why", "reason", "actions")
+    cited = {kind[c] for sec in secs for x in note.sections[sec] for c in x["cites"] if c in kind}
     near = any(f.kind == "agent" and (f.data.get("max_pct") or 0) >= 80 for f in pack.facts)
     return {"limit_proximity": ("agent" in cited) if near else None,
             "time_window": bool(cited & {"span", "burst"}),
             "merchant_concentration": "merchant" in cited,
             "cross_alert_links": ("link" in cited) if any(f.kind == "link" for f in pack.facts) else None,
-            "recommendation_with_reason": bool(note.recommendation and note.sections["reason"]),
+            "recommendation_with_reason": bool(note.recommendation and note.sections["reason"]) if not model_only else None,
             "next_steps": bool(note.sections["actions"])}
 
 
@@ -117,11 +118,13 @@ def run_one(inv, client, judge_cache, label, a, by_id, reg, pool, queue, hist, t
                     p.write_text(json.dumps(v))
             judged.append({"section": sec, **x, "judge": v.get("verdict"), "judge_reason": v.get("reason"),
                            "contradicts": v.get("contradicts_rule") is True})
-    return {"label": label, "alert": a, "pack": pack, "note": note, "judged": judged, "truth": truth, "checks": checklist(note, pack)}
+    return {"label": label, "alert": a, "pack": pack, "note": note, "judged": judged, "truth": truth, "checks": checklist(note, pack),
+            "checks_model_only": checklist(note, pack, model_only=True)}
 
 
 def summarise(rows) -> dict:
     tot, verdicts, rec, chk = Counter(), Counter(), Counter(), {c: Counter() for c in CHECKS}
+    chk_m = {c: Counter() for c in CHECKS}
     for r in rows:
         n = r["note"]
         tot["alerts"] += 1
@@ -129,6 +132,8 @@ def summarise(rows) -> dict:
         tot["raw_lines"] += n.raw_lines
         tot["kept_lines"] += n.kept_lines
         tot["kept_claim_lines"] += sum(len(n.sections[s]) for s in CLAIM_SECTIONS)
+        tot["kept_model_lines"] += sum(len(n.sections[s]) for s in ("why", "open_questions", "actions"))
+        tot["notes_with_why_it_matters"] += bool(n.sections["why"])
         tot["cited_total"] += n.cited_total
         tot["cited_unknown"] += n.cited_unknown
         tot["notes_shown"] += bool(n.kept_lines)
@@ -145,12 +150,15 @@ def summarise(rows) -> dict:
         tot["notes_contradicting_rule"] += any(j["contradicts"] for j in r["judged"])
         for c, v in r["checks"].items():
             chk[c]["n/a" if v is None else ("pass" if v else "fail")] += 1
+        for c, v in r["checks_model_only"].items():
+            chk_m[c]["n/a" if v is None else ("pass" if v else "fail")] += 1
     judged = sum(verdicts[k] for k in ("supported", "partly", "unsupported", "unparseable"))
     return {"totals": dict(tot), "judge_verdicts_on_kept_claim_lines": dict(verdicts),
             "supported_rate": round(verdicts["supported"] / judged, 4) if judged else None,
             "citation_existence_rate": round(1 - tot["cited_unknown"] / tot["cited_total"], 4) if tot["cited_total"] else None,
             "usefulness_checklist": {c: dict(v) for c, v in chk.items()},
             "usefulness_pass_rate": {c: (round(v["pass"] / (v["pass"] + v["fail"]), 4) if v["pass"] + v["fail"] else None) for c, v in chk.items()},
+            "usefulness_pass_rate_model_lines_only": {c: (round(v["pass"] / (v["pass"] + v["fail"]), 4) if v["pass"] + v["fail"] else None) for c, v in chk_m.items()},
             "recommendation_vs_truth": dict(rec)}
 
 
@@ -177,7 +185,12 @@ def main() -> None:
                                                         "judged": ref["judged"], "checks": ref["checks"]},
            "claim_check_thresholds": {"just_under_min_pct": inv_mod.NEAR_PCT, "timing": "only via the pack's code-computed timing label ({timing:E#})"},
            "earlier_results_unchanged": ["eval/results/e3_v1.json", "eval/results/e3_v2.json", "eval/results/e3_v3_prompt_only.json",
-                                         "eval/results/e3_v3.json", "eval/results/e3_v4_filter_v2.1.json", "eval/results/e3_v4_pack_p2.json"],
+                                         "eval/results/e3_v3.json", "eval/results/e3_v4_filter_v2.1.json", "eval/results/e3_v4_pack_p2.json", "eval/results/e3_v4_pack_p3.json"],
+           "p4_run_note": "The first p4 run lost 7 model calls to transient API errors (6 alerts in seed 303 and the reference case); "
+                          "those 7 calls were retried with the same configuration. The other drafts are the first run's, from cache.",
+           "post_results_change_p4": "pack p4 (approved after the p3 results): code writes the summary's first sentence and the "
+                                     "recommendation's basis from the pack; the model writes only why it matters, open questions and "
+                                     "actions. The judge rates model-written claim lines (why it matters). One run. p3 results in e3_v4_pack_p3.json.",
            "post_results_change_p3": "pack p3 (approved after the v2.2 results): code-computed timing labels; the model may "
                                      "describe timing only via {timing:E#}. New drafts (prompt v4-p3), one run. Pack p2 results "
                                      "kept in e3_v4_pack_p2.json.",

@@ -12,7 +12,8 @@ from datetime import datetime, timedelta
 from .aml.rules import Alert
 from .money import fmt_usd
 
-PACK_VERSION = "p3"  # p3 (post-results): code-computed timing labels on span and busiest-stretch lines
+PACK_VERSION = "p4"  # p4 (post-results): pack lines unchanged from p3; the note's summary and reason are written by code from them
+# p3: p3 (post-results): code-computed timing labels on span and busiest-stretch lines
 # p2: p2: cross-alert links via untrusted merchants only (trusted vendors everyone uses are noise); single-payment wording
 MAX_ROWS, LARGEST, MAX_SWITCHES, MAX_LINKS = 25, 5, 5, 6
 BURST_WINDOW = timedelta(minutes=10)
@@ -117,7 +118,7 @@ def build(alert: Alert, txns_by_id: dict, registry, *, pool=(), queue=frozenset(
     merchants = sorted({t.merchant_id for t in txns}, key=mname)
     add("overview", f"{len(txns)} payment{'s' if len(txns) != 1 else ''} totalling {fmt_usd(sum(t.amount for t in txns))}, "
         f"from {len(agents)} agent{'s' if len(agents) != 1 else ''} to {len(merchants)} merchant{'s' if len(merchants) != 1 else ''}.",
-        ids, payments=len(txns), agents=len(agents), merchants=len(merchants))
+        ids, payments=len(txns), agents=len(agents), merchants=len(merchants), total=sum(t.amount for t in txns))
     # Per agent: count, total, amount as % of its approval threshold.
     by_agent = defaultdict(list)
     for t in txns:
@@ -125,7 +126,7 @@ def build(alert: Alert, txns_by_id: dict, registry, *, pool=(), queue=frozenset(
     for ag, ts_ in sorted(by_agent.items()):
         a = registry.agents.get(ag)
         ps = [pct[t.txn_id] for t in ts_ if t.txn_id in pct]
-        rng = f"at {min(ps):.1f}%" if len(ps) == 1 else f"each {min(ps):.1f}%–{max(ps):.1f}%"
+        rng = f"at {min(ps):.1f}%" if len(ps) == 1 else (f"each at {min(ps):.1f}%" if f"{min(ps):.1f}" == f"{max(ps):.1f}" else f"each {min(ps):.1f}%–{max(ps):.1f}%")
         add("agent", f"{ag} (team {a.owner_id if a else '?'}): {len(ts_)} payment{'s' if len(ts_) != 1 else ''}, "
             f"{fmt_usd(sum(t.amount for t in ts_))}, {rng} of its {fmt_usd(a.approval_threshold) if a else '?'} approval threshold.",
             [t.txn_id for t in ts_], min_pct=min(ps) if ps else None, max_pct=max(ps) if ps else None)

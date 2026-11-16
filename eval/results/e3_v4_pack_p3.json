@@ -1,0 +1,511 @@
+{
+ "version": "E3 v4",
+ "investigator_prompt": "v4-p3",
+ "filter_version": "v2.3-p3",
+ "pack_version": "p3",
+ "data_version": "synth-v2",
+ "investigator_model": "openai/gpt-oss-120b",
+ "judge_model": "qwen/qwen3.8-27b",
+ "judge_version": "v4: judges one note line against the evidence-pack lines it cites (pack figures computed by code)",
+ "alerts": 31,
+ "selection": "reported case's counterpart (seed 20261114, team structuring, regenerated data) + 10 alerts per seed 301-303",
+ "main": {
+  "totals": {
+   "alerts": 31,
+   "notes_with_error": 0,
+   "raw_lines": 400,
+   "kept_lines": 293,
+   "kept_claim_lines": 133,
+   "cited_total": 751,
+   "cited_unknown": 0,
+   "notes_shown": 31,
+   "notes_with_summary": 6,
+   "dropped: contains a spelled-out number": 24,
+   "dropped: describes timing itself instead of using the pack's label": 57,
+   "kept: summary": 6,
+   "kept: evidence": 106,
+   "kept: open_questions": 78,
+   "kept: actions": 82,
+   "kept: reason": 21,
+   "notes_contradicting_rule": 2,
+   "dropped: claims 'just under the threshold' without support": 18,
+   "dropped: argues against the alert's computed facts": 5,
+   "dropped: over the section limit": 3
+  },
+  "judge_verdicts_on_kept_claim_lines": {
+   "partly": 27,
+   "contradicts_rule": 4,
+   "supported": 94,
+   "unsupported": 12
+  },
+  "supported_rate": 0.7068,
+  "citation_existence_rate": 1.0,
+  "usefulness_checklist": {
+   "limit_proximity": {
+    "pass": 10,
+    "n/a": 21
+   },
+   "time_window": {
+    "pass": 19,
+    "fail": 12
+   },
+   "merchant_concentration": {
+    "pass": 28,
+    "fail": 3
+   },
+   "cross_alert_links": {
+    "fail": 4,
+    "pass": 27
+   },
+   "recommendation_with_reason": {
+    "pass": 21,
+    "fail": 10
+   },
+   "next_steps": {
+    "pass": 31
+   }
+  },
+  "usefulness_pass_rate": {
+   "limit_proximity": 1.0,
+   "time_window": 0.6129,
+   "merchant_concentration": 0.9032,
+   "cross_alert_links": 0.871,
+   "recommendation_with_reason": 0.6774,
+   "next_steps": 1.0
+  },
+  "recommendation_vs_truth": {
+   "laundering -> more_info": 1,
+   "laundering -> escalate": 16,
+   "benign -> escalate": 9,
+   "benign -> more_info": 5
+  }
+ },
+ "reference_frozen": {
+  "totals": {
+   "alerts": 1,
+   "notes_with_error": 0,
+   "raw_lines": 14,
+   "kept_lines": 9,
+   "kept_claim_lines": 5,
+   "cited_total": 20,
+   "cited_unknown": 0,
+   "notes_shown": 1,
+   "notes_with_summary": 1,
+   "dropped: describes timing itself instead of using the pack's label": 3,
+   "dropped: contains a spelled-out number": 2,
+   "kept: summary": 1,
+   "kept: evidence": 4,
+   "kept: open_questions": 2,
+   "kept: actions": 2,
+   "kept: reason": 0,
+   "notes_contradicting_rule": 0
+  },
+  "judge_verdicts_on_kept_claim_lines": {
+   "supported": 4,
+   "contradicts_rule": 0,
+   "unsupported": 1
+  },
+  "supported_rate": 0.8,
+  "citation_existence_rate": 1.0,
+  "usefulness_checklist": {
+   "limit_proximity": {
+    "pass": 1
+   },
+   "time_window": {
+    "fail": 1
+   },
+   "merchant_concentration": {
+    "pass": 1
+   },
+   "cross_alert_links": {
+    "fail": 1
+   },
+   "recommendation_with_reason": {
+    "fail": 1
+   },
+   "next_steps": {
+    "pass": 1
+   }
+  },
+  "usefulness_pass_rate": {
+   "limit_proximity": 1.0,
+   "time_window": 0.0,
+   "merchant_concentration": 1.0,
+   "cross_alert_links": 0.0,
+   "recommendation_with_reason": 0.0,
+   "next_steps": 1.0
+  },
+  "recommendation_vs_truth": {},
+  "alert_id": "A6c2d42955a",
+  "note": {
+   "alert_id": "A6c2d42955a",
+   "version": "v4-p3",
+   "sections": {
+    "summary": [
+     {
+      "text": "Multiple agents under the same owner made several payments just under approval thresholds, indicating possible structuring",
+      "cites": [
+       "E1"
+      ],
+      "facts": [
+       "Rule explanation (computed by code, true): 10 payments from 3 agents of one owner, each just under its approval threshold, totalling $3,844.39."
+      ]
+     }
+    ],
+    "evidence": [
+     {
+      "text": "Agent 03 payments were close to its low threshold",
+      "cites": [
+       "E3"
+      ],
+      "facts": [
+       "agent_03 (team ops): 2 payments, $183.21, each 89.6%\u201393.6% of its $100.00 approval threshold."
+      ]
+     },
+     {
+      "text": "Agent 08 payments repeatedly approached its high threshold",
+      "cites": [
+       "E4"
+      ],
+      "facts": [
+       "agent_08 (team ops): 6 payments, $2,752.61, each 87.0%\u201398.5% of its $500.00 approval threshold."
+      ]
+     },
+     {
+      "text": "Agent 13 payments also hovered near its threshold",
+      "cites": [
+       "E5"
+      ],
+      "facts": [
+       "agent_13 (team ops): 2 payments, $908.57, each 84.9%\u201396.8% of its $500.00 approval threshold."
+      ]
+     },
+     {
+      "text": "The remaining payments went to an untrusted software merchant",
+      "cites": [
+       "E8"
+      ],
+      "facts": [
+       "Orbit Tools (software, untrusted): 4 payments, $1,875.43, from 1 agent."
+      ]
+     }
+    ],
+    "open_questions": [
+     {
+      "text": "Do any of the agents have prior structuring alerts or known risk factors?",
+      "cites": [
+       "E3",
+       "E4",
+       "E5"
+      ],
+      "facts": [
+       "agent_03 (team ops): 2 payments, $183.21, each 89.6%\u201393.6% of its $100.00 approval threshold.",
+       "agent_08 (team ops): 6 payments, $2,752.61, each 87.0%\u201398.5% of its $500.00 approval threshold.",
+       "agent_13 (team ops): 2 payments, $908.57, each 84.9%\u201396.8% of its $500.00 approval threshold."
+      ]
+     },
+     {
+      "text": "Could the timing pattern be explained by operational batch processing?",
+      "cites": [
+       "E6"
+      ],
+      "facts": [
+       "First payment 11-09 11:55, last 11-10 16:10: all 10 within 28 h 15 m. Timing label: \"over about 28 hours\"."
+      ]
+     }
+    ],
+    "actions": [
+     {
+      "text": "Review the business justification for payments to both merchants",
+      "cites": [
+       "E7",
+       "E8"
+      ],
+      "facts": [
+       "Nimbus Resell (compute, untrusted): 6 payments, $1,968.96, from 3 agents.",
+       "Orbit Tools (software, untrusted): 4 payments, $1,875.43, from 1 agent."
+      ]
+     },
+     {
+      "text": "Check historical activity of the agents for similar patterns",
+      "cites": [
+       "E3",
+       "E4",
+       "E5"
+      ],
+      "facts": [
+       "agent_03 (team ops): 2 payments, $183.21, each 89.6%\u201393.6% of its $100.00 approval threshold.",
+       "agent_08 (team ops): 6 payments, $2,752.61, each 87.0%\u201398.5% of its $500.00 approval threshold.",
+       "agent_13 (team ops): 2 payments, $908.57, each 84.9%\u201396.8% of its $500.00 approval threshold."
+      ]
+     }
+    ],
+    "reason": []
+   },
+   "recommendation": "escalate",
+   "dropped": {
+    "describes timing itself instead of using the pack's label": 3,
+    "contains a spelled-out number": 2
+   },
+   "cited_total": 20,
+   "cited_unknown": 0,
+   "raw_lines": 14,
+   "error": null,
+   "pack": [
+    {
+     "id": "E1",
+     "kind": "rule",
+     "text": "Rule explanation (computed by code, true): 10 payments from 3 agents of one owner, each just under its approval threshold, totalling $3,844.39.",
+     "txns": [
+      "T0001999",
+      "T0001998",
+      "T0002000",
+      "T0002001",
+      "T0002004",
+      "T0002006",
+      "T0002007",
+      "T0002003",
+      "T0002005",
+      "T0002002"
+     ]
+    },
+    {
+     "id": "E2",
+     "kind": "overview",
+     "text": "10 payments totalling $3,844.39, from 3 agents to 2 merchants.",
+     "txns": [
+      "T0001999",
+      "T0001998",
+      "T0002000",
+      "T0002001",
+      "T0002004",
+      "T0002006",
+      "T0002007",
+      "T0002003",
+      "T0002005",
+      "T0002002"
+     ]
+    },
+    {
+     "id": "E3",
+     "kind": "agent",
+     "text": "agent_03 (team ops): 2 payments, $183.21, each 89.6%\u201393.6% of its $100.00 approval threshold.",
+     "txns": [
+      "T0002003",
+      "T0002002"
+     ]
+    },
+    {
+     "id": "E4",
+     "kind": "agent",
+     "text": "agent_08 (team ops): 6 payments, $2,752.61, each 87.0%\u201398.5% of its $500.00 approval threshold.",
+     "txns": [
+      "T0001999",
+      "T0001998",
+      "T0002000",
+      "T0002001",
+      "T0002004",
+      "T0002005"
+     ]
+    },
+    {
+     "id": "E5",
+     "kind": "agent",
+     "text": "agent_13 (team ops): 2 payments, $908.57, each 84.9%\u201396.8% of its $500.00 approval threshold.",
+     "txns": [
+      "T0002006",
+      "T0002007"
+     ]
+    },
+    {
+     "id": "E6",
+     "kind": "span",
+     "text": "First payment 11-09 11:55, last 11-10 16:10: all 10 within 28 h 15 m. Timing label: \"over about 28 hours\".",
+     "txns": [
+      "T0001999",
+      "T0001998",
+      "T0002000",
+      "T0002001",
+      "T0002004",
+      "T0002006",
+      "T0002007",
+      "T0002003",
+      "T0002005",
+      "T0002002"
+     ]
+    },
+    {
+     "id": "E7",
+     "kind": "merchant",
+     "text": "Nimbus Resell (compute, untrusted): 6 payments, $1,968.96, from 3 agents.",
+     "txns": [
+      "T0002004",
+      "T0002006",
+      "T0002007",
+      "T0002003",
+      "T0002005",
+      "T0002002"
+     ]
+    },
+    {
+     "id": "E8",
+     "kind": "merchant",
+     "text": "Orbit Tools (software, untrusted): 4 payments, $1,875.43, from 1 agent.",
+     "txns": [
+      "T0001999",
+      "T0001998",
+      "T0002000",
+      "T0002001"
+     ]
+    },
+    {
+     "id": "E9",
+     "kind": "switch",
+     "text": "agent_08 switched from Orbit Tools to Nimbus Resell between 11-09 20:41 and 11-10 08:38 (11 h 57 m apart).",
+     "txns": [
+      "T0002001",
+      "T0002004"
+     ]
+    },
+    {
+     "id": "E10",
+     "kind": "largest",
+     "text": "Largest payments: T0002000 $492.57 (agent_08 to Orbit Tools, 11-09 16:57); T0002006 $484.12 (agent_13 to Nimbus Resell, 11-10 09:14); T0002001 $481.19 (agent_08 to Orbit Tools, 11-09 20:41); T0001998 $452.45 (agent_08 to Orbit Tools, 11-09 14:22); T0001999 $449.21 (agent_08 to Orbit Tools, 11-09 11:55).",
+     "txns": [
+      "T0002000",
+      "T0002006",
+      "T0002001",
+      "T0001998",
+      "T0001999"
+     ]
+    },
+    {
+     "id": "E11",
+     "kind": "link",
+     "text": "Also flagged: A079df76ca6 (new merchant burst, severity 6, not in your queue, raised 11-09 10:49) shares merchant Orbit Tools.",
+     "txns": []
+    },
+    {
+     "id": "E12",
+     "kind": "link",
+     "text": "Also flagged: A951f199d4f (new merchant burst, severity 6, in your queue, raised 11-09 17:07) shares merchant Orbit Tools.",
+     "txns": []
+    },
+    {
+     "id": "E13",
+     "kind": "link",
+     "text": "Also flagged: A1feea23478 (fan in, severity 7, in your queue, raised 11-10 11:27) shares merchant Orbit Tools; agent agent_08.",
+     "txns": []
+    },
+    {
+     "id": "E14",
+     "kind": "link",
+     "text": "Also flagged: Abf045d9327 (new merchant burst, severity 6, in your queue, raised 11-10 13:51) shares merchant Nimbus Resell.",
+     "txns": []
+    },
+    {
+     "id": "E15",
+     "kind": "link",
+     "text": "Also flagged: A83303da58c (structuring, severity 8, not in your queue, raised 11-10 15:17) shares merchant Nimbus Resell, Orbit Tools; agent agent_08.",
+     "txns": []
+    },
+    {
+     "id": "E16",
+     "kind": "link",
+     "text": "Also flagged: Af212a19138 (fan in, severity 7, in your queue, raised 11-10 16:10) shares merchant Nimbus Resell; agent agent_03, agent_08, agent_13.",
+     "txns": []
+    }
+   ]
+  },
+  "judged": [
+   {
+    "section": "summary",
+    "text": "Multiple agents under the same owner made several payments just under approval thresholds, indicating possible structuring",
+    "cites": [
+     "E1"
+    ],
+    "facts": [
+     "Rule explanation (computed by code, true): 10 payments from 3 agents of one owner, each just under its approval threshold, totalling $3,844.39."
+    ],
+    "judge": "supported",
+    "judge_reason": "The note accurately summarizes the rule explanation, correctly identifying the multiple agents, single owner, and payments just under thresholds as indicative of structuring.",
+    "contradicts": false
+   },
+   {
+    "section": "evidence",
+    "text": "Agent 03 payments were close to its low threshold",
+    "cites": [
+     "E3"
+    ],
+    "facts": [
+     "agent_03 (team ops): 2 payments, $183.21, each 89.6%\u201393.6% of its $100.00 approval threshold."
+    ],
+    "judge": "supported",
+    "judge_reason": "The note accurately reflects the evidence that Agent 03's payments were close to its low threshold ($100.00), as indicated by the 89.6%\u201393.6% range in E3.",
+    "contradicts": false
+   },
+   {
+    "section": "evidence",
+    "text": "Agent 08 payments repeatedly approached its high threshold",
+    "cites": [
+     "E4"
+    ],
+    "facts": [
+     "agent_08 (team ops): 6 payments, $2,752.61, each 87.0%\u201398.5% of its $500.00 approval threshold."
+    ],
+    "judge": "supported",
+    "judge_reason": "The note accurately reflects the evidence that Agent 08's payments were close to the threshold (87.0%-98.5%), which supports the structuring pattern described in the rule.",
+    "contradicts": false
+   },
+   {
+    "section": "evidence",
+    "text": "Agent 13 payments also hovered near its threshold",
+    "cites": [
+     "E5"
+    ],
+    "facts": [
+     "agent_13 (team ops): 2 payments, $908.57, each 84.9%\u201396.8% of its $500.00 approval threshold."
+    ],
+    "judge": "supported",
+    "judge_reason": "The note claims Agent 13's payments hovered near its threshold, which is directly supported by E5 stating the payments were 84.9%\u201396.8% of the $500.00 threshold.",
+    "contradicts": false
+   },
+   {
+    "section": "evidence",
+    "text": "The remaining payments went to an untrusted software merchant",
+    "cites": [
+     "E8"
+    ],
+    "facts": [
+     "Orbit Tools (software, untrusted): 4 payments, $1,875.43, from 1 agent."
+    ],
+    "judge": "unsupported",
+    "judge_reason": "The evidence line [E8] only accounts for 4 payments totaling $1,875.43. The rule explanation states there are 10 payments totaling $3,844.39. The note claims 'the remaining payments' (implying the other 6) went to an untrusted software merchant, but there is no evidence provided for these remaining payments or their merchant type. Therefore, the claim that the remaining payments went to an untrusted software merchant is not supported by the cited evidence.",
+    "contradicts": false
+   }
+  ],
+  "checks": {
+   "limit_proximity": true,
+   "time_window": false,
+   "merchant_concentration": true,
+   "cross_alert_links": false,
+   "recommendation_with_reason": false,
+   "next_steps": true
+  }
+ },
+ "claim_check_thresholds": {
+  "just_under_min_pct": 80.0,
+  "timing": "only via the pack's code-computed timing label ({timing:E#})"
+ },
+ "earlier_results_unchanged": [
+  "eval/results/e3_v1.json",
+  "eval/results/e3_v2.json",
+  "eval/results/e3_v3_prompt_only.json",
+  "eval/results/e3_v3.json",
+  "eval/results/e3_v4_filter_v2.1.json",
+  "eval/results/e3_v4_pack_p2.json"
+ ],
+ "post_results_change_p3": "pack p3 (approved after the v2.2 results): code-computed timing labels; the model may describe timing only via {timing:E#}. New drafts (prompt v4-p3), one run. Pack p2 results kept in e3_v4_pack_p2.json.",
+ "post_results_change": "filter v2.2 was approved after the v2.1 results: no excuse filter on open questions; negated excuses allowed. Same drafts (cached), re-checked; v2.1 results kept in e3_v4_filter_v2.1.json.",
+ "note": "Figures shown with a note come from the evidence pack (code); the checker guarantees no model-written digits."
+}

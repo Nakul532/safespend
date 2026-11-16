@@ -22,17 +22,25 @@ from pathlib import Path
 from typing import Any
 
 from .aml.rules import Alert
-from .evidence import PACK_VERSION, Pack, build
+from .evidence import MAX_LINKS, PACK_VERSION, Pack, build
+from .money import fmt_usd
 from .llm.client import LlmConfigError, LlmError, LlmRateLimited
 
-PROMPT_VERSION = "v4-p3"  # v4-p3 (post-results): timing only through the pack's timing label
-FILTER_VERSION = "v2.3-p3"  # v2.3-p3: timing words outside the pack's label are dropped (replaces the burst/short-period checks)
+PROMPT_VERSION = "v4-p4"  # v4-p4 (post-results): code writes the summary and the reason; the model writes why it matters, questions, actions
+# v4-p3: v4-p3 (post-results): timing only through the pack's timing label
+FILTER_VERSION = "v2.4-p4"  # v2.4-p4: "possible" is a hedge; checks apply to model lines only
+# v2.3-p3: v2.3-p3: timing words outside the pack's label are dropped (replaces the burst/short-period checks)
 # v2.2: v2.2 (after E3 v4 results): no excuse filter on open questions; negated phrases ("without a legitimate purpose") allowed
 # v2.1: v2.1: normalise Unicode spaces/hyphens; agent names written as "Agent 08"; wider near/short phrases
 # v2.0 claim checks: limit proximity >= 80%, burst <= 10 min, short period <= 24 h; doubts only as questions
 NEAR_PCT = 80.0
 MAX_PER_SECTION = 10
-SECTIONS = ("summary", "evidence", "open_questions", "actions", "reason")
+SECTIONS = ("summary", "why", "open_questions", "actions", "reason")  # summary and reason: code; the rest: model
+MODEL_SECTIONS = {"why": "why_it_matters", "open_questions": "open_questions", "actions": "actions"}
+TYPOLOGY = {"AML_STRUCTURING": "Structuring", "AML_TEAM_STRUCTURING": "Team structuring", "AML_VELOCITY_SPIKE": "Velocity spike",
+            "AML_RAPID_FIRE": "Rapid-fire payments", "AML_ROUND_AMOUNTS": "Round-amount payments", "AML_LOOKALIKE_MERCHANT": "Look-alike merchant",
+            "AML_NEW_MERCHANT_BURST": "New-merchant burst", "AML_DORMANT_THEN_ACTIVE": "Dormant agent suddenly active",
+            "AML_FAN_IN": "Fan-in to one merchant", "AML_HIGH_RISK_CATEGORY": "Payments to a high-risk category"}
 
 _EXCUSES = re.compile(r"\b(routine|normal|legitimate|innocent|innocuous|benign|typical|ordinary|expected|nothing unusual|"
                       r"business as usual|consistent with (?:normal|regular|routine|legitimate|business))\b", re.I)
@@ -61,41 +69,92 @@ _RULE_NAMES = re.compile(r"\b(?:new[- ]merchant bursts?|rapid[- ]fire|velocity s
 _TIMEWORDS = re.compile(r"\b(?:seconds|minutes?|hours?|days?|weeks?|months?|overnight|short|shortly|brief|briefly|quick|quickly|rapid|rapidly|"
                         r"burst|bursts|flurry|swift|swiftly|fast|long|lengthy|extended|prolonged|gradual|gradually|slowly|succession|"
                         r"timeframe|time frame|time span|timespan|window|period|same day|soon|immediately|instantly|in a row|consecutive)\b", re.I)
-_HEDGE = re.compile(r"\b(?:could|might|may|possibly|perhaps|probably|likely|unlikely|appears? to|seems?|maybe|unclear|uncertain)\b", re.I)
+_HEDGE = re.compile(r"\b(?:could|might|may|possible|possibly|perhaps|probably|likely|unlikely|appears? to|seems?|maybe|unclear|uncertain)\b", re.I)
 _EID = re.compile(r"\[?\b(E\d{1,3})\b\]?")
 _TID = re.compile(r"\bT\d{7}\b")
 _AID = re.compile(r"\bA[0-9a-f]{10}\b")
 
 SYSTEM_PROMPT = """You are an AML investigator reviewing an alert on payments made by AI agents (simulated money).
 You are given an evidence pack computed by code from the ledger. Every line has an ID like [E3]. The pack is true.
-
-Write a case note in this fixed template. Interpret the evidence; do not restate figures.
-- summary: one or two sentences on what the pattern is and why it matters.
-- evidence: the pack lines that matter most, each with one clause on why it matters.
+Code already writes the note's summary (the pattern, counts, amounts, timing, share of threshold, merchant trust) and the
+basis for the recommendation. You add only interpretation:
+- why_it_matters: one or two sentences on why this pattern matters for money-laundering or fraud risk.
 - open_questions: what the analyst should find out. Every doubt or innocent possibility goes here, and only here,
   phrased as a question ending in "?".
 - actions: one to three concrete next steps for the analyst.
-- recommendation: escalate, clear or more_info, with a one-sentence reason.
+- recommendation: escalate, clear or more_info.
 
 Rules:
-- Cite evidence IDs (E1, E2, ...) for every summary sentence, evidence item and the reason. Cite only IDs in the pack.
+- Cite evidence IDs (E1, E2, ...) for every why_it_matters sentence. Cite only IDs in the pack.
 - Never type a number, as digits or words (no amounts, counts, dates, times, percentages, "two", "dozen", "half").
-  The analyst sees each cited line's exact figures next to your words. Say "several", "most", "all" instead.
-- Say "just under the threshold" only for payments the pack shows at or above eighty percent of the threshold.
-- Timing: never describe time yourself (no "short", "brief", "quick", "rapid", "burst", "within minutes", "over hours",
-  "long", "extended", "same day", "overnight"). To mention timing, write the placeholder {timing:E#} with the ID of a time-span
-  or busiest-stretch line; code replaces it with that line's timing label. Example: "The payments came {timing:E6}." 
+- Never describe timing in any way (no "short", "brief", "quick", "rapid", "burst", "period", "window", "minutes", "hours").
+  Code states the timing.
 - The rule explanation is true. Never dispute it or call the detected pattern routine, normal or legitimate.
-- Outside open_questions, state only what the pack shows: no "could", "might", "may", "possibly", "appears".
+- Outside open_questions, state only what the pack shows: no "could", "might", "may", "possible", "possibly", "appears".
 - Recommend "clear" only if the pack shows a specific innocent reason; otherwise "escalate" or "more_info".
 
 Reply with JSON only:
-{"summary": [{"text": "...", "cites": ["E1"]}],
- "evidence": [{"cite": "E3", "why": "..."}],
+{"why_it_matters": [{"text": "...", "cites": ["E3"]}],
  "open_questions": [{"text": "...?", "cites": ["E5"]}],
  "actions": [{"text": "...", "cites": ["E7"]}],
- "recommendation": "escalate" | "clear" | "more_info",
- "reason": {"text": "...", "cites": ["E2"]}}"""
+ "recommendation": "escalate" | "clear" | "more_info"}"""
+
+
+def _plural(n: int, word: str) -> str:
+    return f"{n} {word}{'' if n == 1 else 's'}"
+
+
+def code_summary(pack: Pack) -> dict:
+    """The summary's first sentence, written by code from the pack (p4)."""
+    a = pack.alert
+    by = {f.kind: f for f in pack.facts}
+    ov, span = by["overview"], by["span"]
+    agents = [f for f in pack.facts if f.kind == "agent"]
+    merchants = [f for f in pack.facts if f.kind == "merchant"]
+    pcts = [p for p in pack.pct.values()]
+    n, na, nm = ov.data["payments"], ov.data["agents"], ov.data["merchants"]
+    whose = "the agent's approval threshold" if na == 1 else "the agents' approval thresholds"
+    lo, hi = (f"{min(pcts):.1f}", f"{max(pcts):.1f}") if pcts else ("", "")
+    share = (f"at {lo}% of {whose}" if lo == hi else f"at {lo}%–{hi}% of {whose}") if pcts else ""
+    when = f"on {span.text.split('First payment ')[1].split(',')[0]}" if n == 1 else span.data["label"]
+    untrusted = [f for f in merchants if not f.data.get("trusted")]
+    if nm == 1:
+        m = merchants[0]
+        trust = f"to {m.text.split(':')[0]}"
+    elif len(untrusted) == nm:
+        trust = "all to untrusted merchants"
+    elif not untrusted:
+        trust = "all to trusted merchants"
+    else:
+        trust = f"{len(untrusted)} of {nm} merchants untrusted"
+    text = (f"{TYPOLOGY.get(str(a.rule), str(a.rule))}: {_plural(n, 'payment')} {'totalling' if n > 1 else 'of'} {fmt_usd(ov.data['total'])} "
+            f"from {_plural(na, 'agent')} to {_plural(nm, 'merchant')}, {when}, {share}; {trust}.").replace(", ;", ";")
+    cites = [ov.id, span.id] + [f.id for f in agents] + [f.id for f in merchants]
+    return {"text": text, "cites": cites, "by": "code"}
+
+
+def code_reason(pack: Pack) -> dict:
+    """The basis for the recommendation, written by code from the rule and the pack (p4)."""
+    a = pack.alert
+    by = {f.kind: f for f in pack.facts}
+    rule = by["rule"]
+    parts = [f"{TYPOLOGY.get(str(a.rule), str(a.rule))} rule, severity {a.severity}: {a.explanation.rstrip('.')}."]
+    cites = [rule.id]
+    pcts = list(pack.pct.values())
+    if pcts and min(pcts) >= NEAR_PCT:
+        parts.append(f"Every payment is at {NEAR_PCT:.0f}% or more of its agent's approval threshold.")
+        cites += [f.id for f in pack.facts if f.kind == "agent"]
+    risky = [f for f in pack.facts if f.kind == "merchant" and not f.data.get("trusted")]
+    if risky:
+        parts.append(f"{_plural(len(risky), 'untrusted merchant')} involved.")
+        cites += [f.id for f in risky]
+    links = [f for f in pack.facts if f.kind == "link"]
+    if links:
+        inq = sum("in your queue" in f.text and "not in your queue" not in f.text for f in links)
+        many = "at least " if len(links) >= MAX_LINKS else ""
+        parts.append(f"Linked to {many}{_plural(len(links), 'other alert')} on the same untrusted merchants, owner or agents ({inq} of those in your queue).")
+        cites += [f.id for f in links]
+    return {"text": " ".join(parts), "cites": cites, "by": "code"}
 
 
 @dataclass
@@ -136,7 +195,7 @@ def check_line(text: str, cites: list[str], section: str, pack: Pack, all_txns: 
     unknown = [c for c in cites if c not in facts]
     if unknown:
         return "cites an ID not in the pack"
-    if not cites and section in ("summary", "evidence", "reason"):
+    if not cites and section in ("summary", "evidence", "reason", "why"):
         return "no citation"
     scrub = _EID.sub("", text)
     scrub = _AGENT.sub("", _TID.sub("", _AID.sub("", scrub)))
@@ -180,10 +239,8 @@ def verify(alert_id: str, data: dict, pack: Pack, all_txns: dict, identifiers: s
                     pack_facts=[{"id": f.id, "kind": f.kind, "text": f.text, "txns": list(f.txns)} for f in pack.facts])
     rec = str(data.get("recommendation") or "").strip().lower()
     note.recommendation = rec if rec in ("escalate", "clear", "more_info") else None
-    for section in SECTIONS:
-        items = data.get(section) or []
-        if section == "reason":
-            items = [items] if isinstance(items, dict) else []
+    for section, key in MODEL_SECTIONS.items():
+        items = data.get(key) or []
         for i, item in enumerate(items if isinstance(items, list) else []):
             if not isinstance(item, dict):
                 continue
@@ -204,7 +261,10 @@ def verify(alert_id: str, data: dict, pack: Pack, all_txns: dict, identifiers: s
             clean = re.sub(r"\s*\[E\d{1,3}\]", "", text.translate(_UNI))
             clean = _TIMING.sub(lambda m: facts[m.group(1)].data.get("label", ""), clean)
             clean = re.sub(r"\s{2,}", " ", clean).strip()
-            note.sections[section].append({"text": clean, "cites": cites, "facts": [facts[c].text for c in cites]})
+            note.sections[section].append({"text": clean, "cites": cites, "facts": [facts[c].text for c in cites], "by": "model"})
+    for section, fn in (("summary", code_summary), ("reason", code_reason)):
+        line = fn(pack)
+        note.sections[section].append({**line, "facts": [facts[c].text for c in line["cites"]]})
     return note
 
 
@@ -256,8 +316,7 @@ class Investigator:
             except LlmError as exc:
                 err = str(exc)[:200]
                 time.sleep(1)
-        fail = CaseNote(alert.alert_id, {s: [] for s in SECTIONS}, None,
-                        pack_facts=[{"id": f.id, "kind": f.kind, "text": f.text, "txns": list(f.txns)} for f in pack.facts])
+        fail = verify(alert.alert_id, {}, pack, txns_by_id, idents)  # code-written summary and basis still shown
         if resp is None:
             fail.error = err or "rate limited"
             return fail

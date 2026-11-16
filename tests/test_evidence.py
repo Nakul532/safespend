@@ -6,7 +6,7 @@ from safespend.money import fmt_usd
 from safespend.synth import generate
 
 SEEDS = (301, 302, 303, 20261114)
-TOTAL = re.compile(r"(?:totalling|payments,) (\$[\d,]+\.\d\d)")
+TOTAL = re.compile(r"(?:totalling|payments?,) (\$[\d,]+\.\d\d)")
 
 
 def test_alert_totals_equal_sum_of_rows_and_ids_follow_time():

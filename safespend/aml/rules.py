@@ -224,7 +224,7 @@ def lookalike_merchants(txns: list[LedgerTxn], reg: Registry, cfg: AmlConfig) ->
         total = sum(t.amount for t in ts)
         alerts.append(_make_alert(
             ReasonCode.AML_LOOKALIKE_MERCHANT, 9, "merchant", merchant_id, ts,
-            f"Paid '{m.name}', which resembles trusted merchant '{match.resembles_name}': {len(ts)} payments, {fmt_usd(total)}.",
+            f"Paid '{m.name}', which resembles trusted merchant '{match.resembles_name}': {len(ts)} payment{'s' if len(ts) != 1 else ''}, {fmt_usd(total)}.",
             {"count": len(ts), "total_micros": total, "resembles": match.resembles_id, "distance": match.distance},
         ))
     return alerts
@@ -301,7 +301,7 @@ def high_risk_category(txns: list[LedgerTxn], reg: Registry, cfg: AmlConfig) -> 
         total = sum(t.amount for t in ts)
         alerts.append(_make_alert(
             ReasonCode.AML_HIGH_RISK_CATEGORY, 6, "merchant", merchant_id, ts,
-            f"{len(ts)} payments, {fmt_usd(total)}, to a merchant in high-risk category '{m.category}'.",
+            f"{len(ts)} payment{'s' if len(ts) != 1 else ''}, {fmt_usd(total)}, to a merchant in high-risk category '{m.category}'.",
             {"count": len(ts), "total_micros": total, "category": m.category},
         ))
     return alerts

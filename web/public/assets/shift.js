@@ -72,16 +72,17 @@ function detail() {
   const line = (x) => `${esc(x.text)} ${x.cites.map(cite).join("")}`;
   const sec = (title, items, fn) => items && items.length ? `<h4 class="note-h">${title}</h4><ul class="note">${items.map((x) => `<li>${fn(x)}</li>`).join("")}</ul>` : "";
   const ns = note && note.sections;
-  const kept = ns ? Object.values(ns).reduce((n, v) => n + v.length, 0) : 0;
+  const kept = ns ? ["why", "open_questions", "actions"].reduce((n, k) => n + (ns[k] || []).length, 0) : 0;
   const nDropped = note ? Object.values(note.dropped || {}).reduce((x, y) => x + y, 0) : 0;
   const noteHtml = !note ? '<p class="muted">The investigator is unavailable right now; decide from the evidence pack.</p>'
     : note.error ? '<p class="muted">The investigator could not draft a note for this alert; decide from the evidence pack.</p>'
-    : `${!kept ? `<p class="muted">Every line of the investigator's draft was removed by the checker (${esc(Object.keys(note.dropped || {}).join(", ") || "no usable lines")}).</p>` : ""}
-      ${sec("Summary", ns.summary, line)}
-      ${sec("Evidence", ns.evidence, (x) => `${x.cites.map(cite).join("")} <span class="fact">${esc(x.facts.join(" "))}</span> — ${esc(x.text)}`)}
+    : `${!kept ? `<p class="muted">Every line the investigator wrote was removed by the checker; the code-written summary and basis remain (${esc(Object.keys(note.dropped || {}).join(", ") || "no usable lines")}).</p>` : ""}
+      ${sec("Summary <span class=\"small muted\">(written by code)</span>", ns.summary, line)}
+      ${sec("Why it matters", ns.why, line)}
       ${sec("Open questions", ns.open_questions, line)}
       ${sec("Recommended actions", ns.actions, line)}
-      <p class="small">Investigator recommends: <strong>${esc(note.recommendation || "no recommendation")}</strong>${ns.reason.length ? ` — ${line(ns.reason[0])}` : ""}</p>
+      <p class="small">Investigator recommends: <strong>${esc(note.recommendation || "no recommendation")}</strong></p>
+      ${ns.reason.length ? `<p class="small"><strong>Basis</strong> <span class="muted">(written by code)</span>: ${line(ns.reason[0])}</p>` : ""}
       ${nDropped ? `<p class="small muted">${nDropped} line${nDropped === 1 ? "" : "s"} removed by the checker: ${esc(Object.entries(note.dropped).map(([k, v]) => `${k} (${v})`).join("; "))}.</p>` : ""}`;
   const dec = S.decided[a.id];
   return `<div class="card"><p class="eyebrow">Alert · ${esc(a.code)}</p><h2 style="font-size:20px">${esc(a.rule)} · severity ${a.severity}</h2>

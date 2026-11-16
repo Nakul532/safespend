@@ -35,32 +35,30 @@ def test_claim_checks_and_template():
     k = kinds(pack)
     agent08 = next(f.id for f in pack.facts if f.text.startswith("agent_08"))
     data = {"recommendation": "escalate",
-            "summary": [{"text": "Several ops agents kept payments just under their thresholds.", "cites": [agent08, "E3"]},
-                        {"text": "This could be routine procurement.", "cites": ["E1"]},
-                        {"text": "The payments came in a rapid burst.", "cites": [k["span"]]},
-                        {"text": "All payments fell within a short period.", "cites": [k["span"]]},
-                        {"text": "The payments came {timing:E6}.", "cites": []},
-                        {"text": "Timing from the wrong line {timing:E2}.", "cites": ["E2"]},
-                        {"text": "It may be structuring.", "cites": ["E1"]},
-                        {"text": "The total was $3,844.", "cites": ["E2"]},
-                        {"text": "Ten payments in all.", "cites": ["E2"]},
-                        {"text": "Unsupported claim.", "cites": []},
-                        {"text": "Cites a ghost.", "cites": ["E99"]}],
-            "evidence": [{"cite": k["switch"], "why": "the agent moved to a second untrusted merchant"}],
+            "why_it_matters": [{"text": "Several ops agents kept payments just under their thresholds.", "cites": [agent08, "E3"]},
+                               {"text": "This could be routine procurement.", "cites": ["E1"]},
+                               {"text": "The payments came in a rapid burst.", "cites": [k["span"]]},
+                               {"text": "It is possible structuring.", "cites": ["E1"]},
+                               {"text": "The total was $3,844.", "cites": ["E2"]},
+                               {"text": "Ten payments in all.", "cites": ["E2"]},
+                               {"text": "Unsupported claim.", "cites": []},
+                               {"text": "Cites a ghost.", "cites": ["E99"]}],
             "open_questions": [{"text": "Is there a purchase order for these services?", "cites": []},
                                {"text": "Check whether there is a contract.", "cites": []}],
             "actions": [{"text": "Hold agent_08 pending review.", "cites": [agent08]}],
-            "reason": {"text": "Team-wide payments sit just under approval thresholds at untrusted merchants.", "cites": ["E3", agent08]}}
+            "summary": [{"text": "Model-written summaries are ignored.", "cites": ["E1"]}]}
     n = verify(a.alert_id, data, pack, by_id, identifiers_for(pack, reg))
     s = n.sections
-    assert [x["text"] for x in s["summary"]][:1] == ["Several ops agents kept payments just under their thresholds."]
-    assert s["summary"][1]["text"] == "The payments came over about 28 hours." and s["summary"][1]["cites"] == ["E6"]
-    assert s["evidence"][0]["facts"][0].startswith("agent_08 switched")  # code inserts the figures
-    assert len(s["open_questions"]) == 1 and len(s["actions"]) == 1 and len(s["reason"]) == 1
-    assert n.dropped == {"argues against the alert's computed facts": 1, "describes timing itself instead of using the pack's label": 2,
-                         "timing label taken from a non-timing line": 1, "states a doubt outside open questions": 1,
-                         "contains a number": 1, "contains a spelled-out number": 1, "no citation": 1,
-                         "over the section limit": 1, "open question not phrased as a question": 1}
+    assert [x["text"] for x in s["why"]] == ["Several ops agents kept payments just under their thresholds."]
+    assert len(s["open_questions"]) == 1 and len(s["actions"]) == 1
+    assert s["summary"] == [{**s["summary"][0], "by": "code"}] and s["summary"][0]["text"] == (
+        "Team structuring: 10 payments totalling $3,844.39 from 3 agents to 2 merchants, over about 28 hours, "
+        "at 84.9%–98.5% of the agents' approval thresholds; all to untrusted merchants.")
+    assert s["reason"][0]["by"] == "code" and s["reason"][0]["text"].startswith("Team structuring rule, severity 8:")
+    assert "Every payment is at 80% or more" in s["reason"][0]["text"]
+    assert n.dropped == {"argues against the alert's computed facts": 1, "describes timing itself instead of using the pack's label": 1,
+                         "states a doubt outside open questions": 1, "contains a number": 1, "contains a spelled-out number": 1,
+                         "no citation": 1, "cites an ID not in the pack": 1, "open question not phrased as a question": 1}
 
 
 def test_just_under_needs_eighty_percent_for_every_cited_payment():
@@ -69,7 +67,7 @@ def test_just_under_needs_eighty_percent_for_every_cited_payment():
     pack = build(a, sh.by_id, sh.registry, pool=sh.pool)
     low = [f.id for f in pack.facts if f.kind == "agent" and f.data["min_pct"] < 80]
     if low:
-        n = verify(a.alert_id, {"summary": [{"text": "Each payment stayed just under the threshold.", "cites": low}]},
+        n = verify(a.alert_id, {"why_it_matters": [{"text": "Each payment stayed just under the threshold.", "cites": low}]},
                    pack, sh.by_id, identifiers_for(pack, sh.registry))
         assert n.dropped == {"claims 'just under the threshold' without support": 1}
 
@@ -86,32 +84,32 @@ def test_timing_labels_are_computed_by_code():
 def test_draft_with_mock_model_and_failure():
     sh = generate(3)
     a = sh.alerts[0]
-    reply = json.dumps({"recommendation": "more_info", "summary": [{"text": "See the rule.", "cites": ["E1"]}],
-                        "reason": {"text": "The rule fired.", "cites": ["E1"]}})
+    reply = json.dumps({"recommendation": "more_info", "why_it_matters": [{"text": "See the rule.", "cites": ["E1"]}]})
     n = Investigator(MockLlmClient(lambda m: reply)).draft(a, sh.by_id, sh.registry, pool=sh.pool)
-    assert n.sections["summary"] and n.recommendation == "more_info" and n.pack_facts
+    assert n.sections["why"] and n.sections["summary"] and n.sections["reason"] and n.recommendation == "more_info" and n.pack_facts
     bad = Investigator(MockLlmClient(lambda m: "nope")).draft(a, sh.by_id, sh.registry)
-    assert bad.error == "unparseable" and bad.kept_lines == 0
+    assert bad.error == "unparseable" and bad.sections["summary"] and bad.sections["reason"] and not bad.sections["why"]
 
 
 def test_agent_names_with_unicode_spaces_are_identifiers_not_numbers():
     a, by_id, reg, pack = ref()
     agent08 = next(f.id for f in pack.facts if f.text.startswith("agent_08"))
-    data = {"evidence": [{"cite": agent08, "why": "Agent 08 made most payments near‑threshold"}],
-            "summary": [{"text": "The payments fell within a short timeframe.", "cites": ["E6"]}]}  # timing in its own words
+    data = {"why_it_matters": [{"text": "Agent\u202f08 made most payments near\u2011threshold", "cites": [agent08]},
+                               {"text": "The payments fell within a short timeframe.", "cites": ["E6"]}]}  # timing in its own words
     n = verify(a.alert_id, data, pack, by_id, identifiers_for(pack, reg))
-    assert n.sections["evidence"][0]["text"] == "Agent 08 made most payments near-threshold"
+    assert n.sections["why"][0]["text"] == "Agent 08 made most payments near-threshold"
     assert n.dropped == {"describes timing itself instead of using the pack's label": 1}
 
 
 def test_filter_v22_questions_and_negated_excuses():
     a, by_id, reg, pack = ref()
     data = {"open_questions": [{"text": "Is there a legitimate business need for these payments?", "cites": ["E1"]}],
-            "reason": {"text": "Payments go to untrusted merchants without an evident legitimate purpose.", "cites": ["E7"]},
-            "summary": [{"text": "This is routine procurement.", "cites": ["E1"]},
+            "why_it_matters": [{"text": "Payments go to untrusted merchants without an evident legitimate purpose.", "cites": ["E7"]},
+                        {"text": "This is routine procurement.", "cites": ["E1"]},
                         {"text": "There is nothing unusual here.", "cites": ["E1"]},
                         {"text": "These payments are not routine.", "cites": ["E1"]}]}
     n = verify(a.alert_id, data, pack, by_id, identifiers_for(pack, reg))
-    assert len(n.sections["open_questions"]) == 1 and len(n.sections["reason"]) == 1
-    assert [x["text"] for x in n.sections["summary"]] == ["These payments are not routine."]
+    assert len(n.sections["open_questions"]) == 1
+    assert [x["text"] for x in n.sections["why"]] == ["Payments go to untrusted merchants without an evident legitimate purpose.",
+                                                      "These payments are not routine."]
     assert n.dropped == {"argues against the alert's computed facts": 2}
