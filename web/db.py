@@ -97,12 +97,24 @@ def _session() -> requests.Session:
     return s
 
 
+def normalise_url(url: str) -> str:
+    """Accept the forms Turso shows or people paste: libsql://, wss://, https://, a bare host, quotes, whitespace, ?authToken."""
+    url = url.strip().strip('"').strip("'").strip()
+    url = url.split("?", 1)[0]
+    for scheme in ("libsql://", "wss://", "ws://", "http://"):
+        if url.startswith(scheme):
+            url = url[len(scheme):]
+            break
+    if url.startswith("https://"):
+        url = url[len("https://"):]
+    return "https://" + url.strip("/")
+
+
 class TursoConnection:
     """Minimal sqlite3-compatible connection over Turso's HTTP pipeline API."""
 
     def __init__(self, url: str, token: str, timeout: float = 15.0):
-        if url.startswith("libsql://"):
-            url = "https://" + url[len("libsql://"):]
+        url = normalise_url(url)
         self._endpoint = url.rstrip("/") + "/v2/pipeline"
         self._headers = {"Authorization": f"Bearer {token}"}
         self._timeout = timeout
@@ -159,7 +171,7 @@ def connect():
     """Open a connection to the configured database (Turso if set, else SQLite)."""
     url = (os.environ.get("TURSO_DATABASE_URL") or "").strip()
     if url:
-        token = (os.environ.get("TURSO_AUTH_TOKEN") or "").strip()
+        token = (os.environ.get("TURSO_AUTH_TOKEN") or "").strip().strip("\"").strip("'").strip()
         return TursoConnection(url, token)
     os.makedirs(os.path.dirname(os.path.abspath(LOCAL_DB_PATH)), exist_ok=True)
     return sqlite3.connect(LOCAL_DB_PATH)

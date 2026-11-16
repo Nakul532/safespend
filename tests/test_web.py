@@ -75,3 +75,9 @@ def test_every_dollar_amount_in_api_text_has_exactly_two_decimals(tmp_path, monk
     texts += [" ".join([w.defence, w.brief, w.lesson, w.request, *w.gaps, *(t for _, t in w.templates)]) for w in WORLDS.values()]
     offenders = [t for t in texts if bad.search(t)]
     assert not offenders, offenders[:3]
+
+
+def test_turso_url_forms_are_normalised():
+    from web.db import normalise_url
+    for u in ("libsql://db-x.turso.io", '"libsql://db-x.turso.io"', " db-x.turso.io ", "https://db-x.turso.io/", "wss://db-x.turso.io?authToken=t"):
+        assert normalise_url(u) == "https://db-x.turso.io"
