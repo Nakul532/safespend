@@ -294,6 +294,11 @@ def health():
     except Exception as exc:  # noqa: BLE001 - reported as a class name and HTTP status only
         out["db_ok"] = False
         out["db_error"] = type(exc).__name__ + (f" ({m.group(0)})" if (m := __import__("re").search(r"HTTP \d{3}", str(exc))) else "")
+        raw = os.environ.get("TURSO_DATABASE_URL") or ""
+        out["db_url_shape"] = {"length": len(raw), "has_whitespace_inside": any(c.isspace() for c in raw.strip()),
+                               "has_quotes": any(q in raw for q in "\"'"), "has_equals": "=" in raw, "has_newline": "\n" in raw,
+                               "scheme": raw.strip().strip("\"'").split("://")[0] if "://" in raw else None,
+                               "ends_with_turso_io": raw.strip().strip("\"'").split("?")[0].rstrip("/").endswith(".turso.io")}
     return respond(out, status=200 if out["db_ok"] and out["static_files"] else 503)
 
 
