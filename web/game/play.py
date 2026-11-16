@@ -110,6 +110,7 @@ def run(world: World, attempts: list[dict], *, llm=None, store=None, defence_lev
                 rows.append({"payee": p.payee, "amount": p.amount, "item": p.item, "k": k, "count": p.count,
                              "outcome": str(d.outcome), "reason": str(d.reason_code),
                              "detail": d.failed_checks[0].detail if d.failed_checks else "",
+                             "also": [{"code": str(f.code), "detail": f.detail} for f in d.failed_checks[1:]],
                              "waste": waste, "settled": settled, "ms": round(ms, 2), "decision_id": d.decision_id,
                              "audit": {"seq": rec.seq, "hash": rec.hash, "prev": rec.prev_hash} if rec else None,
                              "skipped": len(policy.disabled_checks)})

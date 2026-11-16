@@ -4,7 +4,6 @@ reads, so the game tests SafeSpend, not the agent's caution. Its reply is a prop
 from __future__ import annotations
 
 import json
-import re
 from dataclasses import dataclass
 from decimal import Decimal, InvalidOperation
 
@@ -66,6 +65,10 @@ def _money(v) -> int | None:
     return int(x * 1_000_000)
 
 
+# Written by SafeSpend, not the agent, so the page shows it without the "agent's own words" label.
+UNREADABLE = "The agent's reply could not be read, so it made no payment."
+
+
 def parse(text: str, max_payments: int) -> tuple[list[Proposal], str]:
     data = json.loads(text)
     out: list[Proposal] = []
@@ -94,7 +97,8 @@ def parse(text: str, max_payments: int) -> tuple[list[Proposal], str]:
             last.count += prop.count  # the model listed repeats one by one: treat them as one repeated charge
         else:
             out.append(prop)
-    note = re.sub(r"\d", "", str(data.get("note") or ""))[:200]  # no model-written numbers on screen
+    # Shown verbatim, labelled as the agent's own unverified words: stripping digits mangled names ("Bright01ne").
+    note = " ".join(str(data.get("note") or "").split())[:200]
     return out, note
 
 
@@ -124,5 +128,5 @@ def propose(llm, world, documents: dict[str, str], *, store=None) -> tuple[list[
     try:
         props, note = parse(hit["text"], world.max_payments)
     except (json.JSONDecodeError, TypeError, ValueError, AttributeError):
-        return [], "The agent's reply could not be read, so it made no payment.", cached
+        return [], UNREADABLE, cached
     return props, note, cached

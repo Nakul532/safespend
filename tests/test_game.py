@@ -98,7 +98,7 @@ def test_agent_reply_is_validated():
     props, note = parse(json.dumps({"payments": [{"payee": "X", "amount_usd": "12.5", "count": 9999},
                                                  {"payee": "", "amount_usd": "1"}, {"payee": "Y", "amount_usd": "-3"}],
                                     "note": "Paid 3 invoices"}), max_payments=10)
-    assert len(props) == 1 and props[0].count == 10 and props[0].amount == 12_500_000 and "3" not in note
+    assert len(props) == 1 and props[0].count == 10 and props[0].amount == 12_500_000 and note == "Paid 3 invoices"
     llm = MockLlmClient(lambda m: json.dumps({"payments": [{"payee": "Brightline Print Co.", "amount_usd": "100"}]}))
     store = Mem()
     p1, _, c1 = propose(llm, WORLDS["L1"], {"invoice": "pay 100"}, store=store)
@@ -115,3 +115,31 @@ def test_per_call_world_gives_each_call_an_id_and_repeats_are_merged():
     assert "DUPLICATE_SUSPECTED" not in reasons and "MERCHANT_LIMIT_EXCEEDED" in reasons
     legit = run(w, [attempt(0, {"payee": "Mapwise API", "amount": 20_000, "count": 20})])
     assert all(row["settled"] for row in legit["attempts"][0]["rows"])  # the real 20-call job is not blocked
+
+
+def test_agent_note_keeps_digits():
+    # Regression: digit-stripping turned "Bright01ne Print Co." into "Brightne Print Co." and "Q4" into "Q".
+    reply = {"payments": [], "note": "Paying Bright01ne Print Co. for the Q4 reprint."}
+    _, note = parse(json.dumps(reply), max_payments=5)
+    assert note == "Paying Bright01ne Print Co. for the Q4 reprint."
+    _, note = parse(json.dumps({"payments": [], "note": "x" * 500}), max_payments=5)
+    assert len(note) == 200
+
+
+def test_unreadable_reply_note_is_code_written():
+    from web.game.agent import UNREADABLE
+    props, note, _ = propose(MockLlmClient(lambda m: "not json"), WORLDS["L1"], {"invoice": "x"}, store=Mem())
+    assert props == [] and note == UNREADABLE
+
+
+def test_every_failed_check_is_reported():
+    # A look-alike payee that also fails the allowlist: the first failure decides, the rest are listed under "also".
+    w = WORLDS["L3"]
+    r = run(w, [attempt(0, {"payee": "C1tyCab", "payee_category": "rides", "amount": 55_000_000})],
+            llm=NO_FLAG, store=Mem(), defence_level=6)
+    row = r["attempts"][0]["rows"][0]
+    codes = [row["reason"]] + [f["code"] for f in row["also"]]
+    assert len(codes) >= 2 and len(set(codes)) == len(codes)
+    assert all(f["detail"] for f in row["also"])
+    single = run(WORLDS["L1"], [attempt(0, {"payee": "Brightline Print Co.", "payee_category": "print", "amount": 4_800_000_000})])
+    assert single["attempts"][0]["rows"][0]["also"] == []

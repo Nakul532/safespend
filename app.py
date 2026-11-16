@@ -18,7 +18,7 @@ from safespend.llm import GroqClient
 from safespend.money import fmt_usd
 from safespend.synth import best, generate, ranked, score
 from web import store
-from web.game.agent import AgentUnavailable, propose
+from web.game.agent import UNREADABLE, AgentUnavailable, propose
 from web.game.levels import ORDER, WORLDS, policy_for
 from web.game.play import CHECK_MODEL, reveal, run
 
@@ -157,7 +157,8 @@ def attempt():
         props, note, _ = propose(client, w, docs, store=kv)
     except AgentUnavailable:
         return respond({"error": "The AI agent could not be reached. Please try again in a moment."}, vid, 503)
-    a = {"n": len(prior), "documents": docs, "proposals": [p.as_dict() for p in props], "note": note}
+    a = {"n": len(prior), "documents": docs, "proposals": [p.as_dict() for p in props],
+         "note": "" if note == UNREADABLE else note, "system_note": note if note == UNREADABLE else ""}
     res = run(w, prior + [a], llm=client, store=kv)
     last = res["attempts"][-1]["rows"]
     prot = sum(r["waste"] for r in last if not r["settled"])

@@ -57,8 +57,9 @@ function composer(l) {
   <div id="result" aria-live="polite"></div>`;
 }
 
-const named = (text, rows) => text.replace(/\bm_[a-z0-9_]+\b/g, (id) => {
-  const hit = (cur.payee_ids || {})[id]; return hit || id; });
+// Payee IDs read as names; a payee the agent introduced (m_new_…) reads as the name it proposed.
+const named = (text, payee) => text.replace(/\bm_[a-z0-9_]+\b/g, (id) => {
+  const hit = (cur.payee_ids || {})[id]; return hit || (payee && id.startsWith("m_new_") ? payee : id); });
 
 function decisive(rows) {
   return rows.find((r) => r.waste && !r.settled) || rows.find((r) => !r.settled) || rows[rows.length - 1];
@@ -79,7 +80,7 @@ function resultCard(data) {
   const a = data.attempt || (data.attempts && data.attempts[data.attempts.length - 1]);
   if (!rows.length) {
     return `<div class="card" style="margin-top:16px"><p class="eyebrow">Attempt ${att.n + 1}</p><h2 style="font-size:20px">The agent didn't bite</h2>
-      <p>It proposed no payment. ${esc(a?.note || "")}</p><p class="muted small">That is the agent being cautious, not SafeSpend. Try a document it will believe.</p></div>`;
+      <p>It proposed no payment.${a?.system_note ? ` ${esc(a.system_note)}` : ""}${a?.note ? ` <span class="muted small">Agent's own words (unverified): “${esc(a.note)}”</span>` : ""}</p><p class="muted small">That is the agent being cautious, not SafeSpend. Try a document it will believe.</p></div>`;
   }
   const d = decisive(rows), v = verdictOf(d.outcome);
   const bit = rows.some((r) => r.waste);
@@ -89,7 +90,7 @@ function resultCard(data) {
   const why = v === "approved"
     ? `<div class="why approved"><p><strong>It went through.</strong> Every check this level runs passed. ${lost ? `${fmt(lost)} of wasted money settled.` : "Nothing wasted yet."}</p></div>`
     : `<div class="why ${v}"><p><strong>Why it was ${v}:</strong> ${d.reason === "APPROVAL_REQUIRED"
-        ? `${fmt(d.amount)} is at or above the ${fmt(cur.agent.approval_at)} approval threshold, so a person must approve it.` : esc(named(d.detail))}</p>${v === "held" ? "<p>A person now has to approve or reject it in the approval system. Text in a document can't do that.</p>" : ""}</div>`;
+        ? `${fmt(d.amount)} is at or above the ${fmt(cur.agent.approval_at)} approval threshold, so a person must approve it.` : esc(named(d.detail, d.payee))}</p>${(d.also || []).length ? `<p class="small">Also flagged: ${d.also.map((f) => `<span class="mono">${esc(f.code)}</span> (${esc(named(f.detail, d.payee))})`).join(", ")}</p>` : ""}${v === "held" ? "<p>A person now has to approve or reject it in the approval system. Text in a document can't do that.</p>" : ""}</div>`;
   const rowsHtml = summarise(rows).map((r) => `<tr><td data-label="Verdict">${stamp(verdictOf(r.outcome), true)}</td><td data-label="Payee">${esc(r.payee)}</td>
      <td class="n" data-label="Amount">${r.n > 1 ? `${r.n} × ` : ""}${fmt(r.amount)}</td><td class="mono small" data-label="Reason code">${esc(r.reason)}</td><td class="n" data-label="At risk">${r.wasteSum ? fmt(r.wasteSum) : "—"}</td></tr>`).join("");
   const aud = rows.filter((r) => r.audit).slice(-6).map((r, i, arr) =>
@@ -98,7 +99,7 @@ function resultCard(data) {
     <p class="eyebrow">Attempt ${att.n + 1} · result</p>
     <div class="result-head"><div>
       <h2 style="font-size:20px">${bit ? "The agent took the bait" : "The agent didn't bite: it bought only what was asked"}</h2>
-      <p style="margin:0">${rows.length === 1 ? `It proposed paying ${esc(d.payee)}` : `It proposed ${rows.length} payments`}${a?.note ? `<br><span class="muted small">Agent's note: “${esc(a.note)}”</span>` : ""}</p>
+      <p style="margin:0">${rows.length === 1 ? `It proposed paying ${esc(d.payee)}` : `It proposed ${rows.length} payments`}${a?.note ? `<br><span class="muted small">Agent's own words (unverified): “${esc(a.note)}”</span>` : ""}</p>
       <div class="num" style="font-size:28px;font-weight:600">${fmt(rows.reduce((s, r) => s + r.amount, 0))}</div>
       <p class="hint">Decision ${esc(d.decision_id)} · ${d.ms} ms <span class="src">MEASURED</span></p></div>
       <div class="verdict">${stamp(v)}<div class="code ${v}" style="margin-top:8px">${esc(d.reason)}</div></div></div>
