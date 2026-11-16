@@ -13,3 +13,7 @@
 ## Naming (2026-11-15)
 - The project is SafeSpend ("Spending controls for AI agents"); GitHub repo Nakul532/safespend. It was called AgentGuard until 2026-11-15; commit history, the frozen evaluation tags and the locked v1 suite files keep the old name.
 - Vercel project name: `safespend`.
+
+## Deployed (2026-11-16)
+- Production: https://safespend-nakul.vercel.app (Vercel project `safespend`, deploys on push to main). `/api/health` reports database and key status without values.
+- README notices with the live URL and repo link pushed to agentpay-ai and Complianceguard-ai.

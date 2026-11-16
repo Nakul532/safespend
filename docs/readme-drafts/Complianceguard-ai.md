@@ -1,4 +1,4 @@
-> **This project now lives on in [SafeSpend](SAFESPEND_URL).**
+> **This project now lives on in [SafeSpend](https://safespend-nakul.vercel.app).** Code: [Nakul532/safespend](https://github.com/Nakul532/safespend).
 > ComplianceGuard's AML rule engine was rebuilt inside SafeSpend to monitor payments made by AI agents.
 > - The rules (structuring, velocity, rapid-fire, round amounts, dormancy, fan-in) run alongside new agent-specific ones (look-alike merchants, new-merchant bursts, team structuring), and an AI investigator drafts case notes whose every cited transaction is checked by code.
 > - The rules are measured on IBM's public synthetic AML benchmark (HI-Small) at fixed daily alert budgets, next to a simple amount-threshold baseline.

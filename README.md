@@ -1,6 +1,6 @@
 # SafeSpend
 
-**Spending controls for AI agents.** A payment firewall and anti-money-laundering monitor for AI agents. All money is simulated (mock only).
+**Spending controls for AI agents.** Live: https://safespend-nakul.vercel.app · A payment firewall and anti-money-laundering monitor for AI agents. All money is simulated (mock only).
 
 Status: **Stage 1, the core engine.** There is no UI and no live LLM calls yet.
 
