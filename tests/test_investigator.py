@@ -39,6 +39,8 @@ def test_claim_checks_and_template():
                         {"text": "This could be routine procurement.", "cites": ["E1"]},
                         {"text": "The payments came in a rapid burst.", "cites": [k["span"]]},
                         {"text": "All payments fell within a short period.", "cites": [k["span"]]},
+                        {"text": "The payments came {timing:E6}.", "cites": []},
+                        {"text": "Timing from the wrong line {timing:E2}.", "cites": ["E2"]},
                         {"text": "It may be structuring.", "cites": ["E1"]},
                         {"text": "The total was $3,844.", "cites": ["E2"]},
                         {"text": "Ten payments in all.", "cites": ["E2"]},
@@ -51,13 +53,14 @@ def test_claim_checks_and_template():
             "reason": {"text": "Team-wide payments sit just under approval thresholds at untrusted merchants.", "cites": ["E3", agent08]}}
     n = verify(a.alert_id, data, pack, by_id, identifiers_for(pack, reg))
     s = n.sections
-    assert [x["text"][:7] for x in s["summary"]] == ["Several"]
+    assert [x["text"] for x in s["summary"]][:1] == ["Several ops agents kept payments just under their thresholds."]
+    assert s["summary"][1]["text"] == "The payments came over about 28 hours." and s["summary"][1]["cites"] == ["E6"]
     assert s["evidence"][0]["facts"][0].startswith("agent_08 switched")  # code inserts the figures
     assert len(s["open_questions"]) == 1 and len(s["actions"]) == 1 and len(s["reason"]) == 1
-    assert n.dropped == {"argues against the alert's computed facts": 1, "claims a burst without support": 1,
-                         "claims a short period without support": 1, "states a doubt outside open questions": 1,
+    assert n.dropped == {"argues against the alert's computed facts": 1, "describes timing itself instead of using the pack's label": 2,
+                         "timing label taken from a non-timing line": 1, "states a doubt outside open questions": 1,
                          "contains a number": 1, "contains a spelled-out number": 1, "no citation": 1,
-                         "cites an ID not in the pack": 1, "open question not phrased as a question": 1}
+                         "over the section limit": 1, "open question not phrased as a question": 1}
 
 
 def test_just_under_needs_eighty_percent_for_every_cited_payment():
@@ -71,17 +74,13 @@ def test_just_under_needs_eighty_percent_for_every_cited_payment():
         assert n.dropped == {"claims 'just under the threshold' without support": 1}
 
 
-def test_burst_allowed_when_the_pack_shows_one():
-    sh = generate(301)
-    for a in sh.alerts:
-        pack = build(a, sh.by_id, sh.registry, pool=sh.pool)
-        b = next((f for f in pack.facts if f.kind == "burst" and f.data["span_s"] <= 600), None)
-        if b:
-            n = verify(a.alert_id, {"summary": [{"text": "The agent paid in a rapid burst.", "cites": [b.id]}]},
-                       pack, sh.by_id, identifiers_for(pack, sh.registry))
-            assert len(n.sections["summary"]) == 1
-            return
-    raise AssertionError("no burst in seed 301")
+def test_timing_labels_are_computed_by_code():
+    from safespend.evidence import timing_label
+    assert [timing_label(x) for x in (30, 300, 3000, 20 * 3600, 28.25 * 3600, 6 * 86400)] == [
+        "within a minute", "within minutes", "within an hour", "within one day", "over about 28 hours", "over about 6 days"]
+    a, _, _, pack = ref()
+    span = next(f for f in pack.facts if f.kind == "span")
+    assert 'Timing label: "over about 28 hours"' in span.text
 
 
 def test_draft_with_mock_model_and_failure():
@@ -99,10 +98,10 @@ def test_agent_names_with_unicode_spaces_are_identifiers_not_numbers():
     a, by_id, reg, pack = ref()
     agent08 = next(f.id for f in pack.facts if f.text.startswith("agent_08"))
     data = {"evidence": [{"cite": agent08, "why": "Agent 08 made most payments near‑threshold"}],
-            "summary": [{"text": "The payments fell within a short timeframe.", "cites": ["E6"]}]}  # E6: 28 h span
+            "summary": [{"text": "The payments fell within a short timeframe.", "cites": ["E6"]}]}  # timing in its own words
     n = verify(a.alert_id, data, pack, by_id, identifiers_for(pack, reg))
     assert n.sections["evidence"][0]["text"] == "Agent 08 made most payments near-threshold"
-    assert n.dropped == {"claims a short period without support": 1}
+    assert n.dropped == {"describes timing itself instead of using the pack's label": 1}
 
 
 def test_filter_v22_questions_and_negated_excuses():

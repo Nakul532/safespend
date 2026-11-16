@@ -175,9 +175,12 @@ def main() -> None:
            "selection": "reported case's counterpart (seed 20261114, team structuring, regenerated data) + 10 alerts per seed 301-303",
            "main": summarise(rows), "reference_frozen": {**summarise([ref]), "alert_id": fa.alert_id, "note": ref["note"].as_dict(),
                                                         "judged": ref["judged"], "checks": ref["checks"]},
-           "claim_check_thresholds": {"just_under_min_pct": inv_mod.NEAR_PCT, "burst_max_s": inv_mod.BURST_S, "short_period_max_s": inv_mod.SHORT_S},
+           "claim_check_thresholds": {"just_under_min_pct": inv_mod.NEAR_PCT, "timing": "only via the pack's code-computed timing label ({timing:E#})"},
            "earlier_results_unchanged": ["eval/results/e3_v1.json", "eval/results/e3_v2.json", "eval/results/e3_v3_prompt_only.json",
-                                         "eval/results/e3_v3.json", "eval/results/e3_v4_filter_v2.1.json"],
+                                         "eval/results/e3_v3.json", "eval/results/e3_v4_filter_v2.1.json", "eval/results/e3_v4_pack_p2.json"],
+           "post_results_change_p3": "pack p3 (approved after the v2.2 results): code-computed timing labels; the model may "
+                                     "describe timing only via {timing:E#}. New drafts (prompt v4-p3), one run. Pack p2 results "
+                                     "kept in e3_v4_pack_p2.json.",
            "post_results_change": "filter v2.2 was approved after the v2.1 results: no excuse filter on open questions; negated "
                                   "excuses allowed. Same drafts (cached), re-checked; v2.1 results kept in e3_v4_filter_v2.1.json.",
            "note": "Figures shown with a note come from the evidence pack (code); the checker guarantees no model-written digits."}

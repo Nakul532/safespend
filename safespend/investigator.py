@@ -25,11 +25,12 @@ from .aml.rules import Alert
 from .evidence import PACK_VERSION, Pack, build
 from .llm.client import LlmConfigError, LlmError, LlmRateLimited
 
-PROMPT_VERSION = "v4"
-FILTER_VERSION = "v2.2"  # v2.2 (after E3 v4 results): no excuse filter on open questions; negated phrases ("without a legitimate purpose") allowed
+PROMPT_VERSION = "v4-p3"  # v4-p3 (post-results): timing only through the pack's timing label
+FILTER_VERSION = "v2.3-p3"  # v2.3-p3: timing words outside the pack's label are dropped (replaces the burst/short-period checks)
+# v2.2: v2.2 (after E3 v4 results): no excuse filter on open questions; negated phrases ("without a legitimate purpose") allowed
 # v2.1: v2.1: normalise Unicode spaces/hyphens; agent names written as "Agent 08"; wider near/short phrases
 # v2.0 claim checks: limit proximity >= 80%, burst <= 10 min, short period <= 24 h; doubts only as questions
-NEAR_PCT, BURST_S, SHORT_S = 80.0, 600, 86400
+NEAR_PCT = 80.0
 MAX_PER_SECTION = 10
 SECTIONS = ("summary", "evidence", "open_questions", "actions", "reason")
 
@@ -52,12 +53,14 @@ _NUMBER_WORDS = re.compile(r"\b(two|three|four|five|six|seven|eight|nine|ten|ele
 _NEAR = re.compile(r"\b(?:just|right|slightly|barely|narrowly)\s+(?:under|below|beneath|short of)\b|\b(?:close|near|nearly|up)\s+to\s+"
                    r"(?:the|its|their|each)?\s*(?:agent'?s?'?\s+)?(?:approval\s+)?(?:threshold|limit)s?\b|\bnear(?:ly)?[\s-]+(?:\w+\s+){0,3}"
                    r"(?:threshold|limit)|\bjust\s+short\s+of\b|\bapproach(?:es|ed|ing)?\s+(?:\w+\s+){0,3}(?:threshold|limit)", re.I)
-_BURST = re.compile(r"\b(?:burst|bursts|rapid|rapidly|rapid[- ]fire|flurry|quick succession|in quick|within minutes|within seconds|"
-                    r"minutes apart|seconds apart)\b", re.I)
-_SHORT = re.compile(r"\b(?:short[\s-]+(?:period|window|time|timeframe|time frame|span|interval|stretch)|brief (?:period|window|span)|quickly|in quick order|within hours|same day|over a day)\b", re.I)
 _AGENT = re.compile(r"\bagent[\s_-]?\d{1,3}\b", re.I)
 _UNI = str.maketrans({"\u202f": " ", "\u00a0": " ", "\u2009": " ", "\u2007": " ", "\u2011": "-", "\u2010": "-", "\u2013": "-",
                       "\u2014": "-", "\u2019": "'", "\u2018": "'"})
+_TIMING = re.compile(r"\{\s*timing\s*:\s*(E\d{1,3})\s*\}", re.I)
+_RULE_NAMES = re.compile(r"\b(?:new[- ]merchant bursts?|rapid[- ]fire|velocity spikes?)\b(?:\s+(?:rule|alert|pattern|detection))?", re.I)
+_TIMEWORDS = re.compile(r"\b(?:seconds|minutes?|hours?|days?|weeks?|months?|overnight|short|shortly|brief|briefly|quick|quickly|rapid|rapidly|"
+                        r"burst|bursts|flurry|swift|swiftly|fast|long|lengthy|extended|prolonged|gradual|gradually|slowly|succession|"
+                        r"timeframe|time frame|time span|timespan|window|period|same day|soon|immediately|instantly|in a row|consecutive)\b", re.I)
 _HEDGE = re.compile(r"\b(?:could|might|may|possibly|perhaps|probably|likely|unlikely|appears? to|seems?|maybe|unclear|uncertain)\b", re.I)
 _EID = re.compile(r"\[?\b(E\d{1,3})\b\]?")
 _TID = re.compile(r"\bT\d{7}\b")
@@ -79,7 +82,9 @@ Rules:
 - Never type a number, as digits or words (no amounts, counts, dates, times, percentages, "two", "dozen", "half").
   The analyst sees each cited line's exact figures next to your words. Say "several", "most", "all" instead.
 - Say "just under the threshold" only for payments the pack shows at or above eighty percent of the threshold.
-  Say "burst" or "within minutes" only for a stretch the pack shows within ten minutes; "short period" only within a day.
+- Timing: never describe time yourself (no "short", "brief", "quick", "rapid", "burst", "within minutes", "over hours",
+  "long", "extended", "same day", "overnight"). To mention timing, write the placeholder {timing:E#} with the ID of a time-span
+  or busiest-stretch line; code replaces it with that line's timing label. Example: "The payments came {timing:E6}." 
 - The rule explanation is true. Never dispute it or call the detected pattern routine, normal or legitimate.
 - Outside open_questions, state only what the pack shows: no "could", "might", "may", "possibly", "appears".
 - Recommend "clear" only if the pack shows a specific innocent reason; otherwise "escalate" or "more_info".
@@ -120,6 +125,14 @@ def check_line(text: str, cites: list[str], section: str, pack: Pack, all_txns: 
     """Returns the drop reason, or None if the line may be shown."""
     facts = pack.by_id()
     text = text.translate(_UNI)
+    for tok in _TIMING.findall(text):
+        if tok not in facts:
+            return "cites an ID not in the pack"
+        if facts[tok].kind not in ("span", "burst"):
+            return "timing label taken from a non-timing line"
+        if tok not in cites:
+            cites.append(tok)
+    text = _TIMING.sub(" ", text)
     unknown = [c for c in cites if c not in facts]
     if unknown:
         return "cites an ID not in the pack"
@@ -136,6 +149,8 @@ def check_line(text: str, cites: list[str], section: str, pack: Pack, all_txns: 
     if section != "open_questions" and excuses(scrub):
         return "argues against the alert's computed facts"
     if section == "open_questions":
+        if _TIMEWORDS.search(_RULE_NAMES.sub(" ", scrub)):
+            return "describes timing itself instead of using the pack's label"
         if not text.rstrip().endswith("?"):
             return "open question not phrased as a question"
         return None
@@ -146,14 +161,9 @@ def check_line(text: str, cites: list[str], section: str, pack: Pack, all_txns: 
         ps = [pack.pct.get(t) for t in cited_txns]
         if not ps or any(p is None or p < NEAR_PCT for p in ps):
             return "claims 'just under the threshold' without support"
-    if _BURST.search(scrub):
-        times = sorted(all_txns[t].timestamp for t in cited_txns if t in all_txns)
-        if len(times) < 3 or (times[-1] - times[0]).total_seconds() > BURST_S:
-            return "claims a burst without support"
-    if _SHORT.search(scrub):
-        times = sorted(all_txns[t].timestamp for t in cited_txns if t in all_txns)
-        if len(times) < 2 or (times[-1] - times[0]).total_seconds() > SHORT_S:
-            return "claims a short period without support"
+    if _TIMEWORDS.search(_RULE_NAMES.sub(" ", scrub)):
+        # pack p3: timing may only come from the pack's code-computed label, via {timing:E#}.
+        return "describes timing itself instead of using the pack's label"
     return None
 
 
@@ -191,7 +201,9 @@ def verify(alert_id: str, data: dict, pack: Pack, all_txns: dict, identifiers: s
             if why:
                 note.dropped[why] += 1
                 continue
-            clean = re.sub(r"\s*\[E\d{1,3}\]", "", text.translate(_UNI)).strip()
+            clean = re.sub(r"\s*\[E\d{1,3}\]", "", text.translate(_UNI))
+            clean = _TIMING.sub(lambda m: facts[m.group(1)].data.get("label", ""), clean)
+            clean = re.sub(r"\s{2,}", " ", clean).strip()
             note.sections[section].append({"text": clean, "cites": cites, "facts": [facts[c].text for c in cites]})
     return note
 

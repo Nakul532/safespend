@@ -12,7 +12,8 @@ from datetime import datetime, timedelta
 from .aml.rules import Alert
 from .money import fmt_usd
 
-PACK_VERSION = "p2"  # p2: cross-alert links via untrusted merchants only (trusted vendors everyone uses are noise); single-payment wording
+PACK_VERSION = "p3"  # p3 (post-results): code-computed timing labels on span and busiest-stretch lines
+# p2: p2: cross-alert links via untrusted merchants only (trusted vendors everyone uses are noise); single-payment wording
 MAX_ROWS, LARGEST, MAX_SWITCHES, MAX_LINKS = 25, 5, 5, 6
 BURST_WINDOW = timedelta(minutes=10)
 
@@ -60,6 +61,22 @@ def dur(td: timedelta) -> str:
         return f"{h} h {m} m"
     d, h = divmod(h, 24)
     return f"{d} d {h} h"
+
+
+def timing_label(seconds: float) -> str:
+    """The only words the investigator may use about timing (pack p3). Computed by code."""
+    h = seconds / 3600
+    if seconds < 60:
+        return "within a minute"
+    if seconds < 600:
+        return "within minutes"
+    if h <= 1:
+        return "within an hour"
+    if h <= 24:
+        return "within one day"
+    if h <= 72:
+        return f"over about {round(h)} hours"
+    return f"over about {round(h / 24)} days"
 
 
 def ts(t: datetime) -> str:
@@ -114,13 +131,14 @@ def build(alert: Alert, txns_by_id: dict, registry, *, pool=(), queue=frozenset(
             [t.txn_id for t in ts_], min_pct=min(ps) if ps else None, max_pct=max(ps) if ps else None)
     # Time span, and the busiest window.
     span = txns[-1].timestamp - txns[0].timestamp
-    add("span", f"First payment {ts(txns[0].timestamp)}, last {ts(txns[-1].timestamp)}: all {len(txns)} within {dur(span)}.",
-        ids, span_s=span.total_seconds())
+    add("span", f"First payment {ts(txns[0].timestamp)}, last {ts(txns[-1].timestamp)}: all {len(txns)} within {dur(span)}. "
+        f"Timing label: \"{timing_label(span.total_seconds())}\".", ids, span_s=span.total_seconds(), label=timing_label(span.total_seconds()))
     dense = _densest(txns)
     if len(dense) >= 3 and len(dense) < len(txns) or (len(dense) >= 3 and span <= BURST_WINDOW):
         ds = dense[-1].timestamp - dense[0].timestamp
-        add("burst", f"Busiest stretch: {len(dense)} payments within {dur(ds)} ({ts(dense[0].timestamp)}–{dense[-1].timestamp:%H:%M}).",
-            [t.txn_id for t in dense], span_s=ds.total_seconds(), payments=len(dense))
+        add("burst", f"Busiest stretch: {len(dense)} payments within {dur(ds)} ({ts(dense[0].timestamp)}–{dense[-1].timestamp:%H:%M}). "
+            f"Timing label: \"{timing_label(ds.total_seconds())}\".", [t.txn_id for t in dense], span_s=ds.total_seconds(),
+            payments=len(dense), label=timing_label(ds.total_seconds()))
     # Per merchant: trust, category, count, total, agents.
     for mid in merchants:
         m = registry.merchants.get(mid)
